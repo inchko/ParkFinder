@@ -1,4 +1,4 @@
-package com.inchko.parkfinder.ui.slideshow
+package com.inchko.parkfinder.ui.places
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.inchko.parkfinder.R
 
-class SlideshowFragment : Fragment() {
+class PlacesFragment : Fragment() {
 
-    private lateinit var slideshowViewModel: SlideshowViewModel
+    private lateinit var placesViewModel: PlacesViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        slideshowViewModel =
-                ViewModelProvider(this).get(SlideshowViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
-        val textView: TextView = root.findViewById(R.id.text_slideshow)
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
+        placesViewModel =
+                ViewModelProvider(this).get(PlacesViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_gallery, container, false)
+        val textView: TextView = root.findViewById(R.id.text_gallery)
+        placesViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

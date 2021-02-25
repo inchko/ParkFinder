@@ -47,7 +47,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,    OnMyLocationButtonClickLi
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
-        fetchLocation()
+       // fetchLocation()
         return root
     }
 
@@ -70,13 +70,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,    OnMyLocationButtonClickLi
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         mMap.isMyLocationEnabled = true
@@ -88,7 +81,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,    OnMyLocationButtonClickLi
             // in a raw resource file.
             val success = googleMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
-                    context, R.raw.map_style //?? AS bug?
+                    context, R.raw.map_style
                 )
             )
             if (!success) {
@@ -130,7 +123,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,    OnMyLocationButtonClickLi
             PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), permissionCode
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), permissionCode
             )
             return
         }
@@ -155,6 +148,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,    OnMyLocationButtonClickLi
             permissionCode -> if (grantResults.isNotEmpty() && grantResults[0] ==
                 PackageManager.PERMISSION_GRANTED
             ) {
+                Toast.makeText(context, "Permissions Granted, if the map is not loading reload the app", Toast.LENGTH_SHORT)
+                        .show()
                 fetchLocation()
             }
         }
