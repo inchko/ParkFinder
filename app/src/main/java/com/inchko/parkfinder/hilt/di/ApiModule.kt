@@ -1,18 +1,34 @@
 package com.inchko.parkfinder.hilt.di
 
-import com.inchko.parkfinder.Apis.Repository
+import com.google.gson.GsonBuilder
+import com.inchko.parkfinder.network.ApiService
+import com.inchko.parkfinder.network.Repository
+import com.inchko.parkfinder.network.models.TestDTO2Test
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object ApiModule {
+
     @Singleton
     @Provides
-    fun providesRepo():Repository{
-        return Repository()
+    fun providesApiService():ApiService{
+        return Retrofit.Builder()
+            .baseUrl("https://www.youtube.com/") /*TODO : change BaseURL*/
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+            .build()
+            .create(ApiService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesRepo(apiService:ApiService, testMapper:TestDTO2Test):Repository{
+        return Repository(apiService,testMapper)
     }
 }
