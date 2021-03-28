@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,9 +25,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import com.inchko.parkfinder.R
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
+
 
 @AndroidEntryPoint
 class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListener,
@@ -39,6 +40,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var currentLocation: Location? = null;
     private val permissionCode = 101
+    private var testLocation: LatLng? = null
 
 
     override fun onCreateView(
@@ -68,8 +70,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mapViewModel.text.observe(viewLifecycleOwner, Observer {
-        })
     }
 
 
@@ -112,6 +112,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
+        mapViewModel.location.observe(viewLifecycleOwner, Observer { result ->
+            testLocation = result
+            val markerLocation = testLocation?.let { LatLng(it.latitude, it.longitude) }
+            mMap.addMarker(markerLocation?.let { MarkerOptions().position(it) })
+        })
+
+
     }
 
     override fun onMyLocationClick(location: Location) {

@@ -6,8 +6,9 @@ import com.inchko.parkfinder.utils.Mapper
 class TestDTO2Test : Mapper<TestDTO, Test> {
     override fun mapToDomain(t: TestDTO): Test {
         return Test(
-            loc = t.loc,
-            number = t.number
+            long = t.long,
+            lat = t.lat,
+            test = t.test
         )
     }
 

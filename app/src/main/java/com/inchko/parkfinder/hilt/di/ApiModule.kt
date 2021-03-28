@@ -20,7 +20,7 @@ object ApiModule {
     @Provides
     fun providesApiService():ApiService{
         return Retrofit.Builder()
-            .baseUrl("https://www.youtube.com/") /*TODO : change BaseURL*/
+            .baseUrl("https://us-central1-parkingfinder-305518.cloudfunctions.net/app/") 
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
             .create(ApiService::class.java)

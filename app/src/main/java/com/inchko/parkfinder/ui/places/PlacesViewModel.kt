@@ -20,12 +20,11 @@ class PlacesViewModel @ViewModelInject constructor(
     }
     val text: LiveData<String> = _text
 
-/*Example
-    private val _test = MutableLiveData<Int>().apply {
+
+    private val _test = MutableLiveData<String>().apply {
         viewModelScope.launch {
-            value = rep.test().number
-            if (value == null) value=2
+            value = rep.test().test
         }
     }
-    val test: LiveData<Int> = _test;*/
+    val test: LiveData<String> = _test;
 }

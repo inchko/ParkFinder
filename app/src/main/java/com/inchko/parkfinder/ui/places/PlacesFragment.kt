@@ -24,7 +24,7 @@ class PlacesFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_gallery, container, false)
         val textView: TextView = root.findViewById(R.id.text_gallery)
-        placesViewModel.text.observe(viewLifecycleOwner, Observer {
+        placesViewModel.test.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

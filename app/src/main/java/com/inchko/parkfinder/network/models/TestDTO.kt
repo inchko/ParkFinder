@@ -4,9 +4,13 @@ import android.location.Location
 import com.google.gson.annotations.SerializedName
 
 data class TestDTO (
-    @SerializedName("valor")
-    var loc: Location? = null,
+    @SerializedName("long")
+    var long: Double? = null,
 
-    @SerializedName("number")
-    var number: Int? = null
+    @SerializedName("lat")
+    var lat: Double? = null,
+
+    @SerializedName("test")
+    var test: String? = null
+
 )
