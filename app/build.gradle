@@ -9,7 +9,9 @@ plugins {
 android {
     compileSdkVersion 29
     buildToolsVersion "30.0.3"
-
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.inchko.parkfinder"
         minSdkVersion 23
@@ -66,4 +68,6 @@ dependencies {
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    //databinding
+    kapt 'com.android.databinding:compiler:3.1.4'
 }

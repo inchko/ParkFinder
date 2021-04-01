@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.inchko.parkfinder.network.ApiService
 import com.inchko.parkfinder.network.Repository
 import com.inchko.parkfinder.network.models.TestDTO2Test
+import com.inchko.parkfinder.network.models.ZoneDTO2Zone
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +29,7 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun providesRepo(apiService:ApiService, testMapper:TestDTO2Test):Repository{
-        return Repository(apiService,testMapper)
+    fun providesRepo(apiService:ApiService, testMapper:TestDTO2Test, zoneMapper:ZoneDTO2Zone):Repository{
+        return Repository(apiService,testMapper,zoneMapper)
     }
 }

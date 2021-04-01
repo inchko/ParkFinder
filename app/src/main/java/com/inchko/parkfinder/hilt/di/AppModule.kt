@@ -3,6 +3,7 @@ package com.inchko.parkfinder.hilt.di
 import com.inchko.parkfinder.network.ApiService
 import com.inchko.parkfinder.network.Repository
 import com.inchko.parkfinder.network.models.TestDTO2Test
+import com.inchko.parkfinder.network.models.ZoneDTO2Zone
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +32,12 @@ object AppModule {
     @Provides
     fun providesTestMapper(): TestDTO2Test {
         return TestDTO2Test()
+    }
+
+    @Singleton
+    @Provides
+    fun providesZoneMapper(): ZoneDTO2Zone {
+        return ZoneDTO2Zone()
     }
 }
 
