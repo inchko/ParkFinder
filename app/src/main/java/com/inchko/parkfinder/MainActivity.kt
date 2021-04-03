@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null
     private var navController: NavController? = null
     private var open: Boolean = false
-   private val mainFragment = RvZoneFragment()
+    private val mainFragment = RvZoneFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

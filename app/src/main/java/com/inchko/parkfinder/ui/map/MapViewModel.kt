@@ -1,6 +1,7 @@
 package com.inchko.parkfinder.ui.map
 
 import android.location.Location
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,4 +26,12 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
 
     }
     val location: LiveData<LatLng> = _location
+
+    var currentLocation: LatLng?=null
+
+
+    fun updateCurrentLocation(l:LatLng){
+        currentLocation=l
+        Log.e("holder", "updatedCurrent loc: $currentLocation")
+    }
 }

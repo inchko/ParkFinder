@@ -12,7 +12,7 @@ class ZoneDTO2Zone : Mapper<ZoneDTO, Zone> {
             long = t.long,
             zonasGL = t.zonasGL,
             zonasGrandes = t.zonasGrandes,
-            zonasLibres = t.zonasLibres,
+            zonasTotales = t.zonasLibres,
             zonasOcupadas = t.zonasOcupadas,
             zonasPeque = t.zonasPeque,
             zonasPl = t.zonasPl,

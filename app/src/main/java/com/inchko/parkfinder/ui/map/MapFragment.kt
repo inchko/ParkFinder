@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
@@ -36,7 +37,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     OnMyLocationClickListener {
 
     private lateinit var mMap: GoogleMap
-    private val mapViewModel: MapViewModel by viewModels()
+    private val mapViewModel: MapViewModel by activityViewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var currentLocation: Location? = null;
     private val permissionCode = 101
@@ -65,6 +66,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
             currentLocation = locationResult.lastLocation
+            mapViewModel.updateCurrentLocation(LatLng(currentLocation!!.latitude, currentLocation!!.longitude))
         }
     }
 
@@ -138,7 +140,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         val latLng =
             currentLocation?.let { LatLng(currentLocation!!.latitude, currentLocation!!.longitude) }
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f))
+
+            mapViewModel.updateCurrentLocation(LatLng(currentLocation!!.latitude, currentLocation!!.longitude))
     }
 
     private fun fetchLocation() {

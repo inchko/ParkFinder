@@ -8,6 +8,15 @@
     android:id="@+id/fragmentReciclerView"
     >
 
+    <Button
+        android:id="@+id/RVReload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/Reload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.fragment.app.FragmentContainerView
 
         android:layout_width="0dp"
@@ -17,28 +26,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".ui.rvZones.RvZoneFragment"
-        android:background="@color/white"/>
+        android:background="@color/white">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="55dp"
-                android:layout_height="69dp"
-                android:textColor="@color/black"
-                android:id="@+id/testtext"
-                android:text="hello? where i'm I?"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-    <Button
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="208dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/AtrasRVZ"
-        android:id="@+id/BackRVZ"
-        app:layout_constraintBottom_toBottomOf="@+id/fragmentReciclerView"
+    </androidx.fragment.app.FragmentContainerView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/testtext"
+        android:layout_width="89dp"
+        android:layout_height="64dp"
+        android:text="@string/Loading_Zones"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewZones"
@@ -47,6 +48,8 @@
         android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

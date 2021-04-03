@@ -5,7 +5,7 @@ data class Zone(
     val long: Double? = null,
     val id: String? = null,
     val area: Double? = null,
-    val zonasLibres: Int? = null,
+    val zonasTotales: Int? = null,
     val zonasOcupadas: Int? = null,
     val tipo: Int? = null,
     val zonasGL: Int? = null,
