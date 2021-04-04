@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.inchko.parkfinder.domainModels.Test
+import com.inchko.parkfinder.domainModels.Zone
 import com.inchko.parkfinder.network.Repository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,6 +29,13 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
     val location: LiveData<LatLng> = _location
 
     var currentLocation: LatLng?=null
+
+    private val _zones = MutableLiveData<List<Zone>>().apply {
+        viewModelScope.launch {
+            value = rep.readZones()
+        }
+    }
+    var zones : LiveData<List<Zone>> = _zones
 
 
     fun updateCurrentLocation(l:LatLng){

@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
+       /* val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             Log.e("shower", "Button clicked, value: $open")
             if (!open) {
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 open = false
                 mainFragment.test()
             }
-        }
+        }*/
         drawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)

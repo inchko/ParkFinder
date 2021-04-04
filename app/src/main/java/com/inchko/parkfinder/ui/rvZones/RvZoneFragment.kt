@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -26,7 +27,7 @@ class RvZoneFragment : Fragment() {
     val mapViewModel: MapViewModel by activityViewModels()
 
     private var zones: List<Zone>?=null
-    private lateinit var button:Button
+    private lateinit var button:ImageButton
 
     private var num = 0
 
@@ -41,7 +42,7 @@ class RvZoneFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rzViewModel.zones.observe(viewLifecycleOwner, Observer {
+        mapViewModel.zones.observe(viewLifecycleOwner, Observer {
             zones = it
         })
         button = view.findViewById(R.id.RVReload)

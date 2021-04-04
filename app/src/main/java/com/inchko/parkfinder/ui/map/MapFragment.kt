@@ -11,11 +11,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.inchko.parkfinder.R
+import com.inchko.parkfinder.ui.rvZones.RvZoneFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -42,6 +43,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     private var currentLocation: Location? = null;
     private val permissionCode = 101
     private var testLocation: LatLng? = null
+    private lateinit var zoneButton: ImageButton
+    private val mainFragment = RvZoneFragment()
 
 
     override fun onCreateView(
@@ -49,11 +52,21 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        val root = inflater.inflate(R.layout.fragment_map, container, false)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        zoneButton = view.findViewById(R.id.openZones)
+        zoneButton.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.add(R.id.replacable, mainFragment)
+                ?.commit()
+        }
     }
 
     private val locationRequest = LocationRequest.create().apply {
@@ -66,7 +79,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
             currentLocation = locationResult.lastLocation
-            mapViewModel.updateCurrentLocation(LatLng(currentLocation!!.latitude, currentLocation!!.longitude))
+            mapViewModel.updateCurrentLocation(
+                LatLng(
+                    currentLocation!!.latitude,
+                    currentLocation!!.longitude
+                )
+            )
         }
     }
 
@@ -114,10 +132,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
-        mapViewModel.location.observe(viewLifecycleOwner, Observer { result ->
-            testLocation = result
-            val markerLocation = testLocation?.let { LatLng(it.latitude, it.longitude) }
-            mMap.addMarker(markerLocation?.let { MarkerOptions().position(it) })
+        mapViewModel.zones.observe(viewLifecycleOwner, Observer {
+            for (zone in it) {
+                val markerLocation = LatLng(zone.lat!!, zone.long!!)
+                val title =
+                    "${zone.id} ${zone.zonasTotales!! - zone.zonasOcupadas!!}/${zone.zonasTotales}"
+                mMap.addMarker(MarkerOptions().position(markerLocation).title(title))
+            }
         })
 
 
@@ -142,7 +163,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f))
 
-            mapViewModel.updateCurrentLocation(LatLng(currentLocation!!.latitude, currentLocation!!.longitude))
+        mapViewModel.updateCurrentLocation(
+            LatLng(
+                currentLocation!!.latitude,
+                currentLocation!!.longitude
+            )
+        )
     }
 
     private fun fetchLocation() {

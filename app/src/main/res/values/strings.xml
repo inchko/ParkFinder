@@ -17,4 +17,5 @@
     <string name="automoviles">Parking General</string>
     <string name="Loading_Zones">Cargando Zonas...</string>
     <string name="Reload">Recargar</string>
+    <string name="search_zones">Buscar zonas</string>
 </resources>
