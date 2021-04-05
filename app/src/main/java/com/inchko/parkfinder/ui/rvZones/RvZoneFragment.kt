@@ -36,15 +36,16 @@ class RvZoneFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mapViewModel.zones.observe(viewLifecycleOwner, Observer {
+            zones = it
+        })
         val root = inflater.inflate(R.layout.fragment_rv, container, false)
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mapViewModel.zones.observe(viewLifecycleOwner, Observer {
-            zones = it
-        })
+
         button = view.findViewById(R.id.RVReload)
         button.setOnClickListener {
             test()

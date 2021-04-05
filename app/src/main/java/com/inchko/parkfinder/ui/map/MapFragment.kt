@@ -85,6 +85,20 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                     currentLocation!!.longitude
                 )
             )
+            if (currentLocation != null) {
+                mapViewModel.updateZones()
+                Log.e("api", "updating zones in location callback")
+                mapViewModel.zones.observe(viewLifecycleOwner, Observer {
+                    if (it != null) {
+                        for (zone in it) {
+                            val markerLocation = LatLng(zone.lat!!, zone.long!!)
+                            val title =
+                                "${zone.id} ${zone.zonasTotales!! - zone.zonasOcupadas!!}/${zone.zonasTotales}"
+                            mMap.addMarker(MarkerOptions().position(markerLocation).title(title))
+                        }
+                    }
+                })
+            }
         }
     }
 
@@ -132,15 +146,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
-        mapViewModel.zones.observe(viewLifecycleOwner, Observer {
-            for (zone in it) {
-                val markerLocation = LatLng(zone.lat!!, zone.long!!)
-                val title =
-                    "${zone.id} ${zone.zonasTotales!! - zone.zonasOcupadas!!}/${zone.zonasTotales}"
-                mMap.addMarker(MarkerOptions().position(markerLocation).title(title))
-            }
-        })
-
 
     }
 
@@ -168,7 +173,22 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                 currentLocation!!.latitude,
                 currentLocation!!.longitude
             )
+
         )
+        if (currentLocation != null) {
+            mapViewModel.updateZones()
+            Log.e("api", "updating zones in getLocation")
+            mapViewModel.zones.observe(viewLifecycleOwner, Observer {
+                if (it != null) {
+                    for (zone in it) {
+                        val markerLocation = LatLng(zone.lat!!, zone.long!!)
+                        val title =
+                            "${zone.id} ${zone.zonasTotales!! - zone.zonasOcupadas!!}/${zone.zonasTotales}"
+                        mMap.addMarker(MarkerOptions().position(markerLocation).title(title))
+                    }
+                }
+            })
+        }
     }
 
     private fun fetchLocation() {
