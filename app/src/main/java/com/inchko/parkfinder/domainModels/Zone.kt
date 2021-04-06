@@ -5,11 +5,14 @@ data class Zone(
     val long: Double? = null,
     val id: String? = null,
     val area: Double? = null,
-    val zonasTotales: Int? = null,
-    val zonasOcupadas: Int? = null,
+    var plazasLibres: Int? = null,
+    val plazasTotales: Int? = null,
     val tipo: Int? = null,
-    val zonasGL: Int? = null,
-    val zonasGrandes: Int? = null,
-    val zonasPl: Int? = null,
-    val zonasPeque: Int? = null
+    var plazasGl: Int? = null,
+    val plazasGrandes: Int? = null,
+    var plazasPl: Int? = null,
+    val plazasPeq: Int? = null,
+    var plazasMl: Int? = null,
+    val plazasMoto: Int? = null,
+    var distancia : Double? = null
 )

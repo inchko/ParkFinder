@@ -39,20 +39,23 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View) : Recycle
     fun bind(z: Zone, loc: LatLng) {
         Log.e("holder", "binding")
         titleView?.text = z.id
-        val text = z.lat?.let { z.long?.let { it1 -> LatLng(it, it1) } }
-            ?.let { truncate((distance(loc, it) * 1000)).toString() } + " m"
-        distanceView?.text = text
-        val zonaslibres = "Zonas Libres: ${z.zonasTotales!! - z.zonasOcupadas!!}/${z.zonasTotales!!}"
-        zlView?.text = zonaslibres
+     //   val text = z.lat?.let { z.long?.let { it1 -> LatLng(it, it1) } }
+        //    ?.let { truncate((distance(loc, it) * 1000)).toString() } + " m"
+        distanceView?.text = truncate(z.distancia!!*1000).toString()
+
         if (z.tipo == 1) {
             typeView?.text = itemView.context.getString(R.string.motocycle)
+            val zonaslibres = "Plazas Motos: ${z.plazasMl}/${z.plazasTotales}"
+            zlView?.text = zonaslibres
             zgView?.text = ""
             zpView?.text = ""
         } else {
+            val zonaslibres = "Plazas Motos: ${z.plazasMl}/${z.plazasMoto}"
+            zlView?.text = zonaslibres
             typeView?.text = itemView.context.getString(R.string.automoviles)
-            val zonasGrandes = "Zonas Grandes: ${z.zonasGL}/${z.zonasGrandes}"
+            val zonasGrandes = "Plazas Grandes: ${z.plazasGl}/${z.plazasGrandes}"
             zgView?.text = zonasGrandes
-            val zonasPeq = "Zonas Pequeñas: ${z.zonasPl}/${z.zonasPeque}"
+            val zonasPeq = "Plazas Pequeñas: ${z.plazasPl}/${z.plazasPeq}"
             zpView?.text = zonasPeq
         }
 

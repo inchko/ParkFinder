@@ -93,7 +93,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                         for (zone in it) {
                             val markerLocation = LatLng(zone.lat!!, zone.long!!)
                             val title =
-                                "${zone.id} ${zone.zonasTotales!! - zone.zonasOcupadas!!}/${zone.zonasTotales}"
+                                "${zone.id} ${zone.plazasLibres}/${zone.plazasTotales}"
                             mMap.addMarker(MarkerOptions().position(markerLocation).title(title))
                         }
                     }
@@ -183,7 +183,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                     for (zone in it) {
                         val markerLocation = LatLng(zone.lat!!, zone.long!!)
                         val title =
-                            "${zone.id} ${zone.zonasTotales!! - zone.zonasOcupadas!!}/${zone.zonasTotales}"
+                            "${zone.id} ${zone.plazasLibres}/${zone.plazasTotales}"
                         mMap.addMarker(MarkerOptions().position(markerLocation).title(title))
                     }
                 }

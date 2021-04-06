@@ -26,11 +26,11 @@ class RvZoneFragment : Fragment() {
     val rzViewModel: RvZoneViewModel by viewModels()
     val mapViewModel: MapViewModel by activityViewModels()
 
-    private var zones: List<Zone>?=null
-    private lateinit var button:ImageButton
+    private var zones: List<Zone>? = null
+    private lateinit var button: ImageButton
 
     private var num = 0
-
+    private var sort: Boolean = true //true = distance false = plazas libres
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,21 +57,39 @@ class RvZoneFragment : Fragment() {
             // RecyclerView behavior
             layoutManager = LinearLayoutManager(activity)
             // set the custom adapter to the RecyclerView
-            adapter = zones?.let { lz ->
-                Log.e("holder", "Zones loaded")
-                Log.e("holder", "CurrentLocation ${mapViewModel.currentLocation}")
-                mapViewModel.currentLocation?.let {
-                    Log.e("holder", "currentLocation archived")
-                    ZoneAdapter(lz, it) {//Listener, add your actions here
-                        Log.e("rv", "Zone clicked ${it.id}")/*
+            if (sort) {
+                adapter = zones?.let { lz ->
+                    Log.e("holder", "Zones loaded")
+                    mapViewModel.currentLocation?.let {
+                        ZoneAdapter(
+                            lz.sortedBy { it.distancia!! },
+                            it
+                        ) {//Listener, add your actions here
+                            Log.e("rv", "Zone clicked ${it.id}")/*
                                     val intent = Intent(context, Zone::class.java).apply {
                                         putExtra("id", it.id)
                                     }
                                 */
+                        }
                     }
-                }
-            };
-
+                };
+            } else {
+                adapter = zones?.let { lz ->
+                    Log.e("holder", "Zones loaded")
+                    mapViewModel.currentLocation?.let {
+                        ZoneAdapter(
+                            lz.sortedByDescending { it.plazasLibres },
+                            it
+                        ) {//Listener, add your actions here
+                            Log.e("rv", "Zone clicked ${it.id}")/*
+                                    val intent = Intent(context, Zone::class.java).apply {
+                                        putExtra("id", it.id)
+                                    }
+                                */
+                        }
+                    }
+                };
+            }
         }
     }
 

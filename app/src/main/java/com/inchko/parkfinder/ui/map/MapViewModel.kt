@@ -14,6 +14,9 @@ import com.inchko.parkfinder.domainModels.Zone
 import com.inchko.parkfinder.network.Repository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.asin
+import kotlin.math.cos
+import kotlin.math.sqrt
 
 class MapViewModel @ViewModelInject constructor(private val rep: Repository) : ViewModel() {
 
@@ -33,21 +36,21 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
 
     private val _zones = MutableLiveData<List<Zone>>().apply {
         viewModelScope.launch {
-           value = currentLocation?.let {
-               rep.readZonesByLoc(
+            value = currentLocation?.let {
+                rep.readZonesByLoc(
                     Ubi(
                         1,
                         it.longitude, it.latitude
                     )
                 )
             }
-           // value = rep.readZones()
+            // value = rep.readZones()
         }
     }
     var zones: MutableLiveData<List<Zone>> = _zones
 
-    fun updateZones(){
-        zones  = MutableLiveData<List<Zone>>().apply {
+    fun updateZones() {
+        zones = MutableLiveData<List<Zone>>().apply {
             viewModelScope.launch {
                 value = currentLocation?.let {
                     rep.readZonesByLoc(
@@ -58,11 +61,32 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
                     )
                 }
                 // value = rep.readZones()
+                calculateDistance()
+            }
+
+        }
+    }
+
+    private fun calculateDistance() {
+        if (zones.value != null) {
+            for (z in zones.value!!) {
+                z.distancia = currentLocation?.let { distance(it, LatLng(z.lat!!, z.long!!)) }
+                Log.e("vm","${z.distancia}")
             }
         }
     }
+
     fun updateCurrentLocation(l: LatLng) {
         currentLocation = l
         Log.e("holder", "updatedCurrent loc: $currentLocation")
+    }
+
+    fun distance(cl: LatLng, zl: LatLng): Double {
+        val p = 0.017453292519943295;    // PI / 180
+        val a = 0.5 - cos((zl.latitude - cl.latitude) * p) / 2 +
+                cos(cl.latitude * p) * cos(zl.latitude * p) *
+                (1 - cos((zl.longitude - cl.longitude) * p)) / 2;
+
+        return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km R is radius of earth
     }
 }

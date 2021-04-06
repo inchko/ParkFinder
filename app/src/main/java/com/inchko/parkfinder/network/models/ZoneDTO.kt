@@ -16,24 +16,30 @@ data class ZoneDTO(
     @SerializedName("area")
     val area: Double? = null,
 
-    @SerializedName("zonasLibres")
-    val zonasLibres: Int? = null,
+    @SerializedName("plazasLibres")
+    val plazasLibres: Int? = null,
 
-    @SerializedName("zonasOcupadas")
-    val zonasOcupadas: Int? = null,
+    @SerializedName("plazasTotales")
+    val plazasTotales: Int? = null,
 
     @SerializedName("tipo")
     val tipo: Int? = null,
 
-    @SerializedName("zonasGl")
-    val zonasGL: Int? = null,
+    @SerializedName("plazasGl")
+    val plazasGl: Int? = null,
 
-    @SerializedName("zonasGrandes")
-    val zonasGrandes: Int? = null,
+    @SerializedName("plazasGrandes")
+    val plazasGrandes: Int? = null,
 
-    @SerializedName("zonasPl")
-    val zonasPl: Int? = null,
+    @SerializedName("plazasPl")
+    val plazasPl: Int? = null,
 
-    @SerializedName("zonasPeq")
-    val zonasPeque: Int? = null
+    @SerializedName("plazasPeq")
+    val plazasPeq: Int? = null,
+
+    @SerializedName("plazasMl")
+    val plazasMl: Int? = null,
+
+    @SerializedName("plazasMoto")
+    val plazasMoto: Int? = null
 )
