@@ -56,6 +56,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+        mapViewModel.updateZones()
         return root
     }
 
@@ -88,16 +89,20 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
             if (currentLocation != null) {
                 mapViewModel.updateZones()
                 Log.e("api", "updating zones in location callback")
-                mapViewModel.zones.observe(viewLifecycleOwner, Observer {
-                    if (it != null) {
-                        for (zone in it) {
-                            val markerLocation = LatLng(zone.lat!!, zone.long!!)
-                            val title =
-                                "${zone.id} ${zone.plazasLibres}/${zone.plazasTotales}"
-                            mMap.addMarker(MarkerOptions().position(markerLocation).title(title))
+                if (getView() != null) {
+                    mapViewModel.zones.observe(viewLifecycleOwner, Observer {
+                        if (it != null) {
+                            for (zone in it) {
+                                val markerLocation = LatLng(zone.lat!!, zone.long!!)
+                                val title =
+                                    "${zone.id} ${zone.plazasLibres}/${zone.plazasTotales}"
+                                mMap.addMarker(
+                                    MarkerOptions().position(markerLocation).title(title)
+                                )
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
         }
     }
@@ -146,7 +151,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
-
+        mapViewModel.updateGM(mMap)
     }
 
     override fun onMyLocationClick(location: Location) {
@@ -247,4 +252,3 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         }
     }
 }
-

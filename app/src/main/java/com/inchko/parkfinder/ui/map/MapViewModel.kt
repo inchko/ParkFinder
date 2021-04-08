@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.inchko.parkfinder.domainModels.Test
 import com.inchko.parkfinder.domainModels.Ubi
@@ -33,20 +34,10 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
     val location: LiveData<LatLng> = _location
 
     var currentLocation: LatLng? = null
+    var mMap: GoogleMap?= null
 
-    private val _zones = MutableLiveData<List<Zone>>().apply {
-        viewModelScope.launch {
-            value = currentLocation?.let {
-                rep.readZonesByLoc(
-                    Ubi(
-                        1,
-                        it.longitude, it.latitude
-                    )
-                )
-            }
-            // value = rep.readZones()
-        }
-    }
+    private val _zones = MutableLiveData<List<Zone>>()
+
     var zones: MutableLiveData<List<Zone>> = _zones
 
     fun updateZones() {
@@ -88,5 +79,9 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
                 (1 - cos((zl.longitude - cl.longitude) * p)) / 2;
 
         return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km R is radius of earth
+    }
+
+    fun updateGM(g:GoogleMap){
+        mMap=g
     }
 }
