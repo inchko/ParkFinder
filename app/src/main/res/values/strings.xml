@@ -10,4 +10,12 @@
     <string name="menu_home">Map</string>
     <string name="menu_gallery">Places</string>
     <string name="menu_slideshow">Settings</string>
+    <string name="AtrasRVZ">Back</string>
+    <string name="test_sample">Test Sample</string>
+    <string name="motocycle"> Parking Motos</string>
+    <string name="d">Motos</string>
+    <string name="automoviles">Parking General</string>
+    <string name="Loading_Zones">Cargando Zonas…</string>
+    <string name="Reload">Recargar</string>
+    <string name="search_zones">Buscar zonas</string>
 </resources>
