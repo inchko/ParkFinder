@@ -1,4 +1,4 @@
-package com.inchko.parkfinder.ui.places
+package com.inchko.parkfinder.ui.proflie
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Named
 
 
-class PlacesViewModel @ViewModelInject constructor(
+class ProfileViewModel @ViewModelInject constructor(
     private val rep: Repository,
     @Named("Test_Text") private val str: String
 ) : ViewModel() {
