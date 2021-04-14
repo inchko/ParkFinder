@@ -4,6 +4,7 @@ import com.inchko.parkfinder.network.ApiService
 import com.inchko.parkfinder.network.Repository
 import com.inchko.parkfinder.network.models.TestDTO2Test
 import com.inchko.parkfinder.network.models.Ubi2UbiDTO
+import com.inchko.parkfinder.network.models.UserDTO2User
 import com.inchko.parkfinder.network.models.ZoneDTO2Zone
 import dagger.Module
 import dagger.Provides
@@ -46,6 +47,12 @@ object AppModule {
     @Provides
     fun providesUbiMapper(): Ubi2UbiDTO {
         return Ubi2UbiDTO()
+    }
+
+    @Singleton
+    @Provides
+    fun providesUserMapper(): UserDTO2User {
+        return UserDTO2User()
     }
 }
 

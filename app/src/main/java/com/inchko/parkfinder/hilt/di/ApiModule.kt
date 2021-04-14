@@ -1,12 +1,10 @@
 package com.inchko.parkfinder.hilt.di
 
 import com.google.gson.GsonBuilder
-import com.inchko.parkfinder.network.ApiService
-import com.inchko.parkfinder.network.Repository
-import com.inchko.parkfinder.network.RouteRepo
-import com.inchko.parkfinder.network.RouteService
+import com.inchko.parkfinder.network.*
 import com.inchko.parkfinder.network.models.TestDTO2Test
 import com.inchko.parkfinder.network.models.Ubi2UbiDTO
+import com.inchko.parkfinder.network.models.UserDTO2User
 import com.inchko.parkfinder.network.models.ZoneDTO2Zone
 import dagger.Module
 import dagger.Provides
@@ -67,5 +65,14 @@ object ApiModule {
         routeService: RouteService,
     ): RouteRepo {
         return RouteRepo(routeService)
+    }
+
+    @Singleton
+    @Provides
+    fun providesUserRepo(
+        apiService: ApiService,
+        mapper: UserDTO2User
+    ): RepoUsers {
+        return RepoUsers(apiService,mapper)
     }
 }

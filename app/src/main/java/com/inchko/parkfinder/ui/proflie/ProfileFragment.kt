@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
-    val placesViewModel: ProfileViewModel by viewModels()
+    val profileVM: ProfileViewModel by viewModels()
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
     private lateinit var nametext: TextView
@@ -126,6 +126,7 @@ class ProfileFragment : Fragment() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success")
                         val user = auth.currentUser
+                        profileVM.registerOrLoginUser(user)
                         updateUI(user)
                     } else {
                         // If sign in fails, display a message to the user.
