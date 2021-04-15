@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.inchko.parkfinder.domainModels.User
+import com.inchko.parkfinder.network.RepoFavZones
+import com.inchko.parkfinder.network.RepoPOI
 import com.inchko.parkfinder.network.RepoUsers
 import com.inchko.parkfinder.network.Repository
 import kotlinx.coroutines.launch
@@ -17,7 +19,9 @@ import javax.inject.Named
 class ProfileViewModel @ViewModelInject constructor(
     private val rep: Repository,
     @Named("Test_Text") private val str: String,
-    private val userRep: RepoUsers
+    private val userRep: RepoUsers,
+    private val favZoneRep: RepoFavZones,
+    private val poiRepo: RepoPOI
 
 ) : ViewModel() {
 
@@ -43,9 +47,15 @@ class ProfileViewModel @ViewModelInject constructor(
                 email = user.email!!
             )
             userRep.register(currentUser)
-            Log.e("login","register ok")
+            Log.e("login", "register ok")
             generalUser = userRep.getUser(currentUser.id)
-            Log.e("login","Name of the user: ${generalUser.name}")
+            val poi = poiRepo.getPOI("test")
+            val fz = favZoneRep.getFavZones("test")
+
+            Log.e(
+                "login",
+                "Name of the user: ${generalUser.name}, number of  POI : ${poi.size}, number of fav zones: ${fz[2].id} "
+            )
         }
     }
 }

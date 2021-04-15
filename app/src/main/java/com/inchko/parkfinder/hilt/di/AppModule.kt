@@ -2,10 +2,7 @@ package com.inchko.parkfinder.hilt.di
 
 import com.inchko.parkfinder.network.ApiService
 import com.inchko.parkfinder.network.Repository
-import com.inchko.parkfinder.network.models.TestDTO2Test
-import com.inchko.parkfinder.network.models.Ubi2UbiDTO
-import com.inchko.parkfinder.network.models.UserDTO2User
-import com.inchko.parkfinder.network.models.ZoneDTO2Zone
+import com.inchko.parkfinder.network.models.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,6 +50,18 @@ object AppModule {
     @Provides
     fun providesUserMapper(): UserDTO2User {
         return UserDTO2User()
+    }
+
+    @Singleton
+    @Provides
+    fun providesFavZoneMapper(): FavZoneDTO2FavZone {
+        return FavZoneDTO2FavZone()
+    }
+
+    @Singleton
+    @Provides
+    fun providesPOIMapper(): POIDTO2POI {
+        return POIDTO2POI()
     }
 }
 

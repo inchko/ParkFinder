@@ -2,10 +2,7 @@ package com.inchko.parkfinder.hilt.di
 
 import com.google.gson.GsonBuilder
 import com.inchko.parkfinder.network.*
-import com.inchko.parkfinder.network.models.TestDTO2Test
-import com.inchko.parkfinder.network.models.Ubi2UbiDTO
-import com.inchko.parkfinder.network.models.UserDTO2User
-import com.inchko.parkfinder.network.models.ZoneDTO2Zone
+import com.inchko.parkfinder.network.models.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -73,6 +70,24 @@ object ApiModule {
         apiService: ApiService,
         mapper: UserDTO2User
     ): RepoUsers {
-        return RepoUsers(apiService,mapper)
+        return RepoUsers(apiService, mapper)
+    }
+
+    @Singleton
+    @Provides
+    fun providesPOIRepo(
+        apiService: ApiService,
+        mapper: POIDTO2POI
+    ): RepoPOI {
+        return RepoPOI(apiService, mapper)
+    }
+
+    @Singleton
+    @Provides
+    fun providesFavZoneRepo(
+        apiService: ApiService,
+        mapper: FavZoneDTO2FavZone
+    ): RepoFavZones {
+        return RepoFavZones(apiService, mapper)
     }
 }
