@@ -11,7 +11,8 @@ class POIDTO2POI : Mapper<POIDTO, POI> {
             long = t.long,
             nombre = t.nombre,
             userID = t.userID,
-            id = t.id
+            id = t.id,
+            location = "TestLocation"
         )
     }
 

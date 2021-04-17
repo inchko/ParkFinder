@@ -5,17 +5,19 @@
     <string name="nav_header_title">ParkFinder</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Menu</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Opciones</string>
 
-    <string name="menu_home">Map</string>
-    <string name="menu_gallery">Places</string>
-    <string name="menu_slideshow">Settings</string>
+    <string name="menu_home">Mapa</string>
+    <string name="menu_gallery">Perfil</string>
+    <string name="menu_slideshow">Opciones</string>
     <string name="AtrasRVZ">Back</string>
     <string name="test_sample">Test Sample</string>
     <string name="motocycle"> Parking Motos</string>
     <string name="d">Motos</string>
     <string name="automoviles">Parking General</string>
-    <string name="Loading_Zones">Cargando Zonas...</string>
+    <string name="Loading_Zones">Cargando Zonas…</string>
     <string name="Reload">Recargar</string>
     <string name="search_zones">Buscar zonas</string>
+    <string name="poiTitle">Lugares de interes</string>
+    <string name="fzTitle">Zonas Favoritas</string>
 </resources>

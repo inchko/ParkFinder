@@ -5,5 +5,6 @@ data class POI(
     val long: String,
     val nombre: String,
     val userID: String,
-    val id: String
+    val id: String,
+    var location: String?
 )
