@@ -7,5 +7,6 @@ data class FavZone(
     val tipo: Int,
     val userID: String,
     val zoneID: String,
-    val id:String
+    val id:String,
+    var location: String
 )

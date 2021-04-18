@@ -26,8 +26,10 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
+import com.inchko.parkfinder.domainModels.FavZone
 import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.ui.map.MapViewModel
+import com.inchko.parkfinder.ui.proflie.rvFavZones.fzAdapter
 import com.inchko.parkfinder.ui.proflie.rvPOI.PoiAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -58,10 +60,22 @@ class ProfileFragment : Fragment() {
                 for (p in it) {
                     p.location = getLocation(p.lat.toDouble(), p.long.toDouble())
                 }
-                view?.let { it1 -> initRV(it1, it) }
+                view?.let { it1 -> initRVpoi(it1, it) }
             }
         })
-        Log.e("rvpoi", "valor de poi: ${profileVM.poi.value}")
+
+        profileVM.getFavZones()
+        profileVM.fz.observe(viewLifecycleOwner, {
+
+                value: List<FavZone>? ->
+            value?.let {
+                for (p in it) {
+                    p.location = getLocation(p.lat.toDouble(), p.long.toDouble())
+                }
+                view?.let { it1 -> initRVfz(it1, it) }
+            }
+        })
+
         // Configure sign-in to request the user's ID, email address, and basic
 // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         auth = Firebase.auth
@@ -174,18 +188,14 @@ class ProfileFragment : Fragment() {
         if (addresses.isNotEmpty()) {
             val address: String = addresses[0].getAddressLine(0)
             // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            val city: String = addresses[0].getLocality()
-            val state: String = addresses[0].getAdminArea()
-            val country: String = addresses[0].getCountryName()
-            val postalCode: String = addresses[0].getPostalCode()
-            val knownName: String = addresses[0].getFeatureName()
+
             text = address
         }
         return text
 
     }
 
-    fun initRV(view: View, pois: List<POI>) {
+    fun initRVpoi(view: View, pois: List<POI>) {
         Log.e("rvpoi", "initRV")
         val rv: RecyclerView = view.findViewById(R.id.rvPOI)
         rv.apply {
@@ -199,6 +209,30 @@ class ProfileFragment : Fragment() {
                     Log.e("rvpoi", "CurrentLocation on")
                     PoiAdapter(
                         poi,
+                        cl
+                    ) { it ->//Listener, add your actions here
+                        Log.e("rv", "Zone clicked ${it.id}")
+
+                    }
+                };
+            }
+        }
+    }
+
+    fun initRVfz(view: View, favzones: List<FavZone>) {
+        Log.e("rvpoi", "initRV")
+        val rv: RecyclerView = view.findViewById(R.id.rvFavZone)
+        rv.apply {
+            // set a LinearLayoutManager to handle Android
+            // RecyclerView behavior
+            layoutManager = LinearLayoutManager(activity)
+            // set the custom adapter to the RecyclerView
+            adapter = favzones?.let { fz ->
+                Log.e("rvfz", "favzones loaded")
+                mapViewModel.currentLocation?.let { cl ->
+                    Log.e("rvfz", "CurrentLocation on")
+                    fzAdapter(
+                        fz,
                         cl
                     ) { it ->//Listener, add your actions here
                         Log.e("rv", "Zone clicked ${it.id}")

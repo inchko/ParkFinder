@@ -28,7 +28,7 @@
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,12 +41,24 @@
         android:layout_marginTop="16dp"
         android:text="Logout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toEndOf="@+id/sign_in_button"
         app:layout_constraintTop_toBottomOf="@+id/profileName" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="205dp"
+        android:layout_height="59dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_add"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <ScrollView
-        android:layout_width="407dp"
-        android:layout_height="551dp"
+        android:id="@+id/scrollView2"
+        android:layout_width="408dp"
+        android:layout_height="620dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="68dp"
         android:layout_marginEnd="4dp"
@@ -63,30 +75,38 @@
                 android:id="@+id/POITitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/poiTitle" />
+                android:text="@string/poiTitle"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPOI"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="261dp"
+                android:textAlignment="center">
 
             </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/fzTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fzTitle" />
+                android:text="@string/fzTitle"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvFavZone"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="315dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
+                app:layout_constraintTop_toTopOf="parent">
 
             </androidx.recyclerview.widget.RecyclerView>
+
         </LinearLayout>
     </ScrollView>
 

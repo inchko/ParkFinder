@@ -7,6 +7,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseUser
+import com.inchko.parkfinder.domainModels.FavZone
 import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.domainModels.User
 import com.inchko.parkfinder.network.RepoFavZones
@@ -32,9 +33,16 @@ class ProfileViewModel @ViewModelInject constructor(
         }
     }
 
+    private var _fz = MutableLiveData<List<FavZone>>().apply {
+        viewModelScope.launch {
+            value = favZoneRep.getFavZones("test")
+        }
+    }
+
 
     private lateinit var generalUser: User
     var poi: LiveData<List<POI>> = _poi
+    var fz: LiveData<List<FavZone>> = _fz
 
     fun registerOrLoginUser(user: FirebaseUser) {
 
@@ -60,6 +68,15 @@ class ProfileViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             _poi = MutableLiveData<List<POI>>().apply {
                 value = poiRepo.getPOI("test")
+            }
+        }
+
+    }
+
+    fun getFavZones() {
+        viewModelScope.launch {
+            _fz = MutableLiveData<List<FavZone>>().apply {
+                value = favZoneRep.getFavZones("test")
             }
         }
 

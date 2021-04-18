@@ -13,7 +13,8 @@ class FavZoneDTO2FavZone : Mapper<FavZoneDTO, FavZone> {
             zoneID = t.zoneID,
             plazasTotales = t.plazasTotales,
             tipo = t.tipo,
-            id = t.id
+            id = t.id,
+            location = "Location not found"
         )
     }
 
