@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -29,6 +30,7 @@ import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.FavZone
 import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.ui.map.MapViewModel
+import com.inchko.parkfinder.ui.proflie.addPoi.AddPoiActivity
 import com.inchko.parkfinder.ui.proflie.rvFavZones.fzAdapter
 import com.inchko.parkfinder.ui.proflie.rvPOI.PoiAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,6 +45,7 @@ class ProfileFragment : Fragment() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
     private lateinit var nametext: TextView
+    private lateinit var addPOIButton: FloatingActionButton
 
 // ...
 // Initialize Firebase Auth
@@ -99,6 +102,16 @@ class ProfileFragment : Fragment() {
         nametext = root.findViewById(R.id.profileName)
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        addPOIButton = view.findViewById(R.id.addPoiButton)
+        addPOIButton.setOnClickListener {
+            val intent = Intent(context, AddPoiActivity::class.java)
+            intent.putExtra("user", Firebase.auth.currentUser.uid)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {

@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/profileName" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/addPoiButton"
         android:layout_width="205dp"
         android:layout_height="59dp"
         android:clickable="true"
