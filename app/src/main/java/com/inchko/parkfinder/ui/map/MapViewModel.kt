@@ -34,7 +34,7 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
     val location: LiveData<LatLng> = _location
 
     var currentLocation: LatLng? = null
-    var mMap: GoogleMap?= null
+    var mMap: GoogleMap? = null
 
     private val _zones = MutableLiveData<List<Zone>>()
 
@@ -51,7 +51,7 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
                         )
                     )
                 }
-                // value = rep.readZones()
+            //    zones.value = _zones.value
                 calculateDistance()
             }
 
@@ -62,7 +62,7 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
         if (zones.value != null) {
             for (z in zones.value!!) {
                 z.distancia = currentLocation?.let { distance(it, LatLng(z.lat!!, z.long!!)) }
-                Log.e("vm","${z.distancia}")
+                Log.e("vm", "${z.distancia}")
             }
         }
     }
@@ -81,7 +81,7 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
         return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km R is radius of earth
     }
 
-    fun updateGM(g:GoogleMap){
-        mMap=g
+    fun updateGM(g: GoogleMap) {
+        mMap = g
     }
 }

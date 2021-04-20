@@ -1,4 +1,5 @@
 package com.inchko.parkfinder.network.models
+
 import com.google.gson.annotations.SerializedName
 
 
@@ -12,6 +13,8 @@ data class POIDTO(
     @SerializedName("userID")
     val userID: String,
     @SerializedName("id")
-    val id: String
+    val id: String,
+    @SerializedName("location")
+    val location: String?
 
 )

@@ -20,4 +20,6 @@
     <string name="search_zones">Buscar zonas</string>
     <string name="poiTitle">Lugares de interes</string>
     <string name="fzTitle">Zonas Favoritas</string>
+    <string name="Logged_out">Sesión cerrada</string>
+    <string name="loginOrRegister">Inicia sesión o registrate</string>
 </resources>

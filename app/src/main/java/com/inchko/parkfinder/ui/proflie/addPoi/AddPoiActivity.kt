@@ -45,8 +45,8 @@ class AddPoiActivity : AppCompatActivity() {
         val coords = getCoords(poiDirection.toString())
         val poi = POI(
             id = "0,",
-            userID = "test",
             nombre = poiName,
+            userID = intent.getStringExtra("user"),
             location = poiDirection.toString(),
             lat = coords.latitude.toString(),
             long = coords.longitude.toString()

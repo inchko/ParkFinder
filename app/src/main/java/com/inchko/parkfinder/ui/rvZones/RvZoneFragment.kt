@@ -16,11 +16,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.google.maps.android.PolyUtil
 import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.Zone
 import com.inchko.parkfinder.network.models.DirectionsResponse
 import com.inchko.parkfinder.ui.map.MapViewModel
+import com.inchko.parkfinder.ui.proflie.ProfileViewModel
 import com.inchko.parkfinder.ui.rvZones.recyView.ZoneAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -44,10 +47,9 @@ class RvZoneFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // mapViewModel.updateZones()
-        mapViewModel.zones.observe(viewLifecycleOwner, Observer {
-                value: List<Zone>? ->
+        mapViewModel.zones.observe(viewLifecycleOwner, Observer { value: List<Zone>? ->
             value?.let {
-                zones=it
+                zones = it
                 view?.let { it1 -> initRV(it1) }
             }
         })
@@ -65,7 +67,8 @@ class RvZoneFragment : Fragment() {
         initRV(view)
         // RecyclerView node initialized here
     }
-    fun initRV(view:View){
+
+    fun initRV(view: View) {
         val rv: RecyclerView = view.findViewById(R.id.recyclerViewZones)
         rv.apply {
             // set a LinearLayoutManager to handle Android
@@ -77,7 +80,7 @@ class RvZoneFragment : Fragment() {
                     Log.e("holder", "Zones loaded")
                     mapViewModel.currentLocation?.let { cl ->
                         ZoneAdapter(
-                            lz.sortedBy { it.distancia },
+                            lz.sortedBy { it.distancia }, rzViewModel,
                             cl
                         ) { it ->//Listener, add your actions here
                             Log.e("rv", "Zone clicked ${it.id}")/*
@@ -101,23 +104,28 @@ class RvZoneFragment : Fragment() {
                             }, 19f))*/
 
 
-                            it.lat?.let { it1 -> it.long?.let { it2 ->
-                                LatLng(it1,
-                                    it2
-                                )
-                            } }?.let { it2 ->
-                                rzViewModel.getDirections(mapViewModel.currentLocation!!,
+                            it.lat?.let { it1 ->
+                                it.long?.let { it2 ->
+                                    LatLng(
+                                        it1,
+                                        it2
+                                    )
+                                }
+                            }?.let { it2 ->
+                                rzViewModel.getDirections(
+                                    mapViewModel.currentLocation!!,
                                     it2
                                 )
                             }
 
-                            rzViewModel.response.observe(viewLifecycleOwner, Observer {
-                                    value: Response<DirectionsResponse>? ->
-                                value?.let {
-                                    drawPolyline(it)
-                                    closeFragment()
-                                }
-                            })
+                            rzViewModel.response.observe(
+                                viewLifecycleOwner,
+                                Observer { value: Response<DirectionsResponse>? ->
+                                    value?.let {
+                                        drawPolyline(it)
+                                        closeFragment()
+                                    }
+                                })
 
                             /*
                             val r=rzViewModel.response
@@ -132,7 +140,7 @@ class RvZoneFragment : Fragment() {
                     Log.e("holder", "Zones loaded")
                     mapViewModel.currentLocation?.let {
                         ZoneAdapter(
-                            lz.sortedByDescending { it.plazasLibres },
+                            lz.sortedByDescending { it.plazasLibres }, rzViewModel,
                             it
                         ) {//Listener, add your actions here
                             Log.e("rv", "Zone clicked ${it.id}")/*
@@ -155,7 +163,7 @@ class RvZoneFragment : Fragment() {
         Log.e("debug", "close fragment executed")
         activity?.supportFragmentManager?.saveFragmentInstanceState(this)
         activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit();
-        rzViewModel.response.value=null
+        rzViewModel.response.value = null
     }
 
 

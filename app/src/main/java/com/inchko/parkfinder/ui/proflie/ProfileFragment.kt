@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -55,29 +57,7 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        profileVM.getPOI()
-        profileVM.poi.observe(viewLifecycleOwner, {
 
-                value: List<POI>? ->
-            value?.let {
-                for (p in it) {
-                    p.location = getLocation(p.lat.toDouble(), p.long.toDouble())
-                }
-                view?.let { it1 -> initRVpoi(it1, it) }
-            }
-        })
-
-        profileVM.getFavZones()
-        profileVM.fz.observe(viewLifecycleOwner, {
-
-                value: List<FavZone>? ->
-            value?.let {
-                for (p in it) {
-                    p.location = getLocation(p.lat.toDouble(), p.long.toDouble())
-                }
-                view?.let { it1 -> initRVfz(it1, it) }
-            }
-        })
 
         // Configure sign-in to request the user's ID, email address, and basic
 // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -90,6 +70,7 @@ class ProfileFragment : Fragment() {
         mGoogleSignInClient = activity?.let { GoogleSignIn.getClient(it, gso) }!!;
 
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
+
         val signButton: SignInButton = root.findViewById(R.id.sign_in_button)//
         signButton.setOnClickListener() {
             signIn()
@@ -100,17 +81,51 @@ class ProfileFragment : Fragment() {
             logOut()
         }
         nametext = root.findViewById(R.id.profileName)
+        if (auth.currentUser != null) {
+            profileVM.getPOI(auth.currentUser.uid)
+        }
+        profileVM.poi.observe(viewLifecycleOwner, { value: List<POI>? ->
+            value?.let {
+                for (p in it) {
+                    if (p.location == null) p.location =
+                        getLocation(p.lat.toDouble(), p.long.toDouble())
+                }
+                view?.let { it1 -> initRVpoi(it1, it) }
+            }
+        })
 
+        if (auth.currentUser != null) {
+            profileVM.getFavZones(auth.currentUser.uid)
+        }
+        profileVM.fz.observe(viewLifecycleOwner, { value: List<FavZone>? ->
+            value?.let {
+                for (p in it) {
+                    p.location = getLocation(p.lat.toDouble(), p.long.toDouble())
+                }
+                view?.let { it1 -> initRVfz(it1, it) }
+            }
+        })
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addPOIButton = view.findViewById(R.id.addPoiButton)
+
         addPOIButton.setOnClickListener {
-            val intent = Intent(context, AddPoiActivity::class.java)
-            intent.putExtra("user", Firebase.auth.currentUser.uid)
-            startActivity(intent)
+            if (auth.currentUser != null) {
+                val intent = Intent(context, AddPoiActivity::class.java)
+                intent.putExtra("user", Firebase.auth.currentUser.uid)
+                startActivity(intent)
+                profileVM.getPOI(auth.currentUser.uid)
+            } else {
+                Toast.makeText(
+                    context,
+                    "You have to log in to create new POI",
+                    LENGTH_SHORT
+                ).show()
+                Log.e("pf", "You have to log in")
+            }
         }
     }
 
@@ -120,15 +135,18 @@ class ProfileFragment : Fragment() {
         val account = auth.currentUser
         if (account != null) {
             updateUIStart(account)
+
         } else {
-            nametext.text = "inicia sesion perro"
+            nametext.text = getString(R.string.loginOrRegister)
         }
     }
 
     private fun updateUIStart(account: FirebaseUser?) {
         if (account != null) {
             nametext.text = account.displayName
-            profileVM.getPOI()
+            profileVM.updateGeneralUser(account)
+            profileVM.getPOI(account.uid)
+            profileVM.getFavZones(account.uid)
         }
     }
 
@@ -140,7 +158,7 @@ class ProfileFragment : Fragment() {
 
     private fun logOut() {
         Firebase.auth.signOut()
-        nametext.text = "No one is logged in"
+        nametext.text = getString(R.string.Logged_out)
         if (auth.currentUser != null) {
             nametext.text = auth.currentUser.displayName
         }
@@ -148,6 +166,9 @@ class ProfileFragment : Fragment() {
 
     private fun updateUI(account: FirebaseUser) {
         nametext.text = account.email
+        profileVM.updateGeneralUser(account)
+        profileVM.getPOI(account.uid)
+        profileVM.getFavZones(account.uid)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -210,24 +231,26 @@ class ProfileFragment : Fragment() {
 
     fun initRVpoi(view: View, pois: List<POI>) {
         Log.e("rvpoi", "initRV")
-        val rv: RecyclerView = view.findViewById(R.id.rvPOI)
-        rv.apply {
-            // set a LinearLayoutManager to handle Android
-            // RecyclerView behavior
-            layoutManager = LinearLayoutManager(activity)
-            // set the custom adapter to the RecyclerView
-            adapter = pois?.let { poi ->
-                Log.e("rvpoi", "pois loaded")
-                mapViewModel.currentLocation?.let { cl ->
-                    Log.e("rvpoi", "CurrentLocation on")
-                    PoiAdapter(
-                        poi,
-                        cl
-                    ) { it ->//Listener, add your actions here
-                        Log.e("rv", "Zone clicked ${it.id}")
+        if (auth.currentUser != null) {
+            val rv: RecyclerView = view.findViewById(R.id.rvPOI)
+            rv.apply {
+                // set a LinearLayoutManager to handle Android
+                // RecyclerView behavior
+                layoutManager = LinearLayoutManager(activity)
+                // set the custom adapter to the RecyclerView
+                adapter = pois?.let { poi ->
+                    Log.e("rvpoi", "pois loaded")
+                    mapViewModel.currentLocation?.let { cl ->
+                        Log.e("rvpoi", "CurrentLocation on")
+                        PoiAdapter(
+                            poi, profileVM,
+                            cl,
+                        ) { it ->//Listener, add your actions here
+                            Log.e("rv", "Zone clicked ${it.id}")
 
-                    }
-                };
+                        }
+                    };
+                }
             }
         }
     }
@@ -245,7 +268,7 @@ class ProfileFragment : Fragment() {
                 mapViewModel.currentLocation?.let { cl ->
                     Log.e("rvfz", "CurrentLocation on")
                     fzAdapter(
-                        fz,
+                        fz,profileVM,
                         cl
                     ) { it ->//Listener, add your actions here
                         Log.e("rv", "Zone clicked ${it.id}")

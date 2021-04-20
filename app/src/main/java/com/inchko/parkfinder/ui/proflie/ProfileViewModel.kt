@@ -26,23 +26,12 @@ class ProfileViewModel @ViewModelInject constructor(
     private val poiRepo: RepoPOI
 
 ) : ViewModel() {
+    private var generalUser: User? = null
+    private var _poi = MutableLiveData<List<POI>>()
+    private var _fz = MutableLiveData<List<FavZone>>()
 
-    private var _poi = MutableLiveData<List<POI>>().apply {
-        viewModelScope.launch {
-            value = poiRepo.getPOI("test")
-        }
-    }
-
-    private var _fz = MutableLiveData<List<FavZone>>().apply {
-        viewModelScope.launch {
-            value = favZoneRep.getFavZones("test")
-        }
-    }
-
-
-    private lateinit var generalUser: User
-    var poi: LiveData<List<POI>> = _poi
-    var fz: LiveData<List<FavZone>> = _fz
+    var poi: MutableLiveData<List<POI>> = _poi
+    var fz: MutableLiveData<List<FavZone>> = _fz
 
     fun registerOrLoginUser(user: FirebaseUser) {
 
@@ -54,32 +43,51 @@ class ProfileViewModel @ViewModelInject constructor(
             )
             userRep.register(currentUser)
             Log.e("login", "register ok")
-            generalUser = userRep.getUser(currentUser.id)
-            val fz = favZoneRep.getFavZones("test")
-
-            Log.e(
-                "login",
-                "Name of the user: ${generalUser.name}, number of fav zones: ${fz[2].id} "
-            )
+            generalUser = currentUser
         }
     }
 
-    fun getPOI() {
+    fun getPOI(userid: String) {
         viewModelScope.launch {
             _poi = MutableLiveData<List<POI>>().apply {
-                value = poiRepo.getPOI("test")
+                value = poiRepo.getPOI(userid)
             }
+            poi.value = _poi.value
+            Log.e("rvpoi", "getPOI with $userid , size ${poi.value?.size}")
         }
-
     }
 
-    fun getFavZones() {
+
+    fun removePOI(userid: String, id: String) {
+        viewModelScope.launch {
+            poiRepo.deletePOI(userid, id)
+        }
+        getPOI(userid)
+    }
+
+    fun getFavZones(userid: String) {
         viewModelScope.launch {
             _fz = MutableLiveData<List<FavZone>>().apply {
-                value = favZoneRep.getFavZones("test")
+                value = favZoneRep.getFavZones(userid)
             }
+            fz.value = _fz.value
         }
+    }
 
+    fun removeFZ(userid: String, id: String) {
+        viewModelScope.launch {
+            favZoneRep.deleteFavZones(userid, id)
+        }
+        getFavZones(userid)
+    }
+
+
+    fun updateGeneralUser(user: FirebaseUser) {
+        generalUser = User(
+            id = user.uid,
+            name = user.displayName!!,
+            email = user.email!!
+        )
     }
 
 }

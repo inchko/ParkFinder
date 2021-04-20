@@ -5,27 +5,31 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
 import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.FavZone
+import com.inchko.parkfinder.ui.proflie.ProfileViewModel
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.truncate
 
-class fzHolder(inflater: LayoutInflater, parent: ViewGroup, v: View) : RecyclerView.ViewHolder(
-    inflater.inflate(
-        R.layout.favzone_card, parent, false
-    )
-), View.OnClickListener {
-
+class fzHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: ProfileViewModel) :
+    RecyclerView.ViewHolder(
+        inflater.inflate(
+            R.layout.favzone_card, parent, false
+        )
+    ), View.OnClickListener {
+    private val vm = rep
     private var titleView: TextView? = null
     private var distanceView: TextView? = null
     private var locationView: TextView? = null
     private var plazasView: TextView? = null
     private var tipoView: TextView? = null
+    private var deleteFZ: ImageButton? = null
 
 
     init {
@@ -34,6 +38,8 @@ class fzHolder(inflater: LayoutInflater, parent: ViewGroup, v: View) : RecyclerV
         locationView = itemView.findViewById(R.id.fzRVloc)
         plazasView = itemView.findViewById(R.id.fzZonaslibres)
         tipoView = itemView.findViewById(R.id.fzRVtipo)
+        deleteFZ = itemView.findViewById(R.id.fzDelete)
+
         v.setOnClickListener(this)
     }
 
@@ -52,6 +58,10 @@ class fzHolder(inflater: LayoutInflater, parent: ViewGroup, v: View) : RecyclerV
         plazasView?.text = plazas
         tipoView?.text = itemView.context.getString(R.string.automoviles)
         if (fz.tipo == 1) tipoView?.text = itemView.context.getString(R.string.motocycle)
+        deleteFZ?.setOnClickListener {
+            vm.removeFZ(fz.userID, fz.id)
+
+        }
 
     }
 
