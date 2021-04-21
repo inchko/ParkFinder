@@ -48,6 +48,8 @@ class ProfileFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var nametext: TextView
     private lateinit var addPOIButton: FloatingActionButton
+    private lateinit var logButton: Button
+    private lateinit var signIn: SignInButton
 
 // ...
 // Initialize Firebase Auth
@@ -71,15 +73,16 @@ class ProfileFragment : Fragment() {
 
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        val signButton: SignInButton = root.findViewById(R.id.sign_in_button)//
-        signButton.setOnClickListener() {
+        signIn = root.findViewById(R.id.sign_in)//
+        signIn.setOnClickListener() {
             signIn()
         }
 
-        val logoutButton: Button = root.findViewById(R.id.logout)
-        logoutButton.setOnClickListener() {
+        logButton = root.findViewById(R.id.logout)
+        logButton.setOnClickListener() {
             logOut()
         }
+        if (auth.currentUser == null) logButton.visibility = View.INVISIBLE
         nametext = root.findViewById(R.id.profileName)
         if (auth.currentUser != null) {
             profileVM.getPOI(auth.currentUser.uid)
@@ -147,6 +150,8 @@ class ProfileFragment : Fragment() {
             profileVM.updateGeneralUser(account)
             profileVM.getPOI(account.uid)
             profileVM.getFavZones(account.uid)
+            signIn.visibility = View.INVISIBLE
+            logButton.visibility = View.VISIBLE
         }
     }
 
@@ -162,6 +167,13 @@ class ProfileFragment : Fragment() {
         if (auth.currentUser != null) {
             nametext.text = auth.currentUser.displayName
         }
+        val rvpoi: RecyclerView? = view?.findViewById(R.id.rvPOI)
+        rvpoi?.visibility = View.INVISIBLE
+        val rvfz: RecyclerView? = view?.findViewById(R.id.rvFavZone)
+        rvfz?.visibility = View.INVISIBLE
+        signIn.visibility = View.VISIBLE
+        logButton.visibility = View.INVISIBLE
+
     }
 
     private fun updateUI(account: FirebaseUser) {
@@ -169,6 +181,12 @@ class ProfileFragment : Fragment() {
         profileVM.updateGeneralUser(account)
         profileVM.getPOI(account.uid)
         profileVM.getFavZones(account.uid)
+        val rvpoi: RecyclerView? = view?.findViewById(R.id.rvPOI)
+        rvpoi?.visibility = View.VISIBLE
+        val rvfz: RecyclerView? = view?.findViewById(R.id.rvFavZone)
+        rvfz?.visibility = View.VISIBLE
+        signIn.visibility = View.INVISIBLE
+        logButton.visibility = View.VISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -268,7 +286,7 @@ class ProfileFragment : Fragment() {
                 mapViewModel.currentLocation?.let { cl ->
                     Log.e("rvfz", "CurrentLocation on")
                     fzAdapter(
-                        fz,profileVM,
+                        fz, profileVM,
                         cl
                     ) { it ->//Listener, add your actions here
                         Log.e("rv", "Zone clicked ${it.id}")

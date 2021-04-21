@@ -1,5 +1,6 @@
 package com.inchko.parkfinder.ui.proflie.rvPOI
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,13 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.ui.proflie.ProfileViewModel
+import com.inchko.parkfinder.ui.proflie.addPoi.AddPoiActivity
+import com.inchko.parkfinder.ui.proflie.modifyPOI.ModifyPOI
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.asin
@@ -29,6 +34,7 @@ class PoiHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: Profi
     private var distanceView: TextView? = null
     private var locationView: TextView? = null
     private var deletePOI: ImageButton? = null
+    private var modifyPOI: ImageButton? = null
 
 
     init {
@@ -36,6 +42,7 @@ class PoiHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: Profi
         distanceView = itemView.findViewById(R.id.poiRVDistance)
         locationView = itemView.findViewById(R.id.poiRVloc)
         deletePOI = itemView.findViewById(R.id.poiDelete)
+        modifyPOI = itemView.findViewById(R.id.poiModifiy)
         v.setOnClickListener(this)
     }
 
@@ -50,9 +57,20 @@ class PoiHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: Profi
         ).toString() + " m"
         distanceView?.text = text
         locationView?.text = poi.location
+
         deletePOI?.setOnClickListener {
             vm.removePOI(poi.userID, poi.id)
             Log.e("rvpoi", "delete button clicked")
+        }
+        modifyPOI?.setOnClickListener {
+            val intent = Intent(itemView.context, ModifyPOI::class.java)
+            intent.putExtra("userID", Firebase.auth.currentUser.uid)
+            intent.putExtra("lat", poi.lat)
+            intent.putExtra("long", poi.long)
+            intent.putExtra("nombre", poi.nombre)
+            intent.putExtra("location", poi.location)
+            intent.putExtra("id", poi.id)
+            itemView.context.startActivity(intent)
         }
 
     }

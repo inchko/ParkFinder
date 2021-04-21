@@ -30,6 +30,11 @@
             android:name=".ui.proflie.addPoi.AddPoiActivity"
             android:label="AddPOI"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".ui.proflie.modifyPOI.ModifyPOI"
+            android:label="ModPOI"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

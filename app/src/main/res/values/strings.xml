@@ -22,4 +22,7 @@
     <string name="fzTitle">Zonas Favoritas</string>
     <string name="Logged_out">Sesión cerrada</string>
     <string name="loginOrRegister">Inicia sesión o registrate</string>
+    <string name="apply">Aplicar</string>
+    <string name="Cancel">Cancelar</string>
+    <string name="logout">Logout</string>
 </resources>
