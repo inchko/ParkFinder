@@ -68,9 +68,10 @@ object ApiModule {
     @Provides
     fun providesUserRepo(
         apiService: ApiService,
-        mapper: UserDTO2User
+        mapper: UserDTO2User,
+        vm: VehicleDTO2Vehicle
     ): RepoUsers {
-        return RepoUsers(apiService, mapper)
+        return RepoUsers(apiService, mapper, vm)
     }
 
     @Singleton

@@ -57,4 +57,21 @@ interface ApiService {
         @Path("POI_id") POI_id: String,
         @Body POI: POIDTO
     )
+
+    //-------------------------------Vehices------------------------------
+    @GET("api/Vehicles/{user_id}")
+    suspend fun getVehicles(@Path("user_id") userID: String): List<VehicleDTO>
+
+    @POST("api/addVehicle/{user_id}")
+    suspend fun addVehicle(@Path("user_id") userID: String, @Body v: VehicleDTO)
+
+    @DELETE("api/deleteVehicle/{user_id}/{v_id}")
+    suspend fun deleteVehicle(@Path("user_id") userID: String, @Path("v_id") v_id: String)
+
+    @PUT("api/updateVehicles/{user_id}/{v_id}")
+    suspend fun updateVehicle(
+        @Path("user_id") userID: String,
+        @Path("v_id") v_id: String,
+        @Body v: VehicleDTO
+    )
 }

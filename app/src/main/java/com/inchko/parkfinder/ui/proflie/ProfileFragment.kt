@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
@@ -33,6 +34,7 @@ import com.inchko.parkfinder.domainModels.FavZone
 import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.ui.map.MapViewModel
 import com.inchko.parkfinder.ui.proflie.addPoi.AddPoiActivity
+import com.inchko.parkfinder.ui.proflie.cutomizeProfile.CustomizeProfile
 import com.inchko.parkfinder.ui.proflie.rvFavZones.fzAdapter
 import com.inchko.parkfinder.ui.proflie.rvPOI.PoiAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +52,7 @@ class ProfileFragment : Fragment() {
     private lateinit var addPOIButton: FloatingActionButton
     private lateinit var logButton: Button
     private lateinit var signIn: SignInButton
+    private lateinit var customize: ImageButton
 
 // ...
 // Initialize Firebase Auth
@@ -82,6 +85,10 @@ class ProfileFragment : Fragment() {
         logButton.setOnClickListener() {
             logOut()
         }
+        customize = root.findViewById(R.id.profileCustomize)
+        customize.setOnClickListener {
+            customProfile()
+        }
         if (auth.currentUser == null) logButton.visibility = View.INVISIBLE
         nametext = root.findViewById(R.id.profileName)
         if (auth.currentUser != null) {
@@ -111,6 +118,11 @@ class ProfileFragment : Fragment() {
         return root
     }
 
+    private fun customProfile() {
+        val intent = Intent(context, CustomizeProfile::class.java)
+        startActivity(intent)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addPOIButton = view.findViewById(R.id.addPoiButton)
@@ -124,7 +136,7 @@ class ProfileFragment : Fragment() {
             } else {
                 Toast.makeText(
                     context,
-                    "You have to log in to create new POI",
+                    context?.getString(R.string.notLogged),
                     LENGTH_SHORT
                 ).show()
                 Log.e("pf", "You have to log in")
@@ -152,6 +164,7 @@ class ProfileFragment : Fragment() {
             profileVM.getFavZones(account.uid)
             signIn.visibility = View.INVISIBLE
             logButton.visibility = View.VISIBLE
+            customize.visibility = View.VISIBLE
         }
     }
 
@@ -173,6 +186,7 @@ class ProfileFragment : Fragment() {
         rvfz?.visibility = View.INVISIBLE
         signIn.visibility = View.VISIBLE
         logButton.visibility = View.INVISIBLE
+        customize.visibility = View.INVISIBLE
 
     }
 
@@ -187,6 +201,7 @@ class ProfileFragment : Fragment() {
         rvfz?.visibility = View.VISIBLE
         signIn.visibility = View.INVISIBLE
         logButton.visibility = View.VISIBLE
+        customize.visibility = View.VISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

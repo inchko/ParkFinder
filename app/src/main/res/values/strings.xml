@@ -25,4 +25,12 @@
     <string name="apply">Aplicar</string>
     <string name="Cancel">Cancelar</string>
     <string name="logout">Logout</string>
+    <string name="car">Coche</string>
+    <string name="big">Grande</string>
+    <string name="little">Pequeño</string>
+    <string name="moto">Motocicleta</string>
+    <string name="notLogged">Has de iniciar sesión para poder añadir un lugar de interés a tu perfil</string>
+    <string name="name_model">Nombre del Modelo</string>
+    <string name="size_of_the_vehicle">Tamaño del vehículo</string>
+    <string name="type_vehicle">Tipo de vehículo</string>
 </resources>

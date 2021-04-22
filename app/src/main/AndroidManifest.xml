@@ -34,6 +34,14 @@
             android:name=".ui.proflie.modifyPOI.ModifyPOI"
             android:label="ModPOI"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".ui.proflie.cutomizeProfile.CustomizeProfile"
+            android:label="cProfile"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".ui.proflie.cutomizeProfile.addVehicle.AddVehicle"
+            android:label="addVehicle"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
 
 
         <meta-data

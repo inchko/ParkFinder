@@ -63,5 +63,11 @@ object AppModule {
     fun providesPOIMapper(): POIDTO2POI {
         return POIDTO2POI()
     }
+
+    @Singleton
+    @Provides
+    fun providesVehicleMapper(): VehicleDTO2Vehicle {
+        return VehicleDTO2Vehicle()
+    }
 }
 

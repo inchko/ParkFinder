@@ -14,7 +14,7 @@ class UserDTO2User : Mapper<UserDTO, User> {
         )
     }
 
-    fun mapToDTO(user: User): UserDTO {
+    fun mapToNetwork(user: User): UserDTO {
         Log.e("login","reached mapper")
         return UserDTO(
             id = user.id,
