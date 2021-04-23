@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import android.widget.Toast.LENGTH_SHORT
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -53,6 +50,8 @@ class ProfileFragment : Fragment() {
     private lateinit var logButton: Button
     private lateinit var signIn: SignInButton
     private lateinit var customize: ImageButton
+    private lateinit var loadPOI: ProgressBar
+    private lateinit var loadFZ: ProgressBar
 
 // ...
 // Initialize Firebase Auth
@@ -75,6 +74,11 @@ class ProfileFragment : Fragment() {
         mGoogleSignInClient = activity?.let { GoogleSignIn.getClient(it, gso) }!!;
 
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        loadPOI = root.findViewById(R.id.loadingPOI)
+        loadPOI.visibility = View.VISIBLE
+        loadFZ = root.findViewById(R.id.loadingFavZones)
+        loadFZ.visibility = View.VISIBLE
 
         signIn = root.findViewById(R.id.sign_in)//
         signIn.setOnClickListener() {
@@ -273,6 +277,7 @@ class ProfileFragment : Fragment() {
                 // set the custom adapter to the RecyclerView
                 adapter = pois?.let { poi ->
                     Log.e("rvpoi", "pois loaded")
+                    loadPOI.visibility = View.INVISIBLE
                     mapViewModel.currentLocation?.let { cl ->
                         Log.e("rvpoi", "CurrentLocation on")
                         PoiAdapter(
@@ -298,6 +303,7 @@ class ProfileFragment : Fragment() {
             // set the custom adapter to the RecyclerView
             adapter = favzones?.let { fz ->
                 Log.e("rvfz", "favzones loaded")
+                loadFZ.visibility = View.INVISIBLE
                 mapViewModel.currentLocation?.let { cl ->
                     Log.e("rvfz", "CurrentLocation on")
                     fzAdapter(

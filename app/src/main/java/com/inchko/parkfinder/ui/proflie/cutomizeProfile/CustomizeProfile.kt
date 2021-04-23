@@ -3,8 +3,10 @@ package com.inchko.parkfinder.ui.proflie.cutomizeProfile
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +25,7 @@ class CustomizeProfile : AppCompatActivity() {
 
     private lateinit var back: ImageButton
     private lateinit var add: Button
+    private lateinit var loading: ProgressBar
     private val vm: cpViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +33,8 @@ class CustomizeProfile : AppCompatActivity() {
         setContentView(R.layout.customprofile_view)
         back = findViewById(R.id.cpBack)
         add = findViewById(R.id.cpAddCar)
+        loading = findViewById(R.id.cpLoading)
+        loading.visibility = View.VISIBLE
         back.setOnClickListener {
             goBack()
         }
@@ -67,6 +72,7 @@ class CustomizeProfile : AppCompatActivity() {
             // set the custom adapter to the RecyclerView
             adapter = cars.let { fz ->
                 Log.e("rvfz", "vehicles loaded")
+                loading.visibility = View.INVISIBLE
                 cpAdapter(
                     fz, vm,
                 ) { it ->//Listener, add your actions here

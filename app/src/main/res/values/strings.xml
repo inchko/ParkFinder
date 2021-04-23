@@ -33,4 +33,7 @@
     <string name="name_model">Nombre del Modelo</string>
     <string name="size_of_the_vehicle">Tamaño del vehículo</string>
     <string name="type_vehicle">Tipo de vehículo</string>
+    <string name="add_poi_button">Añade un lugar de interés</string>
+    <string name="my_cars">Mis vehículos</string>
+    <string name="addCar">Añadir coche</string>
 </resources>

@@ -68,7 +68,7 @@ interface ApiService {
     @DELETE("api/deleteVehicle/{user_id}/{v_id}")
     suspend fun deleteVehicle(@Path("user_id") userID: String, @Path("v_id") v_id: String)
 
-    @PUT("api/updateVehicles/{user_id}/{v_id}")
+    @PUT("api/updateVehicle/{user_id}/{v_id}")
     suspend fun updateVehicle(
         @Path("user_id") userID: String,
         @Path("v_id") v_id: String,

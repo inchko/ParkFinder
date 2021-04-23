@@ -1,5 +1,6 @@
 package com.inchko.parkfinder.ui.proflie.cutomizeProfile.rvcp
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.domainModels.Vehicles
 import com.inchko.parkfinder.ui.proflie.cutomizeProfile.cpViewModel
+import com.inchko.parkfinder.ui.proflie.cutomizeProfile.modifyVehicle.ModifyVehicle
 
 class cpHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, vm: cpViewModel) :
     RecyclerView.ViewHolder(
@@ -56,7 +58,7 @@ class cpHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, vm: cpViewM
             sizeView?.text = itemView.context.getString(R.string.little)
         }
         edit?.setOnClickListener {
-            edit()
+            edit(car)
         }
         delete?.setOnClickListener {
             cpvm.deleteVehicles(Firebase.auth.currentUser.uid, car.id)
@@ -68,8 +70,14 @@ class cpHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, vm: cpViewM
         TODO("Not yet implemented")
     }
 
-    fun edit() {
-        Log.e("no", "ya si eso mañana")
+    private fun edit(car: Vehicles) {
+        val intent = Intent(itemView.context, ModifyVehicle::class.java)
+        intent.putExtra("id", car.id)
+        intent.putExtra("model", car.model)
+        intent.putExtra("size", car.size)
+        intent.putExtra("type", car.type)
+        itemView.context.startActivity(intent)
+
     }
 
 }

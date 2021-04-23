@@ -42,6 +42,10 @@
             android:name=".ui.proflie.cutomizeProfile.addVehicle.AddVehicle"
             android:label="addVehicle"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".ui.proflie.cutomizeProfile.modifyVehicle.ModifyVehicle"
+            android:label="modVehicle"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
 
 
         <meta-data
