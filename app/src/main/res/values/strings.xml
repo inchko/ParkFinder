@@ -36,4 +36,28 @@
     <string name="add_poi_button">Añade un lugar de interés</string>
     <string name="my_cars">Mis vehículos</string>
     <string name="addCar">Añadir coche</string>
+    <string name="linkAccounts">vincular</string>
+    <string name="link_acc_title">Vincular Email y contraseña con Google</string>
+    <string name="sign_in_email">Sign in W/email</string>
+    <string name="adviceLinkAcc">Añade una contraseña para poder acceder a tu cuenta con Email y contraseña. Se utilizara como email tu correo de Google.</string>
+    <string name="password">Contraseña</string>
+    <string name="changePass">Cambiar Contraseña</string>
+    <string name="confirmPass">Confirmar Contraseña</string>
+    <string name="newPass">Nueva Contraseña</string>
+    <string name="currentPass">Contraseña Actual</string>
+    <string name="samePass">La nueva contraseña no puede ser igual que la anterior</string>
+    <string name="differentPass">Las dos contraseñas no coinciden</string>
+    <string name="badCurrentPass">La contraseña actual no es correcta</string>
+    <string name="updatedPass">La contraseña se ha actualizado</string>
+    <string name="emptyPass">La contraseña no puede ser vacia</string>
+    <string name="recover_pass">Recuperar Contraseña</string>
+    <string name="sendMailTitle">Enviar Mail</string>
+    <string name="sendMailMess1">"Esta acción enviara un email de recuperación de contraseña a: "</string>
+    <string name="loginEmail">Iniciar sesión por email</string>
+    <string name="email">Email</string>
+    <string name="login">inicar sessión</string>
+    <string name="sendMailMess2">" ¿Es este tu Email?"</string>
+    <string name="emailsignok">Sessión iniciada</string>
+    <string name="emailsignNo">La contraseña o el email son incorrectos</string>
+
 </resources>

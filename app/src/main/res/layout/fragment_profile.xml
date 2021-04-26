@@ -32,8 +32,10 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/profileName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/logout"
@@ -142,10 +144,10 @@
         android:src="@android:drawable/ic_menu_manage"
         app:layout_constraintBottom_toTopOf="@+id/profileName"
         app:layout_constraintEnd_toStartOf="@+id/sign_in"
-        app:layout_constraintHorizontal_bias="0.465"
+        app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.846" />
+        app:layout_constraintVertical_bias="0.615" />
 
     <View
         android:id="@+id/divider"
@@ -156,5 +158,14 @@
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Sign_Email"
+        android:layout_width="85dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/sign_in_email"
+        app:layout_constraintBottom_toTopOf="@+id/profileName"
+        app:layout_constraintEnd_toStartOf="@+id/sign_in" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

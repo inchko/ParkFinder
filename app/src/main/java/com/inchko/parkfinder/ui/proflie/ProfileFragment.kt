@@ -30,6 +30,7 @@ import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.FavZone
 import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.ui.map.MapViewModel
+import com.inchko.parkfinder.ui.proflie.SingUpEmail.SignInEmail
 import com.inchko.parkfinder.ui.proflie.addPoi.AddPoiActivity
 import com.inchko.parkfinder.ui.proflie.cutomizeProfile.CustomizeProfile
 import com.inchko.parkfinder.ui.proflie.rvFavZones.fzAdapter
@@ -49,6 +50,7 @@ class ProfileFragment : Fragment() {
     private lateinit var addPOIButton: FloatingActionButton
     private lateinit var logButton: Button
     private lateinit var signIn: SignInButton
+    private lateinit var signInEmail: Button
     private lateinit var customize: ImageButton
     private lateinit var loadPOI: ProgressBar
     private lateinit var loadFZ: ProgressBar
@@ -88,6 +90,11 @@ class ProfileFragment : Fragment() {
         logButton = root.findViewById(R.id.logout)
         logButton.setOnClickListener() {
             logOut()
+        }
+
+        signInEmail = root.findViewById(R.id.Sign_Email)
+        signInEmail.setOnClickListener() {
+            signEmail()
         }
         customize = root.findViewById(R.id.profileCustomize)
         customize.setOnClickListener {
@@ -157,6 +164,8 @@ class ProfileFragment : Fragment() {
 
         } else {
             nametext.text = getString(R.string.loginOrRegister)
+            loadFZ.visibility = View.INVISIBLE
+            loadPOI.visibility = View.INVISIBLE
         }
     }
 
@@ -169,7 +178,16 @@ class ProfileFragment : Fragment() {
             signIn.visibility = View.INVISIBLE
             logButton.visibility = View.VISIBLE
             customize.visibility = View.VISIBLE
+            loadFZ.visibility = View.VISIBLE
+            loadPOI.visibility = View.VISIBLE
+            signInEmail.visibility = View.INVISIBLE
         }
+    }
+
+    private fun signEmail() {
+        val intent = Intent(context, SignInEmail::class.java)
+        startActivity(intent)
+       // updateUI(Firebase.auth.currentUser!!)
     }
 
 
@@ -191,6 +209,7 @@ class ProfileFragment : Fragment() {
         signIn.visibility = View.VISIBLE
         logButton.visibility = View.INVISIBLE
         customize.visibility = View.INVISIBLE
+        signInEmail.visibility = View.VISIBLE
 
     }
 
@@ -203,9 +222,12 @@ class ProfileFragment : Fragment() {
         rvpoi?.visibility = View.VISIBLE
         val rvfz: RecyclerView? = view?.findViewById(R.id.rvFavZone)
         rvfz?.visibility = View.VISIBLE
+        loadFZ.visibility = View.VISIBLE
+        loadPOI.visibility = View.VISIBLE
         signIn.visibility = View.INVISIBLE
         logButton.visibility = View.VISIBLE
         customize.visibility = View.VISIBLE
+        signInEmail.visibility = View.INVISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
