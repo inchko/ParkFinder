@@ -1,18 +1,18 @@
 <resources>
     <string name="app_name">ParkingFinder</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">ParkFinder</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">ParkFinder</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
     <string name="nav_header_desc">Menu</string>
     <string name="action_settings">Opciones</string>
 
     <string name="menu_home">Mapa</string>
     <string name="menu_gallery">Perfil</string>
     <string name="menu_slideshow">Opciones</string>
-    <string name="AtrasRVZ">Back</string>
-    <string name="test_sample">Test Sample</string>
-    <string name="motocycle"> Parking Motos</string>
+    <string name="AtrasRVZ">Atras</string>
+    <string name="test_sample" translatable="false">Test Sample</string>
+    <string name="motocycle">Parking Motos</string>
     <string name="d">Motos</string>
     <string name="automoviles">Parking General</string>
     <string name="Loading_Zones">Cargando Zonas…</string>
@@ -24,7 +24,7 @@
     <string name="loginOrRegister">Inicia sesión o registrate</string>
     <string name="apply">Aplicar</string>
     <string name="Cancel">Cancelar</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Log-out</string>
     <string name="car">Coche</string>
     <string name="big">Grande</string>
     <string name="little">Pequeño</string>
@@ -38,7 +38,7 @@
     <string name="addCar">Añadir coche</string>
     <string name="linkAccounts">vincular</string>
     <string name="link_acc_title">Vincular Email y contraseña con Google</string>
-    <string name="sign_in_email">Sign in W/email</string>
+    <string name="sign_in_email">Inicia sesión con email</string>
     <string name="adviceLinkAcc">Añade una contraseña para poder acceder a tu cuenta con Email y contraseña. Se utilizara como email tu correo de Google.</string>
     <string name="password">Contraseña</string>
     <string name="changePass">Cambiar Contraseña</string>
@@ -52,12 +52,30 @@
     <string name="emptyPass">La contraseña no puede ser vacia</string>
     <string name="recover_pass">Recuperar Contraseña</string>
     <string name="sendMailTitle">Enviar Mail</string>
-    <string name="sendMailMess1">"Esta acción enviara un email de recuperación de contraseña a: "</string>
     <string name="loginEmail">Iniciar sesión por email</string>
-    <string name="email">Email</string>
+    <string name="email" translatable="false">Email</string>
     <string name="login">inicar sessión</string>
     <string name="sendMailMess2">" ¿Es este tu Email?"</string>
     <string name="emailsignok">Sessión iniciada</string>
     <string name="emailsignNo">La contraseña o el email son incorrectos</string>
+    <string name="title_activity_settings" translatable="false">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header" translatable="false">Messages</string>
+    <string name="sync_header" translatable="false">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title" translatable="false">Your signature</string>
+    <string name="reply_title" translatable="false">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" translatable="false">Sync email periodically</string>
+    <string name="attachment_title" translatable="false">Download incoming attachments</string>
+    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
+    <string name="info">Información</string>
+    <string name="sendMailMess1">Esta acción enviará un email a:</string>
+
 
 </resources>

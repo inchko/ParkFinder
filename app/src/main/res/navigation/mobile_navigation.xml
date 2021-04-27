@@ -22,4 +22,8 @@
         android:name="com.inchko.parkfinder.ui.settings.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <activity
+        android:id="@+id/nav_true_settings"
+        android:name="com.inchko.parkfinder.ui.settings.SettingsActivity"
+        android:label="@string/action_settings"/>
 </navigation>
