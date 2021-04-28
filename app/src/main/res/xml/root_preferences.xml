@@ -1,17 +1,13 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="@string/lanHeader">
 
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="reply"
+            app:defaultValue="es"
             app:entries="@array/reply_entries"
             app:entryValues="@array/reply_values"
-            app:key="reply"
+            app:key="Languages"
             app:title="@string/reply_title"
             app:useSimpleSummaryProvider="true" />
 

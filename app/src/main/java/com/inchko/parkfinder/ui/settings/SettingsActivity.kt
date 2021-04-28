@@ -18,7 +18,7 @@ class SettingsActivity : AppCompatActivity() {
                 .commit()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-       // Lingver.getInstance().setLocale(this, "en", "")
+       
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {

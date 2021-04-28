@@ -18,7 +18,7 @@
     <string name="Loading_Zones">Cargando Zonas…</string>
     <string name="Reload">Recargar</string>
     <string name="search_zones">Buscar zonas</string>
-    <string name="poiTitle">Lugares de interes</string>
+    <string name="poiTitle">Lugares de interés</string>
     <string name="fzTitle">Zonas Favoritas</string>
     <string name="Logged_out">Sesión cerrada</string>
     <string name="loginOrRegister">Inicia sesión o registrate</string>
@@ -61,12 +61,11 @@
     <string name="title_activity_settings" translatable="false">SettingsActivity</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header" translatable="false">Messages</string>
-    <string name="sync_header" translatable="false">Sync</string>
+    <string name="sync_header" translatable="false">Test</string>
 
     <!-- Messages Preferences -->
     <string name="signature_title" translatable="false">Your signature</string>
-    <string name="reply_title" translatable="false">Default reply action</string>
+    <string name="reply_title">Cambio de idioma</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title" translatable="false">Sync email periodically</string>
@@ -76,6 +75,17 @@
     <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
     <string name="info">Información</string>
     <string name="sendMailMess1">Esta acción enviará un email a:</string>
+    <string name="name_poi">Nombre del lugar de interés:</string>
+    <string name="name">Nombre</string>
+    <string name="direccion">Direccion:</string>
+    <string name="send">Enviar</string>
+    <string name="fav">Favorito</string>
+    <string name="name_poin">Nombre del lugar de interés</string>
+    <string name="longitud">Longitud</string>
+    <string name="latitud">Latitud</string>
+    <string name="addres">Dirección del lugar</string>
+    <string name="modify">Modificar lugar de interés</string>
+    <string name="lanHeader">Selector de lenguajes</string>
 
 
 </resources>

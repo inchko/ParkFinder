@@ -30,7 +30,7 @@
     <string name="samePass">The new password can not be the old one</string>
     <string name="differentPass">The two password do not match</string>
     <string name="logout">Log-out</string>
-    <string name="poiTitle">Point of interest</string>
+    <string name="poiTitle">Points of interest</string>
     <string name="menu_home">Map</string>
     <string name="nav_header_desc">Menu</string>
     <string name="my_cars">My Vehicles</string>
@@ -53,5 +53,17 @@
     <string name="type_vehicle">Type of the vehicle</string>
     <string name="linkAccounts">Link</string>
     <string name="link_acc_title">Link email with Google account</string>
-    <string name="fzTitle">Favourite zonesplaplapl</string>
+    <string name="fzTitle">Favourite zones</string>
+    <string name="reply_title">Language change</string>
+    <string name="send">Send</string>
+    <string name="name">Name</string>
+    <string name="name_poi">Name of the point of interest:</string>
+    <string name="direccion">"Street address: "</string>
+    <string name="fav">Favourite</string>
+    <string name="name_poin">Name of the point of interest</string>
+    <string name="longitud">Longitude</string>
+    <string name="latitud">Latitude</string>
+    <string name="addres">Street address</string>
+    <string name="modify">Modify point of interest</string>
+    <string name="lanHeader">Language selector</string>
 </resources>

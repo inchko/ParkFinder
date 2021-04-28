@@ -108,7 +108,7 @@
                 android:layout_height="29dp"
                 android:layout_marginStart="24dp"
                 android:src="@android:drawable/star_on"
-                android:text="Nothing"
+                android:text="@string/test_sample"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

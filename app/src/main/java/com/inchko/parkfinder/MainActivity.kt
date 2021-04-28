@@ -2,6 +2,7 @@ package com.inchko.parkfinder
 
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -9,11 +10,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.*
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.google.android.material.navigation.NavigationView
 import com.inchko.parkfinder.ui.rvZones.RvZoneFragment
 import com.inchko.parkfinder.ui.settings.SettingsActivity
@@ -22,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var drawerLayout: DrawerLayout? = null
@@ -61,8 +64,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController!!, appBarConfiguration)
         navView.setupWithNavController(navController!!)
         //traductions
-        Lingver.init(application, "es")
-        Lingver.getInstance().setLocale(this, "en","")
+        // Lingver.init(application, "es")
+        // Lingver.getInstance().setLocale(this, "en", "")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -88,4 +91,32 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        prefs.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        prefs.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        Log.e("pref", p1)
+        if (p0 != null) {
+            if (p1 == "Languages")
+                Log.e("pref", p0.getString(p1, "es"))
+            val len = p0.getString(p1, "es")
+            if (len != null) {
+                Lingver.getInstance().setLocale(application, len, "")
+                recreate()
+            }
+        }
+
+    }
+
 }
