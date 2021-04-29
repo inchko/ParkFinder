@@ -1,5 +1,7 @@
 package com.inchko.parkfinder.ui.map
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.location.Location
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
@@ -15,6 +17,7 @@ import com.inchko.parkfinder.domainModels.Zone
 import com.inchko.parkfinder.network.Repository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sqrt
@@ -40,18 +43,35 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
 
     var zones: MutableLiveData<List<Zone>> = _zones
 
-    fun updateZones() {
+    fun updateZones(rango: Int) {
         zones = MutableLiveData<List<Zone>>().apply {
             viewModelScope.launch {
                 value = currentLocation?.let {
                     rep.readZonesByLoc(
                         Ubi(
-                            1,
+                            rango,
                             it.longitude, it.latitude
                         )
                     )
                 }
-            //    zones.value = _zones.value
+                //    zones.value = _zones.value
+                calculateDistance()
+            }
+
+        }
+    }
+
+    fun updateZonesLoc(rango: Int, lat: Double, long: Double) {
+        zones = MutableLiveData<List<Zone>>().apply {
+            viewModelScope.launch {
+                value = rep.readZonesByLoc(
+                    Ubi(
+                        rango,
+                        long, lat
+                    )
+                )
+                Log.e("zones", "updated in loc ex: ${zones.value?.size}")
+                //    zones.value = _zones.value
                 calculateDistance()
             }
 

@@ -9,4 +9,24 @@
         <item>es</item>
         <item>en</item>
     </string-array>
+
+    <string-array name="range_entries">
+        <item>1km</item>
+        <item>2km</item>
+        <item>5km</item>
+        <item>10km</item>
+        <item>15km</item>
+        <item>20km</item>
+        <item>Unlimited</item>
+    </string-array>
+
+    <string-array name="range_values">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>10000</item>
+    </string-array>
 </resources>

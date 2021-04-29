@@ -1,5 +1,6 @@
 package com.inchko.parkfinder.ui.proflie.rvPOI
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ class PoiAdapter(
     private val POIS: List<POI>,
     private val vm: ProfileViewModel,
     private val loc: LatLng,
+    private val c: Context,
     private val listener: (POI) -> Unit
 ) : RecyclerView.Adapter<PoiHolder>() {
 
@@ -23,7 +25,7 @@ class PoiAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val inflatedView = parent.inflate(R.layout.poi_card, false)
         Log.e("holder", "Holding poi")
-        return PoiHolder(inflater, parent, inflatedView, vm)
+        return PoiHolder(inflater, parent, inflatedView, vm, c)
 
     }
 

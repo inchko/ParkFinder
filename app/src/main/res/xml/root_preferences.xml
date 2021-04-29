@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory app:title="@string/lanHeader">
 
@@ -13,14 +14,21 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="@string/map_header">
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/range_entries"
+            android:entryValues="@array/range_values"
+            android:key="range"
+            android:title="@string/rangeHeader" />
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
+            app:key="searchFZ"
+            app:title="@string/search_fzHeader" />
 
         <SwitchPreferenceCompat
-            app:dependency="sync"
+            app:dependency="searchFZ"
             app:key="attachment"
             app:summaryOff="@string/attachment_summary_off"
             app:summaryOn="@string/attachment_summary_on"

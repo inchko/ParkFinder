@@ -108,12 +108,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         Log.e("pref", p1)
         if (p0 != null) {
-            if (p1 == "Languages")
+            if (p1 == "Languages") {
                 Log.e("pref", p0.getString(p1, "es"))
-            val len = p0.getString(p1, "es")
-            if (len != null) {
-                Lingver.getInstance().setLocale(application, len, "")
-                recreate()
+                val len = p0.getString(p1, "es")
+                if (len != null) {
+                    Lingver.getInstance().setLocale(application, len, "")
+                    recreate()
+                }
             }
         }
 

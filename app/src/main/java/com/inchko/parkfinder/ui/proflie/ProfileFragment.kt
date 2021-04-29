@@ -187,7 +187,7 @@ class ProfileFragment : Fragment() {
     private fun signEmail() {
         val intent = Intent(context, SignInEmail::class.java)
         startActivity(intent)
-       // updateUI(Firebase.auth.currentUser!!)
+        // updateUI(Firebase.auth.currentUser!!)
     }
 
 
@@ -305,6 +305,7 @@ class ProfileFragment : Fragment() {
                         PoiAdapter(
                             poi, profileVM,
                             cl,
+                            context,
                         ) { it ->//Listener, add your actions here
                             Log.e("rv", "Zone clicked ${it.id}")
 

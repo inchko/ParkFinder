@@ -1,6 +1,9 @@
 package com.inchko.parkfinder.ui.proflie.rvPOI
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,29 +15,35 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
+import com.inchko.parkfinder.domainModels.FavZone
 import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.ui.proflie.ProfileViewModel
-import com.inchko.parkfinder.ui.proflie.addPoi.AddPoiActivity
 import com.inchko.parkfinder.ui.proflie.modifyPOI.ModifyPOI
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.truncate
 
-class PoiHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: ProfileViewModel) :
+class PoiHolder(
+    inflater: LayoutInflater,
+    parent: ViewGroup,
+    v: View,
+    rep: ProfileViewModel,
+    cont: Context
+) :
     RecyclerView.ViewHolder(
         inflater.inflate(
             R.layout.poi_card, parent, false
         )
     ), View.OnClickListener {
     private val vm = rep
+    private val c = cont
     private var titleView: TextView? = null
     private var distanceView: TextView? = null
     private var locationView: TextView? = null
     private var deletePOI: ImageButton? = null
     private var modifyPOI: ImageButton? = null
+    private var favPOI: ImageButton? = null
 
 
     init {
@@ -43,10 +52,15 @@ class PoiHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: Profi
         locationView = itemView.findViewById(R.id.poiRVloc)
         deletePOI = itemView.findViewById(R.id.poiDelete)
         modifyPOI = itemView.findViewById(R.id.poiModifiy)
+        favPOI = itemView.findViewById(R.id.poiFav)
         v.setOnClickListener(this)
     }
 
     fun bind(poi: POI, loc: LatLng) {
+        val sharedPref = c.getSharedPreferences("FavZone", Context.MODE_PRIVATE)
+        val favZone = sharedPref.getString("FavZone", "")
+        if (favZone != "" && favZone == poi.id)
+            favPOI?.setImageResource(android.R.drawable.btn_star_big_on)
         Log.e("holder", "binding")
         titleView?.text = poi.nombre
         val text = truncate(
@@ -72,12 +86,32 @@ class PoiHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: Profi
             intent.putExtra("id", poi.id)
             itemView.context.startActivity(intent)
         }
+        favPOI?.setOnClickListener {
+            var helper = poi.id
+            var lat = poi.lat.toFloat()
+            var long = poi.long.toFloat()
+            Log.e("zones", "$lat, $long")
+            if (favZone == poi.id) {
+                helper = ""
+                lat = 0f
+                long = 0f
+            }
+            val sharedPrefs =
+                c.getSharedPreferences("FavZone", Context.MODE_PRIVATE) ?: return@setOnClickListener
+            with(sharedPrefs.edit()) {
+                putString("FavZone", helper)
+                putFloat("fzlatitude", lat)
+                putFloat("fzlongitude", long)
+                apply()
+            }
+
+        }
+
 
     }
 
 
     override fun onClick(p0: View?) {
-        TODO("Not yet implemented")
     }
 
     private fun distance(cl: LatLng, zl: LatLng): Double {

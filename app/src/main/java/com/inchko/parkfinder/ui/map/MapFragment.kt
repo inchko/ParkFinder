@@ -2,6 +2,8 @@ package com.inchko.parkfinder.ui.map
 
 import android.Manifest
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
@@ -17,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.preference.PreferenceManager
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -45,6 +48,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     private var testLocation: LatLng? = null
     private lateinit var zoneButton: ImageButton
     private val mainFragment = RvZoneFragment()
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreateView(
@@ -53,10 +57,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_map, container, false)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
-        mapViewModel.updateZones()
+        val name = sharedPreferences.getString("range", "1")
+        Log.e("zones", "rango: $name")
+        if (name != null) {
+            mapViewModel.updateZones(name.toInt())
+        }
         return root
     }
 
@@ -87,7 +96,28 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                 )
             )
             if (currentLocation != null) {
-                mapViewModel.updateZones()
+                val name = sharedPreferences.getString("range", "1")
+                val op = sharedPreferences.getBoolean("searchFZ", false)
+                val sp = context?.getSharedPreferences("FavZone", Context.MODE_PRIVATE)
+                val namefz = sp?.getString("FavZone", "")
+                if (op && namefz != "") {
+                    Log.e("zones", op.toString())
+                    Log.e("zones", "rango: $name")
+                    val lat = sp?.getFloat("fzlatitude", 0f)?.toDouble()
+                    val long = sp?.getFloat("fzlongitude", 0f)?.toDouble()
+                    Log.e("zones", "you get $lat $long")
+                    if (name != null) {
+                        if (lat != null) {
+                            if (long != null) {
+                                mapViewModel.updateZonesLoc(name.toInt(), lat, long)
+                            }
+                        }
+                    }
+                } else {
+                    if (name != null) {
+                        mapViewModel.updateZones(name.toInt())
+                    }
+                }
                 Log.e("api", "updating zones in location callback")
                 if (getView() != null) {
                     mapViewModel.zones.observe(viewLifecycleOwner, Observer {
@@ -181,7 +211,28 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
 
         )
         if (currentLocation != null) {
-            mapViewModel.updateZones()
+            val range = sharedPreferences.getString("range", "1")
+            val op = sharedPreferences.getBoolean("searchFZ", false)
+            val sp = context?.getSharedPreferences("FavZone", Context.MODE_PRIVATE)
+            val namefz = sp?.getString("FavZone", "")
+            if (op && namefz != "") {
+                Log.e("zones", op.toString())
+                Log.e("zones", "rango: $range")
+                val lat = sp?.getFloat("fzlatitude", 0f)?.toDouble()
+                val long = sp?.getFloat("fzlongitude", 0f)?.toDouble()
+                Log.e("zones", "you get $lat $long")
+                if (range != null) {
+                    if (lat != null) {
+                        if (long != null) {
+                            mapViewModel.updateZonesLoc(range.toInt(), lat, long)
+                        }
+                    }
+                }
+            } else {
+                if (range != null) {
+                    mapViewModel.updateZones(range.toInt())
+                }
+            }
             Log.e("api", "updating zones in getLocation")
             mapViewModel.zones.observe(viewLifecycleOwner, Observer {
                 if (it != null) {

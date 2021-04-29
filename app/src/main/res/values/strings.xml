@@ -86,6 +86,9 @@
     <string name="addres">Dirección del lugar</string>
     <string name="modify">Modificar lugar de interés</string>
     <string name="lanHeader">Selector de lenguajes</string>
+    <string name="rangeHeader">Distancia de busqueda de zonas</string>
+    <string name="search_fzHeader">Buscar en el lugar de interés favorito</string>
+    <string name="map_header">Opciones de zonas</string>
 
 
 </resources>

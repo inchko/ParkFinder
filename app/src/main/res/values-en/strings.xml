@@ -66,4 +66,7 @@
     <string name="addres">Street address</string>
     <string name="modify">Modify point of interest</string>
     <string name="lanHeader">Language selector</string>
+    <string name="rangeHeader">Search distance of zones</string>
+    <string name="search_fzHeader">Search in the favourite POI</string>
+    <string name="map_header">Zone Settings</string>
 </resources>
