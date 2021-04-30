@@ -4,13 +4,13 @@
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="nav_header_title" translatable="false">ParkFinder</string>
     <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
-    <string name="nav_header_desc">Menu</string>
+    <string name="nav_header_desc">Menú</string>
     <string name="action_settings">Opciones</string>
 
     <string name="menu_home">Mapa</string>
     <string name="menu_gallery">Perfil</string>
     <string name="menu_slideshow">Opciones</string>
-    <string name="AtrasRVZ">Atras</string>
+    <string name="AtrasRVZ">Atrás</string>
     <string name="test_sample" translatable="false">Test Sample</string>
     <string name="motocycle">Parking Motos</string>
     <string name="d">Motos</string>
@@ -54,9 +54,9 @@
     <string name="sendMailTitle">Enviar Mail</string>
     <string name="loginEmail">Iniciar sesión por email</string>
     <string name="email" translatable="false">Email</string>
-    <string name="login">inicar sessión</string>
+    <string name="login">inicar sesión</string>
     <string name="sendMailMess2">" ¿Es este tu Email?"</string>
-    <string name="emailsignok">Sessión iniciada</string>
+    <string name="emailsignok">Sesión iniciada</string>
     <string name="emailsignNo">La contraseña o el email son incorrectos</string>
     <string name="title_activity_settings" translatable="false">SettingsActivity</string>
 
@@ -77,7 +77,7 @@
     <string name="sendMailMess1">Esta acción enviará un email a:</string>
     <string name="name_poi">Nombre del lugar de interés:</string>
     <string name="name">Nombre</string>
-    <string name="direccion">Direccion:</string>
+    <string name="direccion">Dirección:</string>
     <string name="send">Enviar</string>
     <string name="fav">Favorito</string>
     <string name="name_poin">Nombre del lugar de interés</string>
@@ -86,9 +86,19 @@
     <string name="addres">Dirección del lugar</string>
     <string name="modify">Modificar lugar de interés</string>
     <string name="lanHeader">Selector de lenguajes</string>
-    <string name="rangeHeader">Distancia de busqueda de zonas</string>
+    <string name="rangeHeader">Distancia de búsqueda de zonas</string>
     <string name="search_fzHeader">Buscar en el lugar de interés favorito</string>
     <string name="map_header">Opciones de zonas</string>
+    <string name="serachSummaryOff">Se buscan zonas a tu alrededor</string>
+    <string name="serachSummaryOn">Se buscan zonas en tu lugar de interés favorito</string>
+    <string name="orderTitle">Ordenar zonas por plazas libres</string>
+    <string name="orderZonesOff">Se ordenan las zonas por distancia</string>
+    <string name="orderZonesOn">Se ordenan las zonas por n.º plazas libres</string>
+    <string name="showVehicleSummaryOn">Solo ves zonas del mismo tipo que tu vehiculo favorito</string>
+    <string name="showVehicleSummaryOff">Activa para solamente ver zonas del mismo tipo que tu vehiculo</string>
+    <string name="showVehicleHeader">Ver zonas del mismo tipo</string>
+    <string name="userzone_Header">Opciones de zona de usuario</string>
+    <string name="userzone_summary">Inicia sesión para configurar estas opciones</string>
 
 
 </resources>

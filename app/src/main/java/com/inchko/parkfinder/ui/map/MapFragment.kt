@@ -30,6 +30,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
 import com.inchko.parkfinder.ui.rvZones.RvZoneFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -100,7 +102,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                 val op = sharedPreferences.getBoolean("searchFZ", false)
                 val sp = context?.getSharedPreferences("FavZone", Context.MODE_PRIVATE)
                 val namefz = sp?.getString("FavZone", "")
-                if (op && namefz != "") {
+                val userfz = sp?.getString("fzuserID", "")
+                if (Firebase.auth.currentUser != null && userfz == Firebase.auth.currentUser.uid && op && namefz != "") {
                     Log.e("zones", op.toString())
                     Log.e("zones", "rango: $name")
                     val lat = sp?.getFloat("fzlatitude", 0f)?.toDouble()
@@ -215,7 +218,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
             val op = sharedPreferences.getBoolean("searchFZ", false)
             val sp = context?.getSharedPreferences("FavZone", Context.MODE_PRIVATE)
             val namefz = sp?.getString("FavZone", "")
-            if (op && namefz != "") {
+            val userfz = sp?.getString("fzuserID", "")
+            if (Firebase.auth.currentUser != null && userfz == Firebase.auth.currentUser.uid && op && namefz != "") {
                 Log.e("zones", op.toString())
                 Log.e("zones", "rango: $range")
                 val lat = sp?.getFloat("fzlatitude", 0f)?.toDouble()

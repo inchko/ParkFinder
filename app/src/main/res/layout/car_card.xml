@@ -53,14 +53,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ccTipoCoche" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/ccFav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="53dp"
+                android:layout_height="49dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/fav"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@android:drawable/btn_star_big_off" />
 
             <ImageButton
                 android:id="@+id/ccDelete"

@@ -256,7 +256,7 @@ class CustomizeProfile : AppCompatActivity() {
                 Log.e("rvfz", "vehicles loaded")
                 loading.visibility = View.INVISIBLE
                 cpAdapter(
-                    fz, vm,
+                    fz, vm, context,
                 ) { it ->//Listener, add your actions here
                     Log.e("rv", "Zone clicked ${it.model}")
 

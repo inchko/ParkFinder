@@ -1,5 +1,6 @@
 package com.inchko.parkfinder.ui.rvZones
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,10 +25,8 @@ import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.Zone
 import com.inchko.parkfinder.network.models.DirectionsResponse
 import com.inchko.parkfinder.ui.map.MapViewModel
-import com.inchko.parkfinder.ui.proflie.ProfileViewModel
 import com.inchko.parkfinder.ui.rvZones.recyView.ZoneAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import retrofit2.Response
 
 
@@ -40,7 +40,7 @@ class RvZoneFragment : Fragment() {
     private lateinit var button: ImageButton
 
     private var num = 0
-    private var sort: Boolean = true //true = distance false = plazas libres
+    private var sort: Boolean = true //false = distance true = plazas libres
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,30 +64,39 @@ class RvZoneFragment : Fragment() {
         button.setOnClickListener {
             closeFragment()
         }
-        initRV(view)
+        //  initRV(view)
         // RecyclerView node initialized here
     }
 
     fun initRV(view: View) {
         val rv: RecyclerView = view.findViewById(R.id.recyclerViewZones)
         rv.apply {
-            // set a LinearLayoutManager to handle Android
-            // RecyclerView behavior
             layoutManager = LinearLayoutManager(activity)
-            // set the custom adapter to the RecyclerView
-            if (sort) {
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
+            val sp = context?.getSharedPreferences("vehicle", Context.MODE_PRIVATE)
+            sort = sharedPreferences.getBoolean("orderZones", false)
+            val vehicle = sharedPreferences.getBoolean("showVehicle", false)
+            val userCar = sp?.getString("caruserID", "")
+            val typeVehicle = sp?.getInt("type", -1)
+            if (!sort) {
                 adapter = zones?.let { lz ->
                     Log.e("holder", "Zones loaded")
+                    val zonesFinal = mutableListOf<Zone>()
+                    zonesFinal.addAll(lz)
+                    if (Firebase.auth.currentUser != null && userCar == Firebase.auth.currentUser.uid && vehicle && typeVehicle != -1) {
+                        zonesFinal.clear()
+                        for (z in lz) {
+                            if (z.tipo == typeVehicle)
+                                zonesFinal.add(z)
+                        }
+                    }
                     mapViewModel.currentLocation?.let { cl ->
                         ZoneAdapter(
-                            lz.sortedBy { it.distancia }, rzViewModel,
+                            zonesFinal.sortedBy { it.distancia }, rzViewModel,
                             cl
                         ) { it ->//Listener, add your actions here
-                            Log.e("rv", "Zone clicked ${it.id}")/*
-                                    val intent = Intent(context, Zone::class.java).apply {
-                                        putExtra("id", it.id)
-                                    }
-                                *//*
+                            Log.e("rv", "Zone clicked ${it.id}")
+
                             mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLng(it.lat?.let { it1 ->
                                 it.long?.let { it2 ->
                                     LatLng(
@@ -95,13 +104,18 @@ class RvZoneFragment : Fragment() {
                                     )
                                 }
                             }))
-                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it.lat?.let { it1 ->
-                                it.long?.let { it2 ->
-                                    LatLng(
-                                        it1, it2
-                                    )
-                                }
-                            }, 19f))*/
+                            mapViewModel.mMap?.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    it.lat?.let { it1 ->
+                                        it.long?.let { it2 ->
+                                            LatLng(
+                                                it1, it2
+                                            )
+                                        }
+                                    },
+                                    19f
+                                )
+                            )
 
 
                             it.lat?.let { it1 ->
@@ -138,21 +152,63 @@ class RvZoneFragment : Fragment() {
             } else {
                 adapter = zones?.let { lz ->
                     Log.e("holder", "Zones loaded")
+                    val zonesFinal = mutableListOf<Zone>()
+                    zonesFinal.addAll(lz)
+                    if (Firebase.auth.currentUser != null && userCar == Firebase.auth.currentUser.uid && vehicle && typeVehicle != -1) {
+                        zonesFinal.clear()
+                        for (z in lz) {
+                            if (z.tipo == typeVehicle)
+                                zonesFinal.add(z)
+                        }
+                    }
                     mapViewModel.currentLocation?.let {
                         ZoneAdapter(
-                            lz.sortedByDescending { it.plazasLibres }, rzViewModel,
+                            zonesFinal.sortedByDescending { it.plazasLibres }, rzViewModel,
                             it
                         ) {//Listener, add your actions here
-                            Log.e("rv", "Zone clicked ${it.id}")/*
-                                    val intent = Intent(context, Zone::class.java).apply {
-                                        putExtra("id", it.id)
-                                    }
-                                */
-                            closeFragment()
+                            Log.e("rv", "Zone clicked order by plazas ${it.id}")
 
+                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLng(it.lat?.let { it1 ->
+                                it.long?.let { it2 ->
+                                    LatLng(
+                                        it1, it2
+                                    )
+                                }
+                            }))
+                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it.lat?.let { it1 ->
+                                it.long?.let { it2 ->
+                                    LatLng(
+                                        it1, it2
+                                    )
+                                }
+                            }, 19f))
+
+
+                            it.lat?.let { it1 ->
+                                it.long?.let { it2 ->
+                                    LatLng(
+                                        it1,
+                                        it2
+                                    )
+                                }
+                            }?.let { it2 ->
+                                rzViewModel.getDirections(
+                                    mapViewModel.currentLocation!!,
+                                    it2
+                                )
+                            }
+
+                            rzViewModel.response.observe(
+                                viewLifecycleOwner,
+                                Observer { value: Response<DirectionsResponse>? ->
+                                    value?.let {
+                                        drawPolyline(it)
+                                        closeFragment()
+                                    }
+                                })
                         }
-                    };
-                }
+                    }
+                };
             }
         }
     }

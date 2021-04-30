@@ -69,4 +69,14 @@
     <string name="rangeHeader">Search distance of zones</string>
     <string name="search_fzHeader">Search in the favourite POI</string>
     <string name="map_header">Zone Settings</string>
+    <string name="serachSummaryOff">Search is done around you</string>
+    <string name="serachSummaryOn">Serach is done in your favourite POI</string>
+    <string name="orderTitle">Order zones by free spots</string>
+    <string name="orderZonesOff">Zones are ordered by distance</string>
+    <string name="orderZonesOn">Zones are ordered by free spots</string>
+    <string name="showVehicleSummaryOn">You are only seeing the zones for your vehicle</string>
+    <string name="showVehicleHeader">See zones of the same type</string>
+    <string name="showVehicleSummaryOff">Activate to only see zones of the same type than your favourite vehicle</string>
+    <string name="userzone_Header">User zone settings</string>
+    <string name="userzone_summary">" You have to log in to configure these options"</string>
 </resources>

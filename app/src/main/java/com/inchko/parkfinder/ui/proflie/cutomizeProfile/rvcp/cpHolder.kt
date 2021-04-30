@@ -1,34 +1,39 @@
 package com.inchko.parkfinder.ui.proflie.cutomizeProfile.rvcp
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
-import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.domainModels.Vehicles
 import com.inchko.parkfinder.ui.proflie.cutomizeProfile.cpViewModel
 import com.inchko.parkfinder.ui.proflie.cutomizeProfile.modifyVehicle.ModifyVehicle
 
-class cpHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, vm: cpViewModel) :
+class cpHolder(
+    inflater: LayoutInflater,
+    parent: ViewGroup,
+    v: View,
+    vm: cpViewModel,
+    con: Context
+) :
     RecyclerView.ViewHolder(
         inflater.inflate(
             R.layout.car_card, parent, false
         )
     ), View.OnClickListener {
+    private val c = con
     private val cpvm = vm
     private var modelView: TextView? = null
     private var typeView: TextView? = null
     private var sizeView: TextView? = null
-    private var modifyPOI: Button? = null
+    private var fav: ImageButton? = null
     private var delete: ImageButton? = null
     private var edit: ImageButton? = null
 
@@ -37,16 +42,17 @@ class cpHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, vm: cpViewM
         modelView = itemView.findViewById(R.id.ccModelo)
         typeView = itemView.findViewById(R.id.ccTipoCoche)
         sizeView = itemView.findViewById(R.id.ccTamañoCoche)
-        modifyPOI = itemView.findViewById(R.id.ccFav)
+        fav = itemView.findViewById(R.id.ccFav)
         edit = itemView.findViewById(R.id.ccEdit)
         delete = itemView.findViewById(R.id.ccDelete)
         v.setOnClickListener(this)
-        modifyPOI?.setOnClickListener {
-            Log.e("cp", "favorite clicked")
-        }
     }
 
     fun bind(car: Vehicles) {
+        val sharedPref = c.getSharedPreferences("vehicle", Context.MODE_PRIVATE)
+        val favCar = sharedPref.getString("FavCar", "")
+        if (favCar != "" && favCar == car.id)
+            fav?.setImageResource(android.R.drawable.btn_star_big_on)
         modelView?.text = car.model
         if (car.type == 0) {//0 = car, 1 = moto
             typeView?.text = itemView.context.getString(R.string.car)
@@ -62,6 +68,23 @@ class cpHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, vm: cpViewM
         }
         delete?.setOnClickListener {
             cpvm.deleteVehicles(Firebase.auth.currentUser.uid, car.id)
+        }
+        fav?.setOnClickListener {
+
+            var helper = car.id
+            var type = car.type
+            if (favCar == car.id) {
+                helper = ""
+                type = -1
+            }
+            val sharedPrefs =
+                c.getSharedPreferences("vehicle", Context.MODE_PRIVATE) ?: return@setOnClickListener
+            with(sharedPrefs.edit()) {
+                putString("FavCar", helper)
+                putInt("type", type)
+                putString("caruserID", Firebase.auth.currentUser.uid)
+                apply()
+            }
         }
     }
 

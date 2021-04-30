@@ -102,6 +102,7 @@ class PoiHolder(
                 putString("FavZone", helper)
                 putFloat("fzlatitude", lat)
                 putFloat("fzlongitude", long)
+                putString("fzuserID", Firebase.auth.currentUser.uid)
                 apply()
             }
 

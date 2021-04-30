@@ -1,5 +1,6 @@
 package com.inchko.parkfinder.ui.proflie.cutomizeProfile.rvcp
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.inchko.parkfinder.utils.inflate
 class cpAdapter(
     private val cars: List<Vehicles>,
     private val vm: cpViewModel,
+    private val c: Context,
     private val listener: (Vehicles) -> Unit
 ) : RecyclerView.Adapter<cpHolder>() {
 
@@ -19,7 +21,7 @@ class cpAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val inflatedView = parent.inflate(R.layout.car_card, false)
         Log.e("holder", "Holding poi")
-        return cpHolder(inflater, parent, inflatedView, vm)
+        return cpHolder(inflater, parent, inflatedView, vm, c)
 
     }
 
