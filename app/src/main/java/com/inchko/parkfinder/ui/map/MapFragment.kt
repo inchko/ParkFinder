@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,9 +28,9 @@ import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
 import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource
+
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
@@ -49,8 +50,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     private val permissionCode = 101
     private var testLocation: LatLng? = null
     private lateinit var zoneButton: ImageButton
+    private lateinit var parkingButton: ImageButton
     private val mainFragment = RvZoneFragment()
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var parkingMarker: Marker
 
 
     override fun onCreateView(
@@ -73,11 +76,106 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         zoneButton = view.findViewById(R.id.openZones)
+
+        parkingButton = view.findViewById(R.id.pakingBtn)
+        if (Firebase.auth.currentUser == null) parkingButton.visibility = View.INVISIBLE
+        else parkingButton.visibility = View.VISIBLE
+
         zoneButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
                 ?.add(R.id.replacable, mainFragment)
                 ?.commit()
+        }
+        parkingButton.setOnClickListener {
+            addOrDeleteParkingSpot()
+        }
+    }
+
+    private fun putParkingMarker() {
+        val sharedPrefs =
+            context?.getSharedPreferences("parkingSpot", Context.MODE_PRIVATE)
+        val lat = sharedPrefs?.getFloat("latitude", -1000.0f)
+        val long = sharedPrefs?.getFloat("longitude", -1000.0f)
+        val user = sharedPrefs?.getString("ParkUserID", "")
+        if (lat == -1000.0f) {
+            // parkingMarker.remove()
+        } else {
+            if (lat != null) {
+                if (long != null) {
+                    if (Firebase.auth.currentUser != null && Firebase.auth.currentUser.uid == user) {
+                        parkingMarker = mMap.addMarker(
+                            MarkerOptions().position(
+                                LatLng(
+                                    lat.toDouble(),
+                                    long.toDouble()
+                                )
+                            ).title(getString(R.string.parkingSpotHeader))
+                                //.icon(fromResource(R.mipmap.parking_marker_icon))
+                        )
+                        parkingMarker.isVisible = true
+                    }
+                }
+            }
+        } // end of else
+    }
+
+    private fun addOrDeleteParkingSpot() {
+        val sharedPrefs =
+            context?.getSharedPreferences("parkingSpot", Context.MODE_PRIVATE)
+        val test = sharedPrefs?.getFloat("latitude", -1000.0f)
+        var long = currentLocation?.longitude
+        var lat = currentLocation?.latitude
+        if (test != -1000.0f) {
+            val builder = context?.let { AlertDialog.Builder(it) }
+            builder?.setTitle(getString(R.string.parkingSpotRemoveHeader))
+            builder?.setMessage(getString(R.string.parkingSpotRemoveMessage))
+            builder?.setPositiveButton(android.R.string.yes) { dialog, which ->
+                long = -1000.0
+                lat = -1000.0
+                parkingMarker.remove()
+                if (sharedPrefs != null) {
+                    with(sharedPrefs.edit()) {
+                        if (long != null) {
+                            putFloat("longitude", -1000.0f)
+                        }
+                        if (lat != null) {
+                            putFloat("latitude", -1000.0f)
+                        }
+                        putString("ParkUserID", "")
+                        apply()
+                        putParkingMarker()
+                    }
+                }
+            }
+            builder?.setNegativeButton(android.R.string.no) { dialog, which ->
+            }
+
+            builder?.show()
+
+        } else {
+            val builder = context?.let { AlertDialog.Builder(it) }
+            builder?.setTitle(getString(R.string.parkingSpotAddHeader))
+            builder?.setMessage(getString(R.string.parkingSpotAddMessage))
+            builder?.setPositiveButton(android.R.string.yes) { dialog, which ->
+                if (sharedPrefs != null) {
+                    with(sharedPrefs.edit()) {
+                        if (long != null) {
+                            putFloat("longitude", long!!.toFloat())
+                        }
+                        if (lat != null) {
+                            putFloat("latitude", lat!!.toFloat())
+                        }
+                        putString("ParkUserID", Firebase.auth.currentUser.uid)
+                        apply()
+                        putParkingMarker()
+                    }
+                }
+            }
+            builder?.setNegativeButton(android.R.string.no) { dialog, which ->
+            }
+            builder?.show()
         }
     }
 
@@ -184,6 +282,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
+        parkingMarker = mMap.addMarker(MarkerOptions().position(LatLng(-35.2568, -12.367)))
+        parkingMarker.isVisible = false
+        putParkingMarker()
         mapViewModel.updateGM(mMap)
     }
 
@@ -202,7 +303,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
 
     private fun getLocation(googleMap: GoogleMap) {
         val latLng =
-            currentLocation?.let { LatLng(currentLocation!!.latitude, currentLocation!!.longitude) }
+            currentLocation?.let {
+                LatLng(
+                    currentLocation!!.latitude,
+                    currentLocation!!.longitude
+                )
+            }
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f))
 
@@ -244,7 +350,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                         val markerLocation = LatLng(zone.lat!!, zone.long!!)
                         val title =
                             "${zone.id} ${zone.plazasLibres}/${zone.plazasTotales}"
-                        mMap.addMarker(MarkerOptions().position(markerLocation).title(title))
+                        mMap.addMarker(
+                            MarkerOptions().position(markerLocation).title(title)
+                        )
                     }
                 }
             })

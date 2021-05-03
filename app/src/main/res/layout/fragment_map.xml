@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         android:tag="googlemap"
         tools:context=".">
+
     </androidx.fragment.app.FragmentContainerView>
 
     <ImageButton
@@ -28,5 +29,14 @@
         android:visibility="visible"
         android:layout_gravity="bottom|center"
         />
+
+    <ImageButton
+        android:id="@+id/pakingBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_mylocation"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="60dp"/>
 
 </FrameLayout>

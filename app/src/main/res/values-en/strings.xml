@@ -79,4 +79,9 @@
     <string name="showVehicleSummaryOff">Activate to only see zones of the same type than your favourite vehicle</string>
     <string name="userzone_Header">User zone settings</string>
     <string name="userzone_summary">" You have to log in to configure these options"</string>
+    <string name="parkingSpotHeader">You\'ve parked your vehicle here!</string>
+    <string name="parkingSpotRemoveHeader">Delete Marker</string>
+    <string name="parkingSpotRemoveMessage">Delete the marker of the parking spot?</string>
+    <string name="parkingSpotAddHeader">Add Marker</string>
+    <string name="parkingSpotAddMessage">Mark this location as your parking spot?</string>
 </resources>

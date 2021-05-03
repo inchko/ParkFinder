@@ -99,6 +99,11 @@
     <string name="showVehicleHeader">Ver zonas del mismo tipo</string>
     <string name="userzone_Header">Opciones de zona de usuario</string>
     <string name="userzone_summary">Inicia sesión para configurar estas opciones</string>
+    <string name="parkingSpotHeader">¡Has aparcado el vehículo aqui!</string>
+    <string name="parkingSpotRemoveHeader">Eliminar Marcador</string>
+    <string name="parkingSpotRemoveMessage">¿Eliminar el marcador de dónde has aparcado tu vehículo?</string>
+    <string name="parkingSpotAddHeader">Añadir Marcador</string>
+    <string name="parkingSpotAddMessage">¿Marcar esta ubicación como sitio dónde has aparcado tu vehículo?</string>
 
 
 </resources>
