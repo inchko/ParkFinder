@@ -1,8 +1,10 @@
 package com.inchko.parkfinder.ui.map
 
 import android.Manifest
+import android.app.PendingIntent
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -17,6 +19,8 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -28,15 +32,20 @@ import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
 import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
-import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource
-
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.inchko.parkfinder.MainActivity
 import com.inchko.parkfinder.R
+import com.inchko.parkfinder.ui.proflie.cutomizeProfile.CustomizeProfile
 import com.inchko.parkfinder.ui.rvZones.RvZoneFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.timerTask
 
 
 @AndroidEntryPoint
@@ -112,7 +121,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                                     long.toDouble()
                                 )
                             ).title(getString(R.string.parkingSpotHeader))
-                                //.icon(fromResource(R.mipmap.parking_marker_icon))
+                            //.icon(fromResource(R.mipmap.parking_marker_icon))
                         )
                         parkingMarker.isVisible = true
                     }
@@ -286,7 +295,41 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         parkingMarker.isVisible = false
         putParkingMarker()
         mapViewModel.updateGM(mMap)
+        initNotis()
+
     }
+
+    private fun initNotis() {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
+        var builder = context?.let {
+            NotificationCompat.Builder(it, 0.toString())
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark_normal)
+                .setContentTitle(getString(R.string.notificationHeader))
+                .setContentText(getString(R.string.notificationDescription))
+                .setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText(getString(R.string.notificationDescription))
+                )
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+        }
+        val time = Timer()
+        val p = timerTask {
+            with(context?.let { NotificationManagerCompat.from(it) }) {
+                // notificationId is a unique int for each notification that you must define
+                if (builder != null) {
+                    this?.notify(1, builder.build())
+                }
+            }
+        }
+        time.schedule(p, 3000)
+    }
+
 
     override fun onMyLocationClick(location: Location) {
         Toast.makeText(context, "Current location:\n$location", Toast.LENGTH_LONG)

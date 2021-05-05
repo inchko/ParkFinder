@@ -104,6 +104,10 @@
     <string name="parkingSpotRemoveMessage">¿Eliminar el marcador de dónde has aparcado tu vehículo?</string>
     <string name="parkingSpotAddHeader">Añadir Marcador</string>
     <string name="parkingSpotAddMessage">¿Marcar esta ubicación como sitio dónde has aparcado tu vehículo?</string>
+    <string name="channel_name" translatable="false">notifications</string>
+    <string name="channel_description" translatable="false">channel for notifications</string>
+    <string name="notificationDescription">La zona a la que te diriges esta completa, entra en la app para buscar otra</string>
+    <string name="notificationHeader">¡La zona esta llena!</string>
 
 
 </resources>

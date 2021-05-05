@@ -84,4 +84,6 @@
     <string name="parkingSpotRemoveMessage">Delete the marker of the parking spot?</string>
     <string name="parkingSpotAddHeader">Add Marker</string>
     <string name="parkingSpotAddMessage">Mark this location as your parking spot?</string>
+    <string name="notificationDescription">The zone you\'re heading to is full! Open the app to serch for another one.</string>
+    <string name="notificationHeader">The zone is full!</string>
 </resources>
