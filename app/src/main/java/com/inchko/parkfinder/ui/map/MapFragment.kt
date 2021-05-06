@@ -40,6 +40,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.MainActivity
 import com.inchko.parkfinder.R
+import com.inchko.parkfinder.domainModels.Zone
 import com.inchko.parkfinder.ui.proflie.cutomizeProfile.CustomizeProfile
 import com.inchko.parkfinder.ui.rvZones.RvZoneFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,6 +64,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     private val mainFragment = RvZoneFragment()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var parkingMarker: Marker
+    private lateinit var zones: List<Zone>
 
 
     override fun onCreateView(
@@ -240,11 +242,21 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                                     MarkerOptions().position(markerLocation).title(title)
                                 )
                             }
+                            zones = it
+                            checkZone()
                         }
                     })
                 }
             }
         }
+    }
+
+    private fun checkZone() {
+        //   val sp = context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)
+        //  val nameZone = sp?.getString("zoneID", "")
+        val watchableZone = zones.filter { zone -> zone.id == "AparcaMotos Besoss" }
+        if (watchableZone.isNotEmpty() && watchableZone[0].plazasLibres == 0)
+            initNotis()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -295,7 +307,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         parkingMarker.isVisible = false
         putParkingMarker()
         mapViewModel.updateGM(mMap)
-        initNotis()
 
     }
 
@@ -305,9 +316,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
-        var builder = context?.let {
+        val builder = context?.let {
             NotificationCompat.Builder(it, 0.toString())
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark_normal)
+                .setSmallIcon(R.drawable.googleg_standard_color_18)
                 .setContentTitle(getString(R.string.notificationHeader))
                 .setContentText(getString(R.string.notificationDescription))
                 .setStyle(
@@ -327,7 +338,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                 }
             }
         }
-        time.schedule(p, 3000)
+        time.schedule(p, 100)
     }
 
 

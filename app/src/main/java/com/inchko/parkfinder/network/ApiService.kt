@@ -16,6 +16,9 @@ interface ApiService {
     @POST("api/zonesLoc")
     suspend fun readZonesByLoc(@Body ubication: UbiDTO): List<ZoneDTO>
 
+    @GET("api/zones/{zoneID}")
+    fun readZone(@Path("zoneID") zone_id: String): ZoneDTO
+
     //------------------USERS---------------------------
     @POST("api/user-register")
     suspend fun register(@Body user: UserDTO)

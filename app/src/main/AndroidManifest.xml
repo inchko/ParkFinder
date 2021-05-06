@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".hilt.HiltApp"
@@ -17,7 +18,7 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.ParkFinder.NoActionBar"/>
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -53,6 +54,9 @@
             android:label="signInEmail"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
 
+        <service
+            android:name="com.inchko.parkfinder.service.BackgroundService"
+            android:enabled="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

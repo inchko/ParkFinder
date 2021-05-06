@@ -4,7 +4,6 @@ package com.inchko.parkfinder
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
@@ -14,7 +13,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -24,6 +22,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.navigation.NavigationView
+import com.inchko.parkfinder.service.BackgroundService
 import com.inchko.parkfinder.ui.rvZones.RvZoneFragment
 import com.inchko.parkfinder.ui.settings.SettingsActivity
 import com.yariksoffice.lingver.Lingver
@@ -105,10 +104,23 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         prefs.registerOnSharedPreferenceChangeListener(this)
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.e("background", "finshed")
+        startService(Intent(this, BackgroundService::class.java))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        stopService(Intent(this, BackgroundService::class.java))
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         prefs.unregisterOnSharedPreferenceChangeListener(this)
+        stopService(Intent(this, BackgroundService::class.java))
+
     }
 
 
