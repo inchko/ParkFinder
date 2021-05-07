@@ -2,6 +2,7 @@ package com.inchko.parkfinder.ui.map
 
 import android.Manifest
 import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
@@ -252,11 +253,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     }
 
     private fun checkZone() {
-        //   val sp = context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)
-        //  val nameZone = sp?.getString("zoneID", "")
-        val watchableZone = zones.filter { zone -> zone.id == "AparcaMotos Besoss" }
-        if (watchableZone.isNotEmpty() && watchableZone[0].plazasLibres == 0)
+        Log.e("watchZone", "checkZone")
+        val sp = context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)
+        val nameZone = sp?.getString("zoneID", "")
+        Log.e("watchZone", "we are searching for $nameZone")
+        val watchableZone = zones.filter { zone -> zone.id == nameZone }
+        if (watchableZone.isNotEmpty() && watchableZone[0].plazasLibres == 0) {
+            Log.e("watchZone", "zone with name $nameZone found")
             initNotis()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -311,11 +316,19 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     }
 
     private fun initNotis() {
+        Log.e("watchZone", "init notis")
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(context).run {
+            context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
+                ?.putString("zoneID", "")?.apply()
 
+            // Add the intent, which inflates the back stack
+            addNextIntentWithParentStack(intent)
+            // Get the PendingIntent containing the entire back stack
+            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
         val builder = context?.let {
             NotificationCompat.Builder(it, 0.toString())
                 .setSmallIcon(R.drawable.googleg_standard_color_18)
@@ -326,7 +339,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                         .bigText(getString(R.string.notificationDescription))
                 )
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
+                .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
         }
         val time = Timer()
@@ -334,6 +347,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
             with(context?.let { NotificationManagerCompat.from(it) }) {
                 // notificationId is a unique int for each notification that you must define
                 if (builder != null) {
+                    Log.e("watchZone", "notified")
                     this?.notify(1, builder.build())
                 }
             }

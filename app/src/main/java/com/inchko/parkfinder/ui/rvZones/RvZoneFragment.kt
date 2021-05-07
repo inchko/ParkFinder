@@ -94,11 +94,11 @@ class RvZoneFragment : Fragment() {
                         ZoneAdapter(
                             zonesFinal.sortedBy { it.distancia }, rzViewModel,
                             cl
-                        ) { it ->//Listener, add your actions here
-                            Log.e("rv", "Zone clicked ${it.id}")
+                        ) { zone ->//Listener, add your actions here
+                            Log.e("rv", "Zone clicked ${zone.id}")
 
-                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLng(it.lat?.let { it1 ->
-                                it.long?.let { it2 ->
+                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLng(zone.lat?.let { it1 ->
+                                zone.long?.let { it2 ->
                                     LatLng(
                                         it1, it2
                                     )
@@ -106,8 +106,8 @@ class RvZoneFragment : Fragment() {
                             }))
                             mapViewModel.mMap?.animateCamera(
                                 CameraUpdateFactory.newLatLngZoom(
-                                    it.lat?.let { it1 ->
-                                        it.long?.let { it2 ->
+                                    zone.lat?.let { it1 ->
+                                        zone.long?.let { it2 ->
                                             LatLng(
                                                 it1, it2
                                             )
@@ -118,8 +118,8 @@ class RvZoneFragment : Fragment() {
                             )
 
 
-                            it.lat?.let { it1 ->
-                                it.long?.let { it2 ->
+                            zone.lat?.let { it1 ->
+                                zone.long?.let { it2 ->
                                     LatLng(
                                         it1,
                                         it2
@@ -131,12 +131,25 @@ class RvZoneFragment : Fragment() {
                                     it2
                                 )
                             }
-
                             rzViewModel.response.observe(
                                 viewLifecycleOwner,
                                 Observer { value: Response<DirectionsResponse>? ->
                                     value?.let {
                                         drawPolyline(it)
+                                        val spw = context.getSharedPreferences(
+                                            "watchZone",
+                                            Context.MODE_PRIVATE
+                                        ) ?: return@Observer
+                                        with(spw.edit()) {
+                                            putString("zoneID", zone.id)
+                                            putString("zoneUserID", Firebase.auth.currentUser.uid)
+                                            apply()
+                                        }
+                                        val test = spw.getString("zoneID", "")
+                                        Log.e(
+                                            "watchZone",
+                                            "Watching zone : ${zone.id} value of the zone: $test"
+                                        )
                                         closeFragment()
                                     }
                                 })
@@ -165,18 +178,18 @@ class RvZoneFragment : Fragment() {
                         ZoneAdapter(
                             zonesFinal.sortedByDescending { it.plazasLibres }, rzViewModel,
                             it
-                        ) {//Listener, add your actions here
-                            Log.e("rv", "Zone clicked order by plazas ${it.id}")
+                        ) { zone ->//Listener, add your actions here
+                            Log.e("rv", "Zone clicked order by plazas ${zone.id}")
 
-                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLng(it.lat?.let { it1 ->
-                                it.long?.let { it2 ->
+                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLng(zone.lat?.let { it1 ->
+                                zone.long?.let { it2 ->
                                     LatLng(
                                         it1, it2
                                     )
                                 }
                             }))
-                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it.lat?.let { it1 ->
-                                it.long?.let { it2 ->
+                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(zone.lat?.let { it1 ->
+                                zone.long?.let { it2 ->
                                     LatLng(
                                         it1, it2
                                     )
@@ -184,8 +197,8 @@ class RvZoneFragment : Fragment() {
                             }, 19f))
 
 
-                            it.lat?.let { it1 ->
-                                it.long?.let { it2 ->
+                            zone.lat?.let { it1 ->
+                                zone.long?.let { it2 ->
                                     LatLng(
                                         it1,
                                         it2
@@ -203,6 +216,13 @@ class RvZoneFragment : Fragment() {
                                 Observer { value: Response<DirectionsResponse>? ->
                                     value?.let {
                                         drawPolyline(it)
+                                        val spw = context.getSharedPreferences(
+                                            "watchZone",
+                                            Context.MODE_PRIVATE
+                                        )
+                                        spw.edit().putString("zoneID", zone.id)
+                                        spw.edit()
+                                            .putString("zoneUserID", Firebase.auth.currentUser.uid)
                                         closeFragment()
                                     }
                                 })

@@ -1,7 +1,9 @@
 package com.inchko.parkfinder.network
 
 import com.inchko.parkfinder.network.models.*
+import retrofit2.Call
 import retrofit2.http.*
+import java.util.concurrent.CompletableFuture
 
 interface ApiService {
     //URL noseque.com.a?^[Query1][Query2]
@@ -17,7 +19,7 @@ interface ApiService {
     suspend fun readZonesByLoc(@Body ubication: UbiDTO): List<ZoneDTO>
 
     @GET("api/zones/{zoneID}")
-    fun readZone(@Path("zoneID") zone_id: String): ZoneDTO
+    suspend fun readZone(@Path("zoneID") zone_id: String): ZoneDTO
 
     //------------------USERS---------------------------
     @POST("api/user-register")

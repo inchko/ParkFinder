@@ -8,7 +8,8 @@ import com.inchko.parkfinder.network.models.Ubi2UbiDTO
 import com.inchko.parkfinder.network.models.ZoneDTO2Zone
 import javax.inject.Inject
 
-class Repository @Inject constructor(
+
+class ServiceRepo @Inject constructor(
     private val apiService: ApiService, //name of the service
     private val testmapper: TestDTO2Test, //mapper from models
     private val zoneMapper: ZoneDTO2Zone,
@@ -27,8 +28,8 @@ class Repository @Inject constructor(
         return zoneMapper.listMap2Domain(apiService.readZonesByLoc(ubiMapper.mapToDomain(ubi)))
     }
 
-    override suspend fun readZone(zone_id: String): Zone {
-        TODO()
+    override suspend fun readZone(zoneid: String): Zone {
+        return zoneMapper.mapToDomain(apiService.readZone(zoneid))
     }
 
 }
