@@ -44,6 +44,7 @@ import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.Zone
 import com.inchko.parkfinder.ui.proflie.cutomizeProfile.CustomizeProfile
 import com.inchko.parkfinder.ui.rvZones.RvZoneFragment
+import com.inchko.parkfinder.utils.NotificationDisabeler
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -62,6 +63,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     private var testLocation: LatLng? = null
     private lateinit var zoneButton: ImageButton
     private lateinit var parkingButton: ImageButton
+    private lateinit var stopZoneButton: ImageButton
     private val mainFragment = RvZoneFragment()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var parkingMarker: Marker
@@ -90,10 +92,24 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         super.onViewCreated(view, savedInstanceState)
 
         zoneButton = view.findViewById(R.id.openZones)
+        stopZoneButton = view.findViewById(R.id.stopZone)
+        val name = context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)
+            ?.getString("zoneID", "")
+        if (Firebase.auth.currentUser == null || name == ""
+        ) {
+            stopZoneButton.visibility = View.INVISIBLE
+        } else stopZoneButton.visibility = View.VISIBLE
+
 
         parkingButton = view.findViewById(R.id.pakingBtn)
         if (Firebase.auth.currentUser == null) parkingButton.visibility = View.INVISIBLE
-        else parkingButton.visibility = View.VISIBLE
+
+
+        stopZoneButton.setOnClickListener {
+            context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
+                ?.putString("zoneID", "")?.apply()
+            stopZoneButton.visibility = View.INVISIBLE
+        }
 
         zoneButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
@@ -317,12 +333,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
 
     private fun initNotis() {
         Log.e("watchZone", "init notis")
-        val intent = Intent(context, MainActivity::class.java).apply {
+        val intent = Intent(context, NotificationDisabeler::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(context).run {
-            context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
-                ?.putString("zoneID", "")?.apply()
+            /*  context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
+                  ?.putString("zoneID", "")?.apply()*/
 
             // Add the intent, which inflates the back stack
             addNextIntentWithParentStack(intent)

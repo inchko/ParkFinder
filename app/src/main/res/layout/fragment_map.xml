@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.map.MapFragment">
-
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -23,20 +21,27 @@
         android:id="@+id/openZones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/search_zones"
         android:src="@android:drawable/btn_radio"
-        android:visibility="visible"
-        android:layout_gravity="bottom|center"
-        />
+        android:visibility="visible" />
 
     <ImageButton
         android:id="@+id/pakingBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_mylocation"
         android:layout_gravity="bottom|center"
+        android:layout_marginStart="60dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginStart="60dp"/>
+        android:src="@android:drawable/ic_menu_mylocation" />
+
+    <ImageButton
+        android:id="@+id/stopZone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_marginBottom="70dp"
+        android:src="@android:drawable/btn_dialog" />
 
 </FrameLayout>

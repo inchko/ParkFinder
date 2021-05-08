@@ -15,6 +15,8 @@
         android:roundIcon="@mipmap/parking_marker_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkFinder">
+
+
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -53,9 +55,12 @@
             android:name=".ui.proflie.SingUpEmail.SignInEmail"
             android:label="signInEmail"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".utils.NotificationDisabeler"
+            android:label="@string/title_activity_notification_disabeler" />
 
         <service
-            android:name="com.inchko.parkfinder.service.BackgroundService"
+            android:name=".service.BackgroundService"
             android:enabled="true" />
 
         <meta-data

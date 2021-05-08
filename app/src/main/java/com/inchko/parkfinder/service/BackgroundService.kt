@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.MainActivity
 import com.inchko.parkfinder.R
 import com.inchko.parkfinder.network.ServiceRepo
+import com.inchko.parkfinder.utils.NotificationDisabeler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -76,18 +77,18 @@ class BackgroundService : Service(), CoroutineScope {
             .build()
         startForeground(2001, notification)
 
-        /* val act = Intent(this, MainActivity::class.java).apply {
-             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-         }
+        val act = Intent(this, NotificationDisabeler::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
 
-         val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-             context.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
-                 ?.putString("zoneID", "")?.apply()
-             // Add the intent, which inflates the back stack
-             addNextIntentWithParentStack(act)
-             // Get the PendingIntent containing the entire back stack
-             getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-         }*/
+        val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+            /*  context.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
+                  ?.putString("zoneID", "")?.apply()*/
+            // Add the intent, which inflates the back stack
+            addNextIntentWithParentStack(act)
+            // Get the PendingIntent containing the entire back stack
+            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
         val builder = NotificationCompat.Builder(this, 2.toString())
             .setSmallIcon(R.drawable.parking_marker_icon_background)
             .setContentTitle(getString(R.string.notificationHeader))
@@ -96,10 +97,10 @@ class BackgroundService : Service(), CoroutineScope {
                 NotificationCompat.BigTextStyle()
                     .bigText(getString(R.string.notificationDescription))
             )
-        /*
-    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-    .setContentIntent(resultPendingIntent)
-    .setAutoCancel(true)*/
+
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(resultPendingIntent)
+            .setAutoCancel(true)
 
 
         for (i in 1..1000) {
@@ -107,14 +108,16 @@ class BackgroundService : Service(), CoroutineScope {
                 val sp = context.getSharedPreferences("watchZone", Context.MODE_PRIVATE)
                 val nameZone = sp?.getString("zoneID", "")
                 val user = sp?.getString("zoneUserID", "")
-                if (Firebase.auth.currentUser != null && nameZone != null && Firebase.auth.currentUser.uid == user) {
+                if (Firebase.auth.currentUser != null && nameZone != "" && Firebase.auth.currentUser.uid == user) {
                     scope.launch {
-                        val z = repo.readZone(nameZone)
-                        if (z.plazasLibres == 0) {
-                            with(context.let { NotificationManagerCompat.from(it) }) {
-                                // notificationId is a unique int for each notification that you must define
-                                if (builder != null) {
-                                    this.notify(1, builder.build())
+                        val z = nameZone?.let { repo.readZone(it) }
+                        if (z != null) {
+                            if (z.plazasLibres == 0) {
+                                with(context.let { NotificationManagerCompat.from(it) }) {
+                                    // notificationId is a unique int for each notification that you must define
+                                    if (builder != null) {
+                                        this.notify(1, builder.build())
+                                    }
                                 }
                             }
                         }

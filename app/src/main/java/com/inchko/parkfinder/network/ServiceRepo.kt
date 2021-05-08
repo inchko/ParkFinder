@@ -14,19 +14,7 @@ class ServiceRepo @Inject constructor(
     private val testmapper: TestDTO2Test, //mapper from models
     private val zoneMapper: ZoneDTO2Zone,
     private val ubiMapper: Ubi2UbiDTO
-) : RepositoryInterface {
-    val text: String = "This text is in the class repository"
-    override suspend fun test(): Test {
-        return testmapper.mapToDomain(apiService.test())
-    }
-
-    override suspend fun readZones(): List<Zone> {
-        return zoneMapper.listMap2Domain(apiService.readZones())
-    }
-
-    override suspend fun readZonesByLoc(ubi: Ubi): List<Zone> {
-        return zoneMapper.listMap2Domain(apiService.readZonesByLoc(ubiMapper.mapToDomain(ubi)))
-    }
+) : RepoServiceInterface {
 
     override suspend fun readZone(zoneid: String): Zone {
         return zoneMapper.mapToDomain(apiService.readZone(zoneid))

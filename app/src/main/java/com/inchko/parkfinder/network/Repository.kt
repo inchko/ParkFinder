@@ -27,8 +27,4 @@ class Repository @Inject constructor(
         return zoneMapper.listMap2Domain(apiService.readZonesByLoc(ubiMapper.mapToDomain(ubi)))
     }
 
-    override suspend fun readZone(zone_id: String): Zone {
-        TODO()
-    }
-
 }
