@@ -273,10 +273,37 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         val sp = context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)
         val nameZone = sp?.getString("zoneID", "")
         Log.e("watchZone", "we are searching for $nameZone")
+
+        val shpf = context?.getSharedPreferences("vehicle", Context.MODE_PRIVATE)
+        val typeOfCar = shpf?.getInt("type", -1)
+        val sizeOfCar = shpf?.getInt("size", -1)
+        val userCar = shpf?.getString("caruserID", "")
+
         val watchableZone = zones.filter { zone -> zone.id == nameZone }
-        if (watchableZone.isNotEmpty() && watchableZone[0].plazasLibres == 0) {
-            Log.e("watchZone", "zone with name $nameZone found")
-            initNotis()
+        if (watchableZone.isNotEmpty()) {
+            if (typeOfCar == -1) {
+                if (watchableZone[0].plazasLibres == 0) {
+                    Log.e("watchZone", "zone with name $nameZone found")
+                    initNotis()
+                }
+            } else {
+                if (typeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
+                    if (watchableZone[0].plazasMl == 0) {
+                        initNotis()
+                    }
+                } else {
+                    if (sizeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
+                        if (watchableZone[0].plazasPl == 0) {
+                            initNotis()
+                        }
+                    } else if (sizeOfCar == 0 && Firebase.auth.currentUser.uid == userCar) {
+                        if (watchableZone[0].plazasGl == 0) {
+                            initNotis()
+                        }
+
+                    }
+                }
+            }
         }
     }
 

@@ -106,21 +106,59 @@ class BackgroundService : Service(), CoroutineScope {
         for (i in 1..1000) {
             val p = timerTask {
                 val sp = context.getSharedPreferences("watchZone", Context.MODE_PRIVATE)
+                val shpf = context.getSharedPreferences("vehicle", Context.MODE_PRIVATE)
                 val nameZone = sp?.getString("zoneID", "")
                 val user = sp?.getString("zoneUserID", "")
+                val typeOfCar = shpf?.getInt("type", -1)
+                val sizeOfCar = shpf?.getInt("size", -1)
+                val userCar = shpf?.getString("caruserID", "")
                 if (Firebase.auth.currentUser != null && nameZone != "" && Firebase.auth.currentUser.uid == user) {
                     scope.launch {
                         val z = nameZone?.let { repo.readZone(it) }
                         if (z != null) {
-                            if (z.plazasLibres == 0) {
-                                with(context.let { NotificationManagerCompat.from(it) }) {
-                                    // notificationId is a unique int for each notification that you must define
-                                    if (builder != null) {
-                                        this.notify(1, builder.build())
+                            if (typeOfCar == -1) {
+                                if (z.plazasLibres == 0) {
+                                    with(context.let { NotificationManagerCompat.from(it) }) {
+                                        // notificationId is a unique int for each notification that you must define
+                                        if (builder != null) {
+                                            this.notify(1, builder.build())
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (typeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
+                                    if (z.plazasMl == 0) {
+                                        with(context.let { NotificationManagerCompat.from(it) }) {
+                                            // notificationId is a unique int for each notification that you must define
+                                            if (builder != null) {
+                                                this.notify(1, builder.build())
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (sizeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
+                                        if (z.plazasPl == 0) {
+                                            with(context.let { NotificationManagerCompat.from(it) }) {
+                                                // notificationId is a unique int for each notification that you must define
+                                                if (builder != null) {
+                                                    this.notify(1, builder.build())
+                                                }
+                                            }
+                                        }
+                                    } else if (sizeOfCar == 0 && Firebase.auth.currentUser.uid == userCar) {
+                                        if (z.plazasGl == 0) {
+                                            with(context.let { NotificationManagerCompat.from(it) }) {
+                                                // notificationId is a unique int for each notification that you must define
+                                                if (builder != null) {
+                                                    this.notify(1, builder.build())
+                                                }
+                                            }
+                                        }
+
                                     }
                                 }
                             }
-                        }
+                        }//z!=null
                     }
                 }
             }

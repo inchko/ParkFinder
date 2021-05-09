@@ -73,15 +73,18 @@ class cpHolder(
 
             var helper = car.id
             var type = car.type
+            var siz = car.size
             if (favCar == car.id) {
                 helper = ""
                 type = -1
+                siz = -1
             }
             val sharedPrefs =
                 c.getSharedPreferences("vehicle", Context.MODE_PRIVATE) ?: return@setOnClickListener
             with(sharedPrefs.edit()) {
                 putString("FavCar", helper)
                 putInt("type", type)
+                putInt("size", siz)
                 putString("caruserID", Firebase.auth.currentUser.uid)
                 apply()
             }
