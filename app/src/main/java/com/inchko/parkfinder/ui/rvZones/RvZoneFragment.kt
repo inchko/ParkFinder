@@ -236,7 +236,6 @@ class RvZoneFragment : Fragment() {
 
     //closes the fragment
     fun closeFragment() {
-        Log.e("debug", "close fragment executed")
         activity?.supportFragmentManager?.saveFragmentInstanceState(this)
         activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit();
         rzViewModel.response.value = null
