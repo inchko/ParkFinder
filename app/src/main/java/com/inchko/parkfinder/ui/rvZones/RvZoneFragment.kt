@@ -1,13 +1,27 @@
 package com.inchko.parkfinder.ui.rvZones
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.media.AudioManager
+import android.media.SoundPool
+import android.os.Build
 import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -26,12 +40,14 @@ import com.inchko.parkfinder.domainModels.Zone
 import com.inchko.parkfinder.network.models.DirectionsResponse
 import com.inchko.parkfinder.ui.map.MapViewModel
 import com.inchko.parkfinder.ui.rvZones.recyView.ZoneAdapter
+import com.yariksoffice.lingver.Lingver
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
+import java.util.*
 
 
 @AndroidEntryPoint
-class RvZoneFragment : Fragment() {
+class RvZoneFragment : Fragment(), TextToSpeech.OnInitListener {
 
     val rzViewModel: RvZoneViewModel by viewModels()
     val mapViewModel: MapViewModel by activityViewModels()
@@ -41,6 +57,20 @@ class RvZoneFragment : Fragment() {
 
     private var num = 0
     private var sort: Boolean = true //false = distance true = plazas libres
+
+    //voice to text
+    private val recordAuidoCode = 1001
+    private lateinit var micButton: ImageButton
+    private var clicked = false
+    private lateinit var speechRecognizer: SpeechRecognizer
+
+
+    //text to speech
+    private lateinit var voice: TextToSpeech
+
+    //sound
+    private lateinit var soundPool: SoundPool
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,6 +94,109 @@ class RvZoneFragment : Fragment() {
         button.setOnClickListener {
             closeFragment()
         }
+        micButton = view.findViewById(R.id.rvVoice)
+
+        voice = TextToSpeech(context, this)
+
+        soundPool = SoundPool(6, AudioManager.STREAM_MUSIC, 0)
+        soundPool.load(context, R.raw.mic_on, 1)
+        soundPool.load(context, R.raw.mic_off, 1)
+
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
+        val speechRecognizerIntent =
+            Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH); //activity to recoginze voice
+        speechRecognizerIntent.putExtra( //extra options
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        );
+        speechRecognizerIntent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE,
+            Locale.getDefault()
+        );
+        speechRecognizerIntent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE,
+            Locale.ENGLISH
+        );
+        speechRecognizer.setRecognitionListener(object : RecognitionListener {
+            override fun onReadyForSpeech(bundle: Bundle) {}
+            override fun onBeginningOfSpeech() {}
+            override fun onRmsChanged(v: Float) {}
+            override fun onBufferReceived(bytes: ByteArray) {}
+            override fun onEndOfSpeech() {}
+            override fun onError(i: Int) {}
+            override fun onResults(bundle: Bundle) {
+                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
+                sort = sharedPreferences.getBoolean("orderZones", false)
+                var tempZones = zones?.sortedBy { it.distancia }
+                if (sort) tempZones = zones?.sortedByDescending { it.plazasLibres }
+
+                micButton.setImageResource(R.drawable.googleg_standard_color_18)
+                soundPool.play(2, 1F, 1F, 0, 0, 1F)
+                val data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                clicked = false
+                if (data?.get(0) == "dime las zonas") {
+                    if (tempZones != null) {
+                        for (z in tempZones) {
+                            val d = (z.distancia?.times(1000))?.toInt()
+                            voice.speak(
+                                " ${z.id} a $d metros con ${z.plazasLibres} plazas libres.",
+                                TextToSpeech.QUEUE_FLUSH,
+                                null,
+                                ""
+                            )
+                            while (voice.isSpeaking) {//wait to each zone is said}
+                            }
+                        }
+                    }
+                } else if (data?.get(0) == "ir a la primera zona") {
+                    Toast.makeText(
+                        context,
+                        "Creando ruta",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    voice.speak(
+                        "creando ruta hacia ${tempZones?.get(0)?.id}",
+                        TextToSpeech.QUEUE_FLUSH,
+                        null,
+                        ""
+                    )
+                    tempZones?.get(0)?.let { listenerFun(it) }
+                } else {
+                    Toast.makeText(
+                        context,
+                        "he entendido ${data?.get(0)}",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+            }
+
+            override fun onPartialResults(bundle: Bundle) {}
+            override fun onEvent(i: Int, bundle: Bundle) {}
+        })
+        micButton.setOnClickListener {
+            if (context?.let {
+                    ContextCompat.checkSelfPermission(
+                        it,
+                        Manifest.permission.RECORD_AUDIO
+                    )
+                } != PackageManager.PERMISSION_GRANTED) {
+                checkPermission();
+            }
+            if (clicked) {
+                soundPool.play(2, 1F, 1F, 0, 0, 1F)
+                micButton.setImageResource(R.drawable.googleg_standard_color_18)
+                speechRecognizer.stopListening()
+                clicked = false
+
+            } else {
+                soundPool.play(1, 1F, 1F, 0, 0, 1F)
+                micButton.setImageResource(R.drawable.googleg_disabled_color_18)
+                speechRecognizer.startListening(speechRecognizerIntent)
+                clicked = true
+            }
+        }
+
         //  initRV(view)
         // RecyclerView node initialized here
     }
@@ -71,13 +204,16 @@ class RvZoneFragment : Fragment() {
     fun initRV(view: View) {
         val rv: RecyclerView = view.findViewById(R.id.recyclerViewZones)
         rv.apply {
+
             layoutManager = LinearLayoutManager(activity)
+
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
             val sp = context?.getSharedPreferences("vehicle", Context.MODE_PRIVATE)
             sort = sharedPreferences.getBoolean("orderZones", false)
             val vehicle = sharedPreferences.getBoolean("showVehicle", false)
             val userCar = sp?.getString("caruserID", "")
             val typeVehicle = sp?.getInt("type", -1)
+
             if (!sort) {
                 adapter = zones?.let { lz ->
                     Log.e("holder", "Zones loaded")
@@ -95,70 +231,7 @@ class RvZoneFragment : Fragment() {
                             zonesFinal.sortedBy { it.distancia }, rzViewModel,
                             cl
                         ) { zone ->//Listener, add your actions here
-                            Log.e("rv", "Zone clicked ${zone.id}")
-
-                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLng(zone.lat?.let { it1 ->
-                                zone.long?.let { it2 ->
-                                    LatLng(
-                                        it1, it2
-                                    )
-                                }
-                            }))
-                            mapViewModel.mMap?.animateCamera(
-                                CameraUpdateFactory.newLatLngZoom(
-                                    zone.lat?.let { it1 ->
-                                        zone.long?.let { it2 ->
-                                            LatLng(
-                                                it1, it2
-                                            )
-                                        }
-                                    },
-                                    19f
-                                )
-                            )
-
-
-                            zone.lat?.let { it1 ->
-                                zone.long?.let { it2 ->
-                                    LatLng(
-                                        it1,
-                                        it2
-                                    )
-                                }
-                            }?.let { it2 ->
-                                rzViewModel.getDirections(
-                                    mapViewModel.currentLocation!!,
-                                    it2
-                                )
-                            }
-                            rzViewModel.response.observe(
-                                viewLifecycleOwner,
-                                Observer { value: Response<DirectionsResponse>? ->
-                                    value?.let {
-                                        drawPolyline(it)
-                                        val spw = context.getSharedPreferences(
-                                            "watchZone",
-                                            Context.MODE_PRIVATE
-                                        ) ?: return@Observer
-                                        with(spw.edit()) {
-                                            putString("zoneID", zone.id)
-                                            putString("zoneUserID", Firebase.auth.currentUser.uid)
-                                            apply()
-                                        }
-                                        val test = spw.getString("zoneID", "")
-                                        Log.e(
-                                            "watchZone",
-                                            "Watching zone : ${zone.id} value of the zone: $test"
-                                        )
-                                        closeFragment()
-                                    }
-                                })
-
-                            /*
-                            val r=rzViewModel.response
-                            if (r != null) {
-                                drawPolyline(r)
-                            }*/
+                            listenerFun(zone)
                         }
                     }
                 };
@@ -179,53 +252,7 @@ class RvZoneFragment : Fragment() {
                             zonesFinal.sortedByDescending { it.plazasLibres }, rzViewModel,
                             it
                         ) { zone ->//Listener, add your actions here
-                            Log.e("rv", "Zone clicked order by plazas ${zone.id}")
-
-                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLng(zone.lat?.let { it1 ->
-                                zone.long?.let { it2 ->
-                                    LatLng(
-                                        it1, it2
-                                    )
-                                }
-                            }))
-                            mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(zone.lat?.let { it1 ->
-                                zone.long?.let { it2 ->
-                                    LatLng(
-                                        it1, it2
-                                    )
-                                }
-                            }, 19f))
-
-
-                            zone.lat?.let { it1 ->
-                                zone.long?.let { it2 ->
-                                    LatLng(
-                                        it1,
-                                        it2
-                                    )
-                                }
-                            }?.let { it2 ->
-                                rzViewModel.getDirections(
-                                    mapViewModel.currentLocation!!,
-                                    it2
-                                )
-                            }
-
-                            rzViewModel.response.observe(
-                                viewLifecycleOwner,
-                                Observer { value: Response<DirectionsResponse>? ->
-                                    value?.let {
-                                        drawPolyline(it)
-                                        val spw = context.getSharedPreferences(
-                                            "watchZone",
-                                            Context.MODE_PRIVATE
-                                        )
-                                        spw.edit().putString("zoneID", zone.id)
-                                        spw.edit()
-                                            .putString("zoneUserID", Firebase.auth.currentUser.uid)
-                                        closeFragment()
-                                    }
-                                })
+                            listenerFun(zone)
                         }
                     }
                 };
@@ -252,5 +279,103 @@ class RvZoneFragment : Fragment() {
         //mapViewModel.mMap?.clear()
     }
 
+    private fun listenerFun(zone: Zone) {
+        mapViewModel.mMap?.animateCamera(CameraUpdateFactory.newLatLng(zone.lat?.let { it1 ->
+            zone.long?.let { it2 ->
+                LatLng(
+                    it1, it2
+                )
+            }
+        }))
+        mapViewModel.mMap?.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                zone.lat?.let { it1 ->
+                    zone.long?.let { it2 ->
+                        LatLng(
+                            it1, it2
+                        )
+                    }
+                },
+                19f
+            )
+        )
+        zone.lat?.let { it1 ->
+            zone.long?.let { it2 ->
+                LatLng(
+                    it1,
+                    it2
+                )
+            }
+        }?.let { it2 ->
+            rzViewModel.getDirections(
+                mapViewModel.currentLocation!!,
+                it2
+            )
+        }
+        rzViewModel.response.observe(
+            viewLifecycleOwner,
+            Observer { value: Response<DirectionsResponse>? ->
+                value?.let {
+                    drawPolyline(it)
+                    val spw = context?.getSharedPreferences(
+                        "watchZone",
+                        Context.MODE_PRIVATE
+                    ) ?: return@Observer
+                    with(spw.edit()) {
+                        putString("zoneID", zone.id)
+                        putString("zoneUserID", Firebase.auth.currentUser.uid)
+                        apply()
+                    }
+                    val test = spw.getString("zoneID", "")
+                    Log.e(
+                        "watchZone",
+                        "Watching zone : ${zone.id} value of the zone: $test"
+                    )
+                    while (voice.isSpeaking) { //Allow for the voice to stop speaking before closing the fragment
+                    }
+                    closeFragment()
+                }
+            })
 
+    }
+
+
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it,
+                    arrayOf(Manifest.permission.RECORD_AUDIO),
+                    recordAuidoCode
+                )
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == recordAuidoCode && grantResults.isNotEmpty()) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        speechRecognizer.destroy()
+        voice.stop()
+        voice.shutdown()
+    }
+
+    override fun onInit(p0: Int) {
+        var len = Lingver.getInstance().getLocale()
+        if (len.toString() == "es") len = Locale("es", "es")
+        voice.language = len
+        Log.e("voice", "$len")
+        Log.e("voice", "language = ${voice.language}")
+    }
 }

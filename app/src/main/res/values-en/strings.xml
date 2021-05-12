@@ -86,4 +86,5 @@
     <string name="parkingSpotAddMessage">Mark this location as your parking spot?</string>
     <string name="notificationDescription">The zone you\'re heading to is full! Open the app to serch for another one.</string>
     <string name="notificationHeader">The zone is full!</string>
+    <string name="locBttnClick">Returning to your location...</string>
 </resources>

@@ -162,7 +162,7 @@ class BackgroundService : Service(), CoroutineScope {
                     }
                 }
             }
-            time.schedule(p, (5000 * i).toLong())
+            time.schedule(p, (60000 * i).toLong())
 
         }
 

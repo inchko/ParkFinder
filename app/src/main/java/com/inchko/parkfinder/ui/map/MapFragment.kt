@@ -405,7 +405,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(context, "MyLocation button clicked", Toast.LENGTH_SHORT)
+        Toast.makeText(context, getString(R.string.locBttnClick), Toast.LENGTH_SHORT)
             .show()
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
@@ -525,4 +525,5 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
             }
         }
     }
+
 }

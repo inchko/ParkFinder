@@ -109,6 +109,10 @@
     <string name="notificationDescription">La zona a la que te diriges esta completa, entra en la app para buscar otra</string>
     <string name="notificationHeader">¡La zona esta llena!</string>
     <string name="title_activity_notification_disabeler" translatable="false">NotificationDisabeler</string>
+    <string name="locBttnClick">Volviendo a tu posición…</string>
+
+    <!-- VOICE COMMANDS -->
+
 
 
 

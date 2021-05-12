@@ -24,17 +24,24 @@ class RvZoneViewModel @ViewModelInject constructor(
     private val fzRepo: RepoFavZones
 ) : ViewModel() {
 
+    private var _response = MutableLiveData<Response<DirectionsResponse>>()
 
-    var response = MutableLiveData<Response<DirectionsResponse>>()
+    var response = MutableLiveData<Response<DirectionsResponse>>().apply {
+        value = null
+    }
+
     fun getDirections(origin: LatLng, destination: LatLng) {
-        Log.e("what", "getDirections")
         rr.getDirections(origin, destination).enqueue(object : Callback<DirectionsResponse> {
             override fun onResponse(
                 call: Call<DirectionsResponse>,
                 res: Response<DirectionsResponse>
             ) {
-                response = MutableLiveData<Response<DirectionsResponse>>().apply { value = res }
-                Log.e("rv", "getDirections response recibed")
+                _response = MutableLiveData<Response<DirectionsResponse>>().apply {
+                    value = res
+                    Log.e("rv", "getDirections response recibed value $value")
+                }
+                response.value = _response.value
+
             }
 
             override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
