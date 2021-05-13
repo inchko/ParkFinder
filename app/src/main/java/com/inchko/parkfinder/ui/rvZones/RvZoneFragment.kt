@@ -17,7 +17,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -110,13 +109,15 @@ class RvZoneFragment : Fragment(), TextToSpeech.OnInitListener {
             RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
         );
         speechRecognizerIntent.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE,
+            RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
             Locale.getDefault()
         );
+        Log.e("voice", "${Locale.getDefault()}")
+        /*
         speechRecognizerIntent.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE,
-            Locale.ENGLISH
-        );
+            RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
+            Lingver.getInstance().getLocale()
+        );*/
         speechRecognizer.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(bundle: Bundle) {}
             override fun onBeginningOfSpeech() {}
@@ -134,41 +135,237 @@ class RvZoneFragment : Fragment(), TextToSpeech.OnInitListener {
                 soundPool.play(2, 1F, 1F, 0, 0, 1F)
                 val data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 clicked = false
-                if (data?.get(0) == "dime las zonas") {
+                if (data?.get(0)?.contains(getString(R.string.voiceTellZones)) == true ||
+                    data?.get(0)?.contains(getString(R.string.wherePark)) == true ||
+                    data?.get(0)?.contains(getString(R.string.voiceNearby)) == true
+                ) {
                     if (tempZones != null) {
+                        var count = 1;
                         for (z in tempZones) {
+                            Log.e("voice", "${z.id}")
                             val d = (z.distancia?.times(1000))?.toInt()
+                            var text = " $count. ${z.id} ${getString(R.string.voiceAt)} $d ${getString(R.string.voiceMetersW)} ${z.plazasLibres} ${getString(R.string.voiceFreeSpots)}"
+                            if(z.plazasLibres == 1) text = " $count. ${z.id} ${getString(R.string.voiceAt)} $d ${getString(R.string.voiceMetersW)} ${getString(R.string.voiceFreeSpot)}"
                             voice.speak(
-                                " ${z.id} a $d metros con ${z.plazasLibres} plazas libres.",
-                                TextToSpeech.QUEUE_FLUSH,
+                                text,
+                                TextToSpeech.QUEUE_ADD,
                                 null,
                                 ""
                             )
-                            while (voice.isSpeaking) {//wait to each zone is said}
-                            }
+                            count++
+                            //   while (voice.isSpeaking) {//wait to each zone is said, it seems its not needed with queue_add}
+                            //  }
                         }
                     }
-                } else if (data?.get(0) == "ir a la primera zona") {
-                    Toast.makeText(
-                        context,
-                        "Creando ruta",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    voice.speak(
-                        "creando ruta hacia ${tempZones?.get(0)?.id}",
-                        TextToSpeech.QUEUE_FLUSH,
-                        null,
-                        ""
-                    )
-                    tempZones?.get(0)?.let { listenerFun(it) }
+                } else if (data?.get(0)?.contains(getString(R.string.voiceFirst), true) == true ||
+                    data?.get(0)?.contains(getString(R.string.one), true) == true
+                ) {
+                    if (zones?.size!! > 0) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(0)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(0)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(0)?.let { listenerFun(it) }
+                    }
+                } else if (data?.get(0)
+                        ?.contains(getString(R.string.voiceSecond), true) == true || data?.get(0)
+                        ?.contains(getString(R.string.two), true) == true
+                ) {
+                    if (zones?.size!! > 1) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(1)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(1)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(1)?.let { listenerFun(it) }
+                    }
+                } else if (data?.get(0)
+                        ?.contains(getString(R.string.voiceThird), true) == true || data?.get(0)
+                        ?.contains(getString(R.string.three), true) == true
+                ) {
+                    if (zones?.size!! > 2) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(2)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(2)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(2)?.let { listenerFun(it) }
+                    }
+                } else if (data?.get(0)
+                        ?.contains(getString(R.string.voiceFourth), true) == true || data?.get(0)
+                        ?.contains(getString(R.string.four), true) == true
+                ) {
+                    if (zones?.size!! > 3) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(3)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(3)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(3)?.let { listenerFun(it) }
+                    }
+                } else if (data?.get(0)
+                        ?.contains(getString(R.string.voiceFitfh), true) == true || data?.get(0)
+                        ?.contains(getString(R.string.five), true) == true
+                ) {
+                    if (zones?.size!! > 4) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(4)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(4)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(4)?.let { listenerFun(it) }
+                    }
+                } else if (data?.get(0)
+                        ?.contains(getString(R.string.voiceSixth), true) == true || data?.get(0)
+                        ?.contains(getString(R.string.six), true) == true
+                ) {
+                    if (zones?.size!! > 5) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(5)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(5)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(5)?.let { listenerFun(it) }
+                    }
+                } else if (data?.get(0)
+                        ?.contains(getString(R.string.voiceSeventh), true) == true || data?.get(0)
+                        ?.contains(getString(R.string.seven), true) == true
+                ) {
+                    if (zones?.size!! > 6) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(6)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(6)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(6)?.let { listenerFun(it) }
+                    }
+                } else if (data?.get(0)
+                        ?.contains(getString(R.string.voiceEight), true) == true || data?.get(0)
+                        ?.contains(getString(R.string.eight), true) == true
+                ) {
+                    if (zones?.size!! > 7) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(7)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(7)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(7)?.let { listenerFun(it) }
+                    }
+                } else if (data?.get(0)
+                        ?.contains(getString(R.string.voiceNineth), true) == true || data?.get(0)
+                        ?.contains(getString(R.string.nine), true) == true
+                ) {
+                    if (zones?.size!! > 8) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(8)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(8)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(8)?.let { listenerFun(it) }
+                    }
+                } else if (data?.get(0)
+                        ?.contains(getString(R.string.voiceTenth), true) == true || data?.get(0)
+                        ?.contains(getString(R.string.ten), true) == true
+                ) {
+                    if (zones?.size!! > 9) {
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(9)?.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voice.speak(
+                            "${getString(R.string.voiceCreateRoute)} ${tempZones?.get(9)?.id}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        tempZones?.get(9)?.let { listenerFun(it) }
+                    }
                 } else {
-                    Toast.makeText(
-                        context,
-                        "he entendido ${data?.get(0)}",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+                    var understood = false;
+                    for (z in zones!!) {
+                        if (z.id?.let { data?.get(0)?.compareTo(it, true) } == 0) {
+                            understood = true
+                            Toast.makeText(
+                                context,
+                                "${getString(R.string.voiceCreateRoute)} ${z.id}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            voice.speak(
+                                "${getString(R.string.voiceCreateRoute)} ${z.id}",
+                                TextToSpeech.QUEUE_ADD,
+                                null,
+                                ""
+                            )
+                            listenerFun(z)
+                        }
+                    }
+                    if (!understood)
+                        Toast.makeText(
+                            context,
+                            "${getString(R.string.voiceIDK)} ${
+                                data?.get(0)?.toLowerCase(Locale.ROOT)
+                            }",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
                 }
+
             }
 
             override fun onPartialResults(bundle: Bundle) {}

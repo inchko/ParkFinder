@@ -28,7 +28,7 @@ class ZoneAdapter(
 
     override fun onBindViewHolder(holder: ZoneHolder, position: Int) {
         val zone = zones[position]
-        holder.bind(zone, loc)
+        holder.bind(zone, loc, position+1)
         holder.itemView.setOnClickListener { listener(zone) }
     }
 

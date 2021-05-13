@@ -110,6 +110,35 @@
     <string name="notificationHeader">¡La zona esta llena!</string>
     <string name="title_activity_notification_disabeler" translatable="false">NotificationDisabeler</string>
     <string name="locBttnClick">Volviendo a tu posición…</string>
+    <string name="voiceFirst">primera</string>
+    <string name="one">uno</string>
+    <string name="voiceSecond">segunda</string>
+    <string name="two">dos</string>
+    <string name="voiceThird">tercera</string>
+    <string name="three">tres</string>
+    <string name="voiceCreateRoute">Creando ruta hacia</string>
+    <string name="voiceFourth">cuarta</string>
+    <string name="four">cuatro</string>
+    <string name="voiceFitfh">quinta</string>
+    <string name="five">cinco</string>
+    <string name="voiceSixth">sexta</string>
+    <string name="six">seis</string>
+    <string name="voiceSeventh">septima</string>
+    <string name="seven">siete</string>
+    <string name="voiceEight">octava</string>
+    <string name="eight">ocho</string>
+    <string name="voiceNineth">novena</string>
+    <string name="nine">nueve</string>
+    <string name="voiceTenth">decima</string>
+    <string name="ten">diez</string>
+    <string name="voiceIDK">"No entiendo el commando "</string>
+    <string name="voiceTellZones">dime las zonas</string>
+    <string name="wherePark">dónde puedo aparcar</string>
+    <string name="voiceNearby">que hay cerca</string>
+    <string name="voiceAt">a</string>
+    <string name="voiceMetersW">metros, con</string>
+    <string name="voiceFreeSpots">" plazas libres."</string>
+    <string name="voiceFreeSpot">una plaza libre.</string>
 
     <!-- VOICE COMMANDS -->
 

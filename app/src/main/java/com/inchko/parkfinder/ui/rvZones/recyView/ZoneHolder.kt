@@ -31,6 +31,7 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
     private var zgView: TextView? = null
     private var zpView: TextView? = null
     private var addFZ: ImageButton? = null
+    private var number: TextView? = null
 
 
     init {
@@ -41,12 +42,14 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
         zgView = itemView.findViewById(R.id.RVzonasGrandes)
         zpView = itemView.findViewById(R.id.RVzonasPeq)
         addFZ = itemView.findViewById(R.id.RVFav)
+        number = itemView.findViewById(R.id.rvNumber)
         v.setOnClickListener(this)
     }
 
-    fun bind(z: Zone, loc: LatLng) {
+    fun bind(z: Zone, loc: LatLng, num: Int) {
         Log.e("holder", "binding")
         titleView?.text = z.id
+        number?.text = num.toString()
         //   val text = z.lat?.let { z.long?.let { it1 -> LatLng(it, it1) } }
         //    ?.let { truncate((distance(loc, it) * 1000)).toString() } + " m"
         distanceView?.text = truncate(z.distancia!! * 1000).toString()
