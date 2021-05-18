@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.navigation.NavigationView
 import com.inchko.parkfinder.service.BackgroundService
+import com.inchko.parkfinder.ui.proflie.cutomizeProfile.addVehicle.AddVehicle
 import com.inchko.parkfinder.ui.rvZones.RvZoneFragment
 import com.inchko.parkfinder.ui.settings.SettingsActivity
 import com.yariksoffice.lingver.Lingver
@@ -72,6 +74,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         // Lingver.init(application, "es")
         // Lingver.getInstance().setLocale(this, "en", "")
         createNotificationChannel()
+        intent?.handleIntent()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -154,6 +157,41 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    //APP ACTIONS
+
+    private fun Intent.handleIntent() {
+        Log.e("appActions", "bye bitch from google assistant")
+        when (action) {
+            // When the action is triggered by a deep-link, Intent.ACTION_VIEW will be used
+            Intent.ACTION_VIEW -> handleDeepLink(data)
+            // Otherwise start the app as you would normally do.
+            else -> doNothing()
+        }
+    }
+
+    private fun handleDeepLink(data: Uri?) {
+
+        when (data?.path) {
+            "/test" -> {
+                val intent = Intent(this, AddVehicle::class.java)
+                startActivity(intent)
+            }
+            "/stop" -> {
+                // Stop the tracking service if any and return to home screen.
+                Log.e("appActions", "bye bitch from google assistant")
+            }
+            else -> {
+                // Path is not supported or invalid, start normal flow.
+                doNothing()
+            }
+        }
+
+    }
+
+    private fun doNothing() {
+        Log.e("appActions", "link not found bro")
     }
 
 }
