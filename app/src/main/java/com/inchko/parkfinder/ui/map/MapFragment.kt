@@ -108,6 +108,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         stopZoneButton.setOnClickListener {
             context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
                 ?.putString("zoneID", "")?.apply()
+            context?.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
+                ?.putInt("estadoActual", -1)?.apply()
             stopZoneButton.visibility = View.INVISIBLE
         }
 
@@ -278,27 +280,76 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
         val typeOfCar = shpf?.getInt("type", -1)
         val sizeOfCar = shpf?.getInt("size", -1)
         val userCar = shpf?.getString("caruserID", "")
+        var estadoActual = sp?.getInt("estadoActual", -1)
 
+//0 ocupada 1 vacia
         val watchableZone = zones.filter { zone -> zone.id == nameZone }
         if (watchableZone.isNotEmpty()) {
             if (typeOfCar == -1) {
-                if (watchableZone[0].plazasLibres == 0) {
-                    Log.e("watchZone", "zone with name $nameZone found")
-                    initNotis()
+                if (estadoActual == 1) {
+                    if (watchableZone[0].plazasLibres == 0) {
+                        initNotis(true)
+                        estadoActual = 0
+                        sp?.edit()?.putInt("estadoActual", estadoActual)?.apply()
+                    }
+                } else if (estadoActual == 0) {
+                    if (watchableZone[0].plazasLibres != 0) {
+                        initNotis(false)
+                        estadoActual = 1
+                        if (sp != null) {
+                            sp.edit()?.putInt("estadoActual", estadoActual)?.apply()
+                        }
+                    }
                 }
             } else {
                 if (typeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
-                    if (watchableZone[0].plazasMl == 0) {
-                        initNotis()
+                    if (estadoActual == 1) {
+                        if (watchableZone[0].plazasMl == 0) {
+                            initNotis(true)
+                            estadoActual = 0
+                            sp?.edit()?.putInt("estadoActual", estadoActual)?.apply()
+                        }
+                    } else if (estadoActual == 0) {
+                        if (watchableZone[0].plazasMl != 0) {
+                            initNotis(false)
+                            estadoActual = 1
+                            if (sp != null) {
+                                sp.edit()?.putInt("estadoActual", estadoActual)?.apply()
+                            }
+                        }
                     }
                 } else {
                     if (sizeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
-                        if (watchableZone[0].plazasPl == 0) {
-                            initNotis()
+                        if (estadoActual == 1) {
+                            if (watchableZone[0].plazasPl == 0) {
+                                initNotis(true)
+                                estadoActual = 0
+                                sp?.edit()?.putInt("estadoActual", estadoActual)?.apply()
+                            }
+                        } else if (estadoActual == 0) {
+                            if (watchableZone[0].plazasPl != 0) {
+                                initNotis(false)
+                                estadoActual = 1
+                                if (sp != null) {
+                                    sp.edit()?.putInt("estadoActual", estadoActual)?.apply()
+                                }
+                            }
                         }
                     } else if (sizeOfCar == 0 && Firebase.auth.currentUser.uid == userCar) {
-                        if (watchableZone[0].plazasGl == 0) {
-                            initNotis()
+                        if (estadoActual == 1) {
+                            if (watchableZone[0].plazasGl == 0) {
+                                initNotis(true)
+                                estadoActual = 0
+                                sp?.edit()?.putInt("estadoActual", estadoActual)?.apply()
+                            }
+                        } else if (estadoActual == 0) {
+                            if (watchableZone[0].plazasGl != 0) {
+                                initNotis(false)
+                                estadoActual = 1
+                                if (sp != null) {
+                                    sp.edit()?.putInt("estadoActual", estadoActual)?.apply()
+                                }
+                            }
                         }
 
                     }
@@ -358,7 +409,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
 
     }
 
-    private fun initNotis() {
+    private fun initNotis(ocupada: Boolean) {
         Log.e("watchZone", "init notis")
         val intent = Intent(context, NotificationDisabeler::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -372,7 +423,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
             // Get the PendingIntent containing the entire back stack
             getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
         }
-        val builder = context?.let {
+        var builder = context?.let {
             NotificationCompat.Builder(it, 0.toString())
                 .setSmallIcon(R.drawable.googleg_standard_color_18)
                 .setContentTitle(getString(R.string.notificationHeader))
@@ -384,6 +435,21 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMyLocationButtonClickListe
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
+        }
+        if (!ocupada) {
+            builder = context?.let {
+                NotificationCompat.Builder(it, 0.toString())
+                    .setSmallIcon(R.drawable.googleg_standard_color_18)
+                    .setContentTitle(getString(R.string.notificationHeaderFree))
+                    .setContentText(getString(R.string.notificationDescriptionFree))
+                    .setStyle(
+                        NotificationCompat.BigTextStyle()
+                            .bigText(getString(R.string.notificationDescriptionFree))
+                    )
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(resultPendingIntent)
+                    .setAutoCancel(true)
+            }
         }
         val time = Timer()
         val p = timerTask {

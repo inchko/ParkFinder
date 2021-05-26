@@ -116,4 +116,9 @@
     <string name="voiceMetersW">"meters, with "</string>
     <string name="voiceFreeSpots">free spots.</string>
     <string name="voiceFreeSpot">"one free spot. "</string>
+    <string name="notificationHeaderFree">The zone you\'re watching has free spots!</string>
+    <string name="notificationDescriptionFree">The zone you\'re watching has now free spots, enter the app and create a route to it</string>
+    <string name="fullZoneHead">The zone is full</string>
+    <string name="fullZoneDesc">The zone you\'ve selected is full</string>
+    <string name="fullZoneAnnounce">The zone is full, do you want to watch it anyway?</string>
 </resources>

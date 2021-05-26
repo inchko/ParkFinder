@@ -102,6 +102,20 @@ class BackgroundService : Service(), CoroutineScope {
             .setContentIntent(resultPendingIntent)
             .setAutoCancel(true)
 
+        val builderFree = NotificationCompat.Builder(this, 2.toString())
+            .setSmallIcon(R.drawable.parking_marker_icon_background)
+            .setContentTitle(getString(R.string.notificationHeaderFree))
+            .setContentText(getString(R.string.notificationDescriptionFree))
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(getString(R.string.notificationDescriptionFree))
+            )
+
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(resultPendingIntent)
+            .setAutoCancel(true)
+
+
 
         for (i in 1..1000) {
             val p = timerTask {
@@ -112,46 +126,113 @@ class BackgroundService : Service(), CoroutineScope {
                 val typeOfCar = shpf?.getInt("type", -1)
                 val sizeOfCar = shpf?.getInt("size", -1)
                 val userCar = shpf?.getString("caruserID", "")
+                var estadoActual = sp?.getInt("estadoActual", -1)
                 if (Firebase.auth.currentUser != null && nameZone != "" && Firebase.auth.currentUser.uid == user) {
                     scope.launch {
                         val z = nameZone?.let { repo.readZone(it) }
                         if (z != null) {
                             if (typeOfCar == -1) {
-                                if (z.plazasLibres == 0) {
-                                    with(context.let { NotificationManagerCompat.from(it) }) {
-                                        // notificationId is a unique int for each notification that you must define
-                                        if (builder != null) {
-                                            this.notify(1, builder.build())
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (typeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
-                                    if (z.plazasMl == 0) {
+                                if (estadoActual == 1) {
+                                    if (z.plazasLibres == 0) {
                                         with(context.let { NotificationManagerCompat.from(it) }) {
                                             // notificationId is a unique int for each notification that you must define
                                             if (builder != null) {
                                                 this.notify(1, builder.build())
                                             }
                                         }
+                                        estadoActual = 0
+                                        sp.edit()?.putInt("estadoActual", estadoActual!!)?.apply()
                                     }
-                                } else {
-                                    if (sizeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
-                                        if (z.plazasPl == 0) {
+                                } else if (estadoActual == 0) {
+                                    if (z.plazasLibres != 0) {
+                                        with(context.let { NotificationManagerCompat.from(it) }) {
+                                            // notificationId is a unique int for each notification that you must define
+                                            if (builderFree != null) {
+                                                this.notify(1, builderFree.build())
+                                            }
+                                        }
+                                        estadoActual = 1
+                                        sp.edit()?.putInt("estadoActual", estadoActual!!)?.apply()
+                                    }
+                                }
+                            } else {
+                                if (typeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
+                                    if (estadoActual == 1) {
+                                        if (z.plazasMl == 0) {
                                             with(context.let { NotificationManagerCompat.from(it) }) {
                                                 // notificationId is a unique int for each notification that you must define
                                                 if (builder != null) {
                                                     this.notify(1, builder.build())
                                                 }
                                             }
+                                            estadoActual = 0
+                                            sp.edit()?.putInt("estadoActual", estadoActual!!)
+                                                ?.apply()
                                         }
-                                    } else if (sizeOfCar == 0 && Firebase.auth.currentUser.uid == userCar) {
-                                        if (z.plazasGl == 0) {
+                                    } else if (estadoActual == 0) {
+                                        if (z.plazasMl != 0) {
                                             with(context.let { NotificationManagerCompat.from(it) }) {
                                                 // notificationId is a unique int for each notification that you must define
-                                                if (builder != null) {
-                                                    this.notify(1, builder.build())
+                                                if (builderFree != null) {
+                                                    this.notify(1, builderFree.build())
                                                 }
+                                            }
+                                            estadoActual = 1
+                                            sp.edit()?.putInt("estadoActual", estadoActual!!)
+                                                ?.apply()
+                                        }
+                                    }
+                                } else {
+                                    if (sizeOfCar == 1 && Firebase.auth.currentUser.uid == userCar) {
+                                        if (estadoActual == 1) {
+                                            if (z.plazasPl == 0) {
+                                                with(context.let { NotificationManagerCompat.from(it) }) {
+                                                    // notificationId is a unique int for each notification that you must define
+                                                    if (builder != null) {
+                                                        this.notify(1, builder.build())
+                                                    }
+                                                }
+                                                estadoActual = 0
+                                                sp.edit()?.putInt("estadoActual", estadoActual!!)
+                                                    ?.apply()
+                                            }
+                                        } else if (estadoActual == 0) {
+                                            if (z.plazasPl != 0) {
+                                                with(context.let { NotificationManagerCompat.from(it) }) {
+                                                    // notificationId is a unique int for each notification that you must define
+                                                    if (builderFree != null) {
+                                                        this.notify(1, builderFree.build())
+                                                    }
+                                                }
+                                                estadoActual = 1
+                                                sp.edit()?.putInt("estadoActual", estadoActual!!)
+                                                    ?.apply()
+                                            }
+                                        }
+                                    } else if (sizeOfCar == 0 && Firebase.auth.currentUser.uid == userCar) {
+                                        if (estadoActual == 1) {
+                                            if (z.plazasGl == 0) {
+                                                with(context.let { NotificationManagerCompat.from(it) }) {
+                                                    // notificationId is a unique int for each notification that you must define
+                                                    if (builder != null) {
+                                                        this.notify(1, builder.build())
+                                                    }
+                                                }
+                                                estadoActual = 0
+                                                sp.edit()?.putInt("estadoActual", estadoActual!!)
+                                                    ?.apply()
+                                            }
+                                        } else if (estadoActual == 0) {
+                                            if (z.plazasGl != 0) {
+                                                with(context.let { NotificationManagerCompat.from(it) }) {
+                                                    // notificationId is a unique int for each notification that you must define
+                                                    if (builderFree != null) {
+                                                        this.notify(1, builderFree.build())
+                                                    }
+                                                }
+                                                estadoActual = 1
+                                                sp.edit()?.putInt("estadoActual", estadoActual!!)
+                                                    ?.apply()
                                             }
                                         }
 

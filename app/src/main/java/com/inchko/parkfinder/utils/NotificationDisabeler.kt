@@ -12,8 +12,12 @@ class NotificationDisabeler : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_disabeler)
-        this.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
-            ?.putString("zoneID", "")?.apply()
+        val ea =
+            this.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.getInt("estadoActual", -1)
+        if (ea == 0) {
+            this.getSharedPreferences("watchZone", Context.MODE_PRIVATE)?.edit()
+                ?.putString("zoneID", "")?.apply()
+        }
         val act = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }

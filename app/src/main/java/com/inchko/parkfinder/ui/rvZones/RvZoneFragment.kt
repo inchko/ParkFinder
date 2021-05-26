@@ -19,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -144,8 +145,14 @@ class RvZoneFragment : Fragment(), TextToSpeech.OnInitListener {
                         for (z in tempZones) {
                             Log.e("voice", "${z.id}")
                             val d = (z.distancia?.times(1000))?.toInt()
-                            var text = " $count. ${z.id} ${getString(R.string.voiceAt)} $d ${getString(R.string.voiceMetersW)} ${z.plazasLibres} ${getString(R.string.voiceFreeSpots)}"
-                            if(z.plazasLibres == 1) text = " $count. ${z.id} ${getString(R.string.voiceAt)} $d ${getString(R.string.voiceMetersW)} ${getString(R.string.voiceFreeSpot)}"
+                            var text =
+                                " $count. ${z.id} ${getString(R.string.voiceAt)} $d ${getString(R.string.voiceMetersW)} ${z.plazasLibres} ${
+                                    getString(R.string.voiceFreeSpots)
+                                }"
+                            if (z.plazasLibres == 1) text =
+                                " $count. ${z.id} ${getString(R.string.voiceAt)} $d ${getString(R.string.voiceMetersW)} ${
+                                    getString(R.string.voiceFreeSpot)
+                                }"
                             voice.speak(
                                 text,
                                 TextToSpeech.QUEUE_ADD,
@@ -513,24 +520,72 @@ class RvZoneFragment : Fragment(), TextToSpeech.OnInitListener {
             viewLifecycleOwner,
             Observer { value: Response<DirectionsResponse>? ->
                 value?.let {
-                    drawPolyline(it)
-                    val spw = context?.getSharedPreferences(
-                        "watchZone",
-                        Context.MODE_PRIVATE
-                    ) ?: return@Observer
-                    with(spw.edit()) {
-                        putString("zoneID", zone.id)
-                        putString("zoneUserID", Firebase.auth.currentUser.uid)
-                        apply()
+                    // 1 zona libre, 0 zona ocupada
+                    var ocupada = 1
+                    if (zone.plazasLibres == 0) {
+                        ocupada = 0
+                        voice.speak(
+                            getString(R.string.fullZoneAnnounce),
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            ""
+                        )
+                        val builder = context?.let { it1 -> AlertDialog.Builder(it1) }
+                        builder?.setTitle(getString(R.string.fullZoneHead))
+                        builder?.setMessage(getString(R.string.fullZoneDesc))
+                        builder?.setPositiveButton(android.R.string.yes) { dialog, which ->
+                            drawPolyline(it)
+                            val spw = context?.getSharedPreferences(
+                                "watchZone",
+                                Context.MODE_PRIVATE
+                            ) ?: return@setPositiveButton
+                            with(spw.edit()) {
+                                putString("zoneID", zone.id)
+                                putString("zoneUserID", Firebase.auth.currentUser.uid)
+                                putInt("estadoActual", ocupada)
+                                apply()
+                            }
+                            closeFragment()
+                        }
+                        builder?.setNegativeButton(android.R.string.no) { dialog, which ->
+                            val loc = mapViewModel.currentLocation
+                            if (loc != null) {
+                                mapViewModel.mMap?.animateCamera(
+                                    CameraUpdateFactory.newLatLng(
+                                        LatLng(loc.latitude, loc.longitude)
+                                    )
+                                )
+                            }
+                            if (loc != null) {
+                                mapViewModel.mMap?.animateCamera(
+                                    CameraUpdateFactory.newLatLngZoom(
+                                        LatLng(loc.latitude, loc.longitude), 19f
+                                    )
+                                )
+                            }
+                        }
+                        builder?.show()
+                    } else {
+                        drawPolyline(it)
+                        val spw = context?.getSharedPreferences(
+                            "watchZone",
+                            Context.MODE_PRIVATE
+                        ) ?: return@Observer
+                        with(spw.edit()) {
+                            putString("zoneID", zone.id)
+                            putString("zoneUserID", Firebase.auth.currentUser.uid)
+                            putInt("estadoActual", ocupada)
+                            apply()
+                        }
+                        val test = spw.getString("zoneID", "")
+                        Log.e(
+                            "watchZone",
+                            "Watching zone : ${zone.id} value of the zone: $test"
+                        )
+                        while (voice.isSpeaking) { //Allow for the voice to stop speaking before closing the fragment
+                        }
+                        closeFragment()
                     }
-                    val test = spw.getString("zoneID", "")
-                    Log.e(
-                        "watchZone",
-                        "Watching zone : ${zone.id} value of the zone: $test"
-                    )
-                    while (voice.isSpeaking) { //Allow for the voice to stop speaking before closing the fragment
-                    }
-                    closeFragment()
                 }
             })
 

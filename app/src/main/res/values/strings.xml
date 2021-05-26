@@ -139,6 +139,11 @@
     <string name="voiceMetersW">metros, con</string>
     <string name="voiceFreeSpots">" plazas libres."</string>
     <string name="voiceFreeSpot">una plaza libre.</string>
+    <string name="notificationHeaderFree">¡La zona observada tiene plazas libres!</string>
+    <string name="notificationDescriptionFree">La zona que estas observando tiene ahora plazas libres, puedes entrar en la aplicación para establecer una ruta hacia ella</string>
+    <string name="fullZoneHead">La zona esta llena</string>
+    <string name="fullZoneDesc">La zona que has seleccionado esta llena. ¿Quieres observarla igualmente?</string>
+    <string name="fullZoneAnnounce">La zona esta llena. ¿Quieres observarla igualmente?</string>
 
     <!-- VOICE COMMANDS -->
 
