@@ -11,9 +11,7 @@ import javax.inject.Inject
 
 class ServiceRepo @Inject constructor(
     private val apiService: ApiService, //name of the service
-    private val testmapper: TestDTO2Test, //mapper from models
     private val zoneMapper: ZoneDTO2Zone,
-    private val ubiMapper: Ubi2UbiDTO
 ) : RepoServiceInterface {
 
     override suspend fun readZone(zoneid: String): Zone {

@@ -21,10 +21,8 @@ object ServiceModule {
     @Provides
     fun providesRepoService(
         apiService: ApiService,
-        testMapper: TestDTO2Test,
-        zoneMapper: ZoneDTO2Zone,
-        ubiMapper: Ubi2UbiDTO
+        zoneMapper: ZoneDTO2Zone
     ): ServiceRepo {
-        return ServiceRepo(apiService, testMapper, zoneMapper, ubiMapper)
+        return ServiceRepo(apiService, zoneMapper)
     }
 }
