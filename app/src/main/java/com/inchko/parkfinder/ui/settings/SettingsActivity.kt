@@ -1,6 +1,7 @@
 package com.inchko.parkfinder.ui.settings
 
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
@@ -9,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
 
 class SettingsActivity : AppCompatActivity() {
+    private lateinit var back: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,8 +21,16 @@ class SettingsActivity : AppCompatActivity() {
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         }
+        back = findViewById(R.id.backSettings)
+        back.setOnClickListener {
+            backFun()
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+    }
+
+    fun backFun() {
+        finish()
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {

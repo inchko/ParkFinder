@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_map, R.id.nav_places, R.id.nav_settings
+                R.id.nav_map, R.id.nav_places, R.id.nav_testSettings,R.id.nav_information
             ), drawerLayout
         )
         setupActionBarWithNavController(navController!!, appBarConfiguration)

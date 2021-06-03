@@ -39,7 +39,7 @@
     <string name="name_model">Name of the model</string>
     <string name="newPass">New password</string>
     <string name="action_settings">Settings</string>
-    <string name="menu_slideshow">Settings</string>
+    <string name="menu_slideshow">Information</string>
     <string name="automoviles">General Parking</string>
     <string name="motocycle">Moto Parking</string>
     <string name="little">Small</string>
@@ -121,4 +121,8 @@
     <string name="fullZoneHead">The zone is full</string>
     <string name="fullZoneDesc">The zone you\'ve selected is full</string>
     <string name="fullZoneAnnounce">The zone is full, do you want to watch it anyway?</string>
+    <string name="PolicyLink"><a href="https://sites.google.com/view/parkfinder-privacy-policy/inicio\">Privacy policy</a> </string>
+    <string name="informationPolHead">You can find the privacy policy in this link</string>
+    <string name="InformationDescription">This is an Android application made for the TFG \"Design and implementation of an android app for the search of parking\" at the Polytechnic University of Catalonia. \n\nMade by Daniel Palomo Cabrera under the direction of Cristina Gómez Seoane.</string>
+    <string name="informationHead">Information</string>
 </resources>

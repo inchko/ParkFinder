@@ -18,10 +18,17 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/nav_settings"
-        android:name="com.inchko.parkfinder.ui.settings.SlideshowFragment"
+        android:id="@+id/nav_information"
+        android:name="com.inchko.parkfinder.ui.settings.InformationFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_information" />
+
+    <fragment
+        android:id="@+id/nav_testSettings"
+        android:name="com.inchko.parkfinder.ui.settings.MenuSettings"
+        android:label="@string/action_settings"
+        tools:layout="@layout/fragment_information" />
+
     <activity
         android:id="@+id/nav_true_settings"
         android:name="com.inchko.parkfinder.ui.settings.SettingsActivity"

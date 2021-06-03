@@ -9,7 +9,7 @@
 
     <string name="menu_home">Mapa</string>
     <string name="menu_gallery">Perfil</string>
-    <string name="menu_slideshow">Opciones</string>
+    <string name="menu_slideshow">Información</string>
     <string name="AtrasRVZ">Atrás</string>
     <string name="test_sample" translatable="false">Test Sample</string>
     <string name="motocycle">Parking Motos</string>
@@ -144,7 +144,11 @@
     <string name="fullZoneHead">La zona esta llena</string>
     <string name="fullZoneDesc">La zona que has seleccionado esta llena. ¿Quieres observarla igualmente?</string>
     <string name="fullZoneAnnounce">La zona esta llena. ¿Quieres observarla igualmente?</string>
-
+    <string name="informationHead">Información</string>
+    <string name="InformationDescription">"Esto es una aplicación Android creada para el TFG \"Diseño e implementación de una aplicación Android para la búsqueda de Aparcamiento\" en la Universidad Politécnica de Cataluña.\n\nCreada por Daniel Palomo Cabrera bajo la dirección de Cristina Gómez Seoane. "</string>
+    <string name="informationPolHead">Puedes encontrar la política de privacidad de la app clicando en este link:</string>
+    <string name="PolicyLink"><a href="https://sites.google.com/view/parkfinder-privacy-policy/inicio\">Política de privacidad</a> </string>
+    <string name="pene" translatable="false"><a href="https://aaa.com">pollas de privacidad</a> </string>
     <!-- VOICE COMMANDS -->
 
 
