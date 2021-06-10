@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/nav_information"
-        android:name="com.inchko.parkfinder.ui.settings.InformationFragment"
+        android:name="com.inchko.parkfinder.ui.information.InformationFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_information" />
 
@@ -27,7 +27,7 @@
         android:id="@+id/nav_testSettings"
         android:name="com.inchko.parkfinder.ui.settings.MenuSettings"
         android:label="@string/action_settings"
-        tools:layout="@layout/fragment_information" />
+        tools:layout="@layout/settings_activity" />
 
     <activity
         android:id="@+id/nav_true_settings"

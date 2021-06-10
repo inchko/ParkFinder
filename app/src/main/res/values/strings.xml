@@ -149,6 +149,7 @@
     <string name="informationPolHead">Puedes encontrar la política de privacidad de la app clicando en este link:</string>
     <string name="PolicyLink"><a href="https://sites.google.com/view/parkfinder-privacy-policy/inicio\">Política de privacidad</a> </string>
     <string name="pene" translatable="false"><a href="https://aaa.com">pollas de privacidad</a> </string>
+    <string name="headerDescription">Tu aplicación para buscar parking</string>
     <!-- VOICE COMMANDS -->
 
 

@@ -7,7 +7,7 @@
     android:background="#F3F3F3"
     android:backgroundTint="#FFFFFF"
     android:backgroundTintMode="src_in"
-    tools:context=".ui.settings.InformationFragment">
+    tools:context=".ui.information.InformationFragment">
 
 
     <ImageView

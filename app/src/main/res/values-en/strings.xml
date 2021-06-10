@@ -125,4 +125,5 @@
     <string name="informationPolHead">You can find the privacy policy in this link</string>
     <string name="InformationDescription">This is an Android application made for the TFG \"Design and implementation of an android app for the search of parking\" at the Polytechnic University of Catalonia. \n\nMade by Daniel Palomo Cabrera under the direction of Cristina Gómez Seoane.</string>
     <string name="informationHead">Information</string>
+    <string name="headerDescription">Your app to find parking</string>
 </resources>
