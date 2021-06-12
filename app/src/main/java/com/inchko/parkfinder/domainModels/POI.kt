@@ -2,7 +2,7 @@ package com.inchko.parkfinder.domainModels
 
 data class POI(
     val lat: String,
-    val long: String,
+    var long: String,
     val nombre: String,
     val userID: String,
     val id: String,

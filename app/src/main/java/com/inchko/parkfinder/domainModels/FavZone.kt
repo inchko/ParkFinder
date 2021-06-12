@@ -1,7 +1,7 @@
 package com.inchko.parkfinder.domainModels
 
 data class FavZone(
-    val lat: String,
+    var lat: String,
     val long: String,
     val plazasTotales: Int,
     val tipo: Int,
