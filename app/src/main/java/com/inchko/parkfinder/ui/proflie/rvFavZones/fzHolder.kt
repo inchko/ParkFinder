@@ -46,15 +46,22 @@ class fzHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: Profil
     fun bind(fz: FavZone, loc: LatLng) {
         Log.e("holder", "binding")
         titleView?.text = fz.zoneID
-        val text = truncate(
+        var dis = 0.0
+        dis = truncate(
             (distance(
                 loc,
                 LatLng(fz.lat.toDouble(), fz.long.toDouble())
             ) * 1000)
-        ).toString() + " m"
+        )
+        var text = dis.toString() + " m"
+        if (dis > 2000) {
+            dis /= 1000
+            text = dis.toString() + " Km"
+        }
+
         distanceView?.text = text
         locationView?.text = fz.location
-        val plazas = "Plazas totales: ${fz.plazasTotales}"
+        val plazas = itemView.context.getString(R.string.totalSpots) + fz.plazasTotales.toString()
         plazasView?.text = plazas
         tipoView?.text = itemView.context.getString(R.string.automoviles)
         if (fz.tipo == 1) tipoView?.text = itemView.context.getString(R.string.motocycle)

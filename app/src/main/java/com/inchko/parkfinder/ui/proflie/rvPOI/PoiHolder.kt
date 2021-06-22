@@ -61,20 +61,27 @@ class PoiHolder(
         val favZone = sharedPref.getString("FavZone", "")
         if (favZone != "" && favZone == poi.id)
             favPOI?.setImageResource(android.R.drawable.btn_star_big_on)
-        Log.e("holder", "binding")
         titleView?.text = poi.nombre
-        val text = truncate(
+
+        var dis = 0.0
+        dis = truncate(
             (distance(
                 loc,
                 LatLng(poi.lat.toDouble(), poi.long.toDouble())
             ) * 1000)
-        ).toString() + " m"
+        )
+
+        var text = "$dis m"
+        if (dis > 2000) {
+            dis /= 1000
+            text = "$dis Km"
+        }
+
         distanceView?.text = text
         locationView?.text = poi.location
 
         deletePOI?.setOnClickListener {
             vm.removePOI(poi.userID, poi.id)
-            Log.e("rvpoi", "delete button clicked")
         }
         modifyPOI?.setOnClickListener {
             val intent = Intent(itemView.context, ModifyPOI::class.java)
@@ -90,7 +97,6 @@ class PoiHolder(
             var helper = poi.id
             var lat = poi.lat.toFloat()
             var long = poi.long.toFloat()
-            Log.e("zones", "$lat, $long")
             if (favZone == poi.id) {
                 helper = ""
                 lat = 0f

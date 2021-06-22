@@ -571,11 +571,13 @@ class RvZoneFragment : Fragment(), TextToSpeech.OnInitListener {
                             "watchZone",
                             Context.MODE_PRIVATE
                         ) ?: return@Observer
-                        with(spw.edit()) {
-                            putString("zoneID", zone.id)
-                            putString("zoneUserID", Firebase.auth.currentUser.uid)
-                            putInt("estadoActual", ocupada)
-                            apply()
+                        if (Firebase.auth.currentUser != null) {
+                            with(spw.edit()) {
+                                putString("zoneID", zone.id)
+                                putString("zoneUserID", Firebase.auth.currentUser.uid)
+                                putInt("estadoActual", ocupada)
+                                apply()
+                            }
                         }
                         val test = spw.getString("zoneID", "")
                         Log.e(

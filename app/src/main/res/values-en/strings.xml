@@ -126,4 +126,9 @@
     <string name="InformationDescription">This is an Android application made for the TFG \"Design and implementation of an android app for the search of parking\" at the Polytechnic University of Catalonia. \n\nMade by Daniel Palomo Cabrera under the direction of Cristina Gómez Seoane.</string>
     <string name="informationHead">Information</string>
     <string name="headerDescription">Your app to find parking</string>
+    <string name="AddPOITitle">Add place of interest</string>
+    <string name="totalSpots">"Total spots: "</string>
+    <string name="motoSpots">"Moto spots: "</string>
+    <string name="bigSpots">"Big car Spots: "</string>
+    <string name="lilSpots">"Small car Spots: "</string>
 </resources>

@@ -38,7 +38,7 @@
     <string name="addCar">Añadir coche</string>
     <string name="linkAccounts">vincular</string>
     <string name="link_acc_title">Vincular Email y contraseña con Google</string>
-    <string name="sign_in_email">Inicia sesión con email</string>
+    <string name="sign_in_email">Inicia sesión email</string>
     <string name="adviceLinkAcc">Añade una contraseña para poder acceder a tu cuenta con Email y contraseña. Se utilizara como email tu correo de Google.</string>
     <string name="password">Contraseña</string>
     <string name="changePass">Cambiar Contraseña</string>
@@ -150,6 +150,11 @@
     <string name="PolicyLink"><a href="https://sites.google.com/view/parkfinder-privacy-policy/inicio\">Política de privacidad</a> </string>
     <string name="pene" translatable="false"><a href="https://aaa.com">pollas de privacidad</a> </string>
     <string name="headerDescription">Tu aplicación para buscar parking</string>
+    <string name="AddPOITitle">Añadir lugar de interés</string>
+    <string name="totalSpots">"Plazas totales: "</string>
+    <string name="motoSpots">"Plazas Motos: "</string>
+    <string name="bigSpots">"Plazas Grandes: "</string>
+    <string name="lilSpots">"Plazas Pequeñas: "</string>
     <!-- VOICE COMMANDS -->
 
 

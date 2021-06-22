@@ -50,23 +50,29 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
         Log.e("holder", "binding")
         titleView?.text = z.id
         number?.text = num.toString()
-        //   val text = z.lat?.let { z.long?.let { it1 -> LatLng(it, it1) } }
-        //    ?.let { truncate((distance(loc, it) * 1000)).toString() } + " m"
-        distanceView?.text = truncate(z.distancia!! * 1000).toString()
+
+        var dis = 0.0
+        dis = truncate(z.distancia!! * 1000)
+        var text = "$dis m"
+        if (dis > 2000) {
+            dis /= 1000
+            text = "$dis Km"
+        }
+        distanceView?.text = text
 
         if (z.tipo == 1) {
             typeView?.text = itemView.context.getString(R.string.motocycle)
-            val zonaslibres = "Plazas Motos: ${z.plazasMl}/${z.plazasTotales}"
+            val zonaslibres = itemView.context.getString(R.string.motoSpots) + z.plazasMl.toString()+"/"+z.plazasTotales.toString()
             zlView?.text = zonaslibres
             zgView?.text = ""
             zpView?.text = ""
         } else {
-            val zonaslibres = "Plazas Motos: ${z.plazasMl}/${z.plazasMoto}"
+            val zonaslibres =  itemView.context.getString(R.string.motoSpots)+z.plazasMl.toString()+"/"+z.plazasMoto.toString()
             zlView?.text = zonaslibres
             typeView?.text = itemView.context.getString(R.string.automoviles)
-            val zonasGrandes = "Plazas Grandes: ${z.plazasGl}/${z.plazasGrandes}"
+            val zonasGrandes = itemView.context.getString(R.string.bigSpots)+z.plazasGl.toString()+"/"+z.plazasGrandes.toString()
             zgView?.text = zonasGrandes
-            val zonasPeq = "Plazas Pequeñas: ${z.plazasPl}/${z.plazasPeq}"
+            val zonasPeq = itemView.context.getString(R.string.lilSpots)+z.plazasPl.toString()+"/"+z.plazasPeq.toString()
             zpView?.text = zonasPeq
         }
         if (Firebase.auth.currentUser == null) {

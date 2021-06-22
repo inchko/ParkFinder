@@ -58,6 +58,7 @@
                 android:layout_width="53dp"
                 android:layout_height="49dp"
                 android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@android:drawable/btn_star_big_off" />
@@ -67,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:backgroundTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@android:drawable/ic_menu_delete" />
@@ -76,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:backgroundTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ccDelete"
                 app:srcCompat="@android:drawable/ic_menu_edit" />

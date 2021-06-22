@@ -40,7 +40,7 @@
                 android:layout_height="29dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
-                android:background="#F0F2ff"
+                android:background="#F0F2F3"
                 android:text="@string/test_sample"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:backgroundTint="#F0F2F3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@android:drawable/btn_dialog" />
@@ -62,6 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:backgroundTint="#F0F2F3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/poiDelete"
                 app:srcCompat="@android:drawable/ic_menu_edit" />
@@ -70,7 +72,7 @@
                 android:id="@+id/poiRVloc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -83,6 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:backgroundTint="#F0F2F3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/poiModifiy"
                 app:srcCompat="@android:drawable/btn_star_big_off" />

@@ -51,8 +51,9 @@ class ProfileViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             _poi = MutableLiveData<List<POI>>().apply {
                 value = poiRepo.getPOI(userid)
+                poi.value = _poi.value
             }
-            poi.value = _poi.value
+
             Log.e("rvpoi", "getPOI with $userid , size ${poi.value?.size}")
         }
     }
@@ -69,8 +70,9 @@ class ProfileViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             _fz = MutableLiveData<List<FavZone>>().apply {
                 value = favZoneRep.getFavZones(userid)
+                fz.value = _fz.value
             }
-            fz.value = _fz.value
+
         }
     }
 

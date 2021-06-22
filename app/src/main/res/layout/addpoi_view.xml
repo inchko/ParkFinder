@@ -3,90 +3,95 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#00FFFFFF"
-    android:foregroundTint="#00FFFFFF">
+    android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="75dp"
+        tools:layout_editor_absoluteY="220dp">
 
-        android:layout_width="262dp"
-        android:layout_height="292dp"
-        app:cardBackgroundColor="#f22254"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="245dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="160dp"
+            android:text="@string/name_poi"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/apName"
+            android:layout_width="251dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="17dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="245dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/name_poi"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="245dp"
+            android:layout_height="29dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/direccion"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/apName" />
 
-            <EditText
-                android:id="@+id/apName"
-                android:layout_width="251dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="@string/name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        <EditText
+            android:id="@+id/apDirection"
+            android:layout_width="247dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="17dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/direccion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.487"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="245dp"
-                android:layout_height="29dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/direccion"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/apName" />
+        <Button
+            android:id="@+id/apCancel"
+            android:layout_width="114dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/Cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/apDirection" />
 
-            <EditText
-                android:id="@+id/apDirection"
-                android:layout_width="247dp"
-                android:layout_height="47dp"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="@string/direccion"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        <Button
+            android:id="@+id/apSend"
+            android:layout_width="94dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="120dp"
+            android:text="@string/send"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/apDirection" />
 
-            <Button
-                android:id="@+id/apCancel"
-                android:layout_width="114dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="@string/Cancel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/apDirection" />
+        <TextView
+            android:id="@+id/titleAddPOI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="@string/AddPOITitle"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
-                android:id="@+id/apSend"
-                android:layout_width="94dp"
-                android:layout_height="51dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/send"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/apDirection" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

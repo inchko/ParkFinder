@@ -24,10 +24,12 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ParkFinder.ActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ParkFinder.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,29 +52,36 @@
         <activity
             android:name=".ui.proflie.addPoi.AddPoiActivity"
             android:label="AddPOI"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
         <activity
             android:name=".ui.proflie.modifyPOI.ModifyPOI"
             android:label="ModPOI"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
         <activity
             android:name=".ui.proflie.cutomizeProfile.CustomizeProfile"
             android:label="cProfile"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
         <activity
             android:name=".ui.proflie.cutomizeProfile.addVehicle.AddVehicle"
             android:label="addVehicle"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
         <activity
             android:name=".ui.proflie.cutomizeProfile.modifyVehicle.ModifyVehicle"
             android:label="modVehicle"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
         <activity
             android:name=".ui.proflie.SingUpEmail.SignInEmail"
             android:label="signInEmail"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ParkFinder.NoActionBar" />
         <activity
             android:name=".utils.NotificationDisabeler"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_notification_disabeler" />
 
         <service
