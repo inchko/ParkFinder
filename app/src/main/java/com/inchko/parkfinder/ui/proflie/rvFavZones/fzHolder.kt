@@ -7,23 +7,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
 import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.FavZone
+import com.inchko.parkfinder.ui.proflie.ProfileFragment
 import com.inchko.parkfinder.ui.proflie.ProfileViewModel
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.truncate
 
-class fzHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: ProfileViewModel) :
+class fzHolder(
+    inflater: LayoutInflater,
+    parent: ViewGroup,
+    v: View,
+    rep: ProfileViewModel,
+    ac: ProfileFragment
+) :
     RecyclerView.ViewHolder(
         inflater.inflate(
             R.layout.favzone_card, parent, false
         )
     ), View.OnClickListener {
     private val vm = rep
+    private val a = ac
     private var titleView: TextView? = null
     private var distanceView: TextView? = null
     private var locationView: TextView? = null
@@ -67,6 +76,10 @@ class fzHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, rep: Profil
         if (fz.tipo == 1) tipoView?.text = itemView.context.getString(R.string.motocycle)
         deleteFZ?.setOnClickListener {
             vm.removeFZ(fz.userID, fz.id)
+            val fragmentManager: FragmentManager = a.parentFragmentManager
+            fragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, ProfileFragment())
+                .commitAllowingStateLoss()
 
         }
 

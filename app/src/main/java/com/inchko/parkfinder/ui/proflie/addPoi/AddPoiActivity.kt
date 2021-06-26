@@ -1,19 +1,22 @@
 package com.inchko.parkfinder.ui.proflie.addPoi
 
-import android.content.Context
+import android.app.Activity
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.google.android.gms.maps.model.LatLng
+import com.inchko.parkfinder.MainActivity
 import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.POI
+import com.inchko.parkfinder.ui.proflie.ProfileFragment
+import com.inchko.parkfinder.ui.proflie.cutomizeProfile.CustomizeProfile
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class AddPoiActivity : AppCompatActivity() {
@@ -52,7 +55,6 @@ class AddPoiActivity : AppCompatActivity() {
             long = coords.longitude.toString()
         )
         apViewModel.addPOI(poi)
-
         finish()
     }
 

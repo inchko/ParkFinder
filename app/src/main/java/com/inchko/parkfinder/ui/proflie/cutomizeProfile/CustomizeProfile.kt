@@ -246,6 +246,7 @@ class CustomizeProfile : AppCompatActivity() {
 
     private fun initRVcars(cars: List<Vehicles>) {
         Log.e("cp", "initRV")
+        val act = this
         val rv: RecyclerView = findViewById(R.id.cpRVcoches)
         rv.apply {
             // set a LinearLayoutManager to handle Android
@@ -256,7 +257,7 @@ class CustomizeProfile : AppCompatActivity() {
                 Log.e("rvfz", "vehicles loaded")
                 loading.visibility = View.INVISIBLE
                 cpAdapter(
-                    fz, vm, context,
+                    fz, vm, context, act,
                 ) { it ->//Listener, add your actions here
                     Log.e("rv", "Zone clicked ${it.model}")
 

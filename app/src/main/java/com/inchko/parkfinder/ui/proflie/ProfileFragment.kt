@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import android.widget.Toast.LENGTH_SHORT
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -100,7 +101,10 @@ class ProfileFragment : Fragment() {
         customize.setOnClickListener {
             customProfile()
         }
-        if (auth.currentUser == null) logButton.visibility = View.INVISIBLE
+        if (auth.currentUser == null) {
+            logButton.visibility = View.INVISIBLE
+            customize.visibility = View.INVISIBLE
+        }
         nametext = root.findViewById(R.id.profileName)
         if (auth.currentUser != null) {
             profileVM.getPOI(auth.currentUser.uid)
@@ -290,6 +294,7 @@ class ProfileFragment : Fragment() {
 
     fun initRVpoi(view: View, pois: List<POI>) {
         Log.e("rvpoi", "initRV")
+        val a = this
         if (auth.currentUser != null) {
             val rv: RecyclerView = view.findViewById(R.id.rvPOI)
             rv.apply {
@@ -305,7 +310,7 @@ class ProfileFragment : Fragment() {
                         PoiAdapter(
                             poi, profileVM,
                             cl,
-                            context,
+                            context, a,
                         ) { it ->//Listener, add your actions here
                             Log.e("rv", "Zone clicked ${it.id}")
 
@@ -318,6 +323,7 @@ class ProfileFragment : Fragment() {
 
     fun initRVfz(view: View, favzones: List<FavZone>) {
         Log.e("rvpoi", "initRV")
+        val a = this
         val rv: RecyclerView = view.findViewById(R.id.rvFavZone)
         rv.apply {
             // set a LinearLayoutManager to handle Android
@@ -331,7 +337,7 @@ class ProfileFragment : Fragment() {
                     Log.e("rvfz", "CurrentLocation on")
                     fzAdapter(
                         fz, profileVM,
-                        cl
+                        cl, a
                     ) { it ->//Listener, add your actions here
                         Log.e("rv", "Zone clicked ${it.id}")
 
@@ -339,6 +345,16 @@ class ProfileFragment : Fragment() {
                 };
             }
         }
+    }
+
+    fun reload() {
+        activity?.recreate()
+        /*
+        val currentFragment = fragmentManager!!.findFragmentByTag("YourFragmentTag")
+        val fragmentTransaction: FragmentTransaction = requireFragmentManager().beginTransaction()
+        fragmentTransaction.detach(currentFragment)
+        fragmentTransaction.attach(currentFragment)
+        fragmentTransaction.commit()*/
     }
 
     companion object {

@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.Vehicles
+import com.inchko.parkfinder.ui.proflie.ProfileFragment
+import com.inchko.parkfinder.ui.proflie.cutomizeProfile.CustomizeProfile
 import com.inchko.parkfinder.ui.proflie.cutomizeProfile.cpViewModel
 import com.inchko.parkfinder.ui.proflie.cutomizeProfile.modifyVehicle.ModifyVehicle
 
@@ -21,7 +24,8 @@ class cpHolder(
     parent: ViewGroup,
     v: View,
     vm: cpViewModel,
-    con: Context
+    con: Context,
+    ac: CustomizeProfile
 ) :
     RecyclerView.ViewHolder(
         inflater.inflate(
@@ -29,6 +33,7 @@ class cpHolder(
         )
     ), View.OnClickListener {
     private val c = con
+    private val a = ac
     private val cpvm = vm
     private var modelView: TextView? = null
     private var typeView: TextView? = null
@@ -68,6 +73,7 @@ class cpHolder(
         }
         delete?.setOnClickListener {
             cpvm.deleteVehicles(Firebase.auth.currentUser.uid, car.id)
+            a.recreate()
         }
         fav?.setOnClickListener {
 
@@ -88,6 +94,7 @@ class cpHolder(
                 putString("caruserID", Firebase.auth.currentUser.uid)
                 apply()
             }
+            a.recreate()
         }
     }
 

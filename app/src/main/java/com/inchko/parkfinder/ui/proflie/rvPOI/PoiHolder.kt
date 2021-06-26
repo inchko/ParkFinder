@@ -1,22 +1,22 @@
 package com.inchko.parkfinder.ui.proflie.rvPOI
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color.*
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
-import com.inchko.parkfinder.domainModels.FavZone
 import com.inchko.parkfinder.domainModels.POI
+import com.inchko.parkfinder.ui.proflie.ProfileFragment
 import com.inchko.parkfinder.ui.proflie.ProfileViewModel
 import com.inchko.parkfinder.ui.proflie.modifyPOI.ModifyPOI
 import kotlin.math.asin
@@ -24,12 +24,14 @@ import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.truncate
 
+
 class PoiHolder(
     inflater: LayoutInflater,
     parent: ViewGroup,
     v: View,
     rep: ProfileViewModel,
-    cont: Context
+    cont: Context,
+    act: ProfileFragment
 ) :
     RecyclerView.ViewHolder(
         inflater.inflate(
@@ -38,6 +40,7 @@ class PoiHolder(
     ), View.OnClickListener {
     private val vm = rep
     private val c = cont
+    private val a = act
     private var titleView: TextView? = null
     private var distanceView: TextView? = null
     private var locationView: TextView? = null
@@ -82,6 +85,10 @@ class PoiHolder(
 
         deletePOI?.setOnClickListener {
             vm.removePOI(poi.userID, poi.id)
+            val fragmentManager: FragmentManager = a.parentFragmentManager
+            fragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, ProfileFragment())
+                .commitAllowingStateLoss()
         }
         modifyPOI?.setOnClickListener {
             val intent = Intent(itemView.context, ModifyPOI::class.java)
@@ -111,6 +118,10 @@ class PoiHolder(
                 putString("fzuserID", Firebase.auth.currentUser.uid)
                 apply()
             }
+            val fragmentManager: FragmentManager = a.parentFragmentManager
+            fragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, ProfileFragment())
+                .commitAllowingStateLoss()
 
         }
 

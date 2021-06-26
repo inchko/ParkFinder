@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.inchko.parkfinder.R
 import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.domainModels.Zone
+import com.inchko.parkfinder.ui.proflie.ProfileFragment
 import com.inchko.parkfinder.ui.proflie.ProfileViewModel
 import com.inchko.parkfinder.utils.inflate
 
@@ -18,6 +19,7 @@ class PoiAdapter(
     private val vm: ProfileViewModel,
     private val loc: LatLng,
     private val c: Context,
+    private val a :ProfileFragment,
     private val listener: (POI) -> Unit
 ) : RecyclerView.Adapter<PoiHolder>() {
 
@@ -25,7 +27,7 @@ class PoiAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val inflatedView = parent.inflate(R.layout.poi_card, false)
         Log.e("holder", "Holding poi")
-        return PoiHolder(inflater, parent, inflatedView, vm, c)
+        return PoiHolder(inflater, parent, inflatedView, vm, c,a)
 
     }
 
