@@ -19,29 +19,31 @@
 
     <ImageButton
         android:id="@+id/openZones"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/circle"
         android:contentDescription="@string/search_zones"
-        android:src="@android:drawable/btn_radio"
+        android:src="@drawable/ic_baseline_directions_car_24"
         android:visibility="visible" />
 
     <ImageButton
         android:id="@+id/pakingBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
         android:layout_gravity="bottom|center"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="65dp"
         android:layout_marginBottom="16dp"
-        android:src="@android:drawable/ic_menu_mylocation" />
+        android:src="@drawable/ic_baseline_local_parking_24" />
 
     <ImageButton
         android:id="@+id/stopZone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="70dp"
-        android:src="@android:drawable/btn_dialog" />
+        android:src="@drawable/ic_baseline_search_off_24" />
 
 </FrameLayout>

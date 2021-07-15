@@ -409,7 +409,7 @@ class RvZoneFragment : Fragment(), TextToSpeech.OnInitListener {
         val rv: RecyclerView = view.findViewById(R.id.recyclerViewZones)
         rv.apply {
 
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
 
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
             val sp = context?.getSharedPreferences("vehicle", Context.MODE_PRIVATE)

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +37,7 @@ class cpHolder(
     private val a = ac
     private val cpvm = vm
     private var modelView: TextView? = null
-    private var typeView: TextView? = null
+    private var typeView: ImageView? = null
     private var sizeView: TextView? = null
     private var fav: ImageButton? = null
     private var delete: ImageButton? = null
@@ -45,7 +46,7 @@ class cpHolder(
 
     init {
         modelView = itemView.findViewById(R.id.ccModelo)
-        typeView = itemView.findViewById(R.id.ccTipoCoche)
+        typeView = itemView.findViewById(R.id.ccTypeIcon)
         sizeView = itemView.findViewById(R.id.ccTamañoCoche)
         fav = itemView.findViewById(R.id.ccFav)
         edit = itemView.findViewById(R.id.ccEdit)
@@ -60,12 +61,12 @@ class cpHolder(
             fav?.setImageResource(android.R.drawable.btn_star_big_on)
         modelView?.text = car.model
         if (car.type == 0) {//0 = car, 1 = moto
-            typeView?.text = itemView.context.getString(R.string.car)
+            typeView?.setImageResource(R.drawable.ic_baseline_directions_car_24)
             if (car.size == 0) //0= Grande 1= pequeño
                 sizeView?.text = itemView.context.getString(R.string.big)
             else sizeView?.text = itemView.context.getString(R.string.little)
         } else {
-            typeView?.text = itemView.context.getString(R.string.moto)
+            typeView?.setImageResource(R.drawable.ic_baseline_two_wheeler_24)
             sizeView?.text = itemView.context.getString(R.string.little)
         }
         edit?.setOnClickListener {

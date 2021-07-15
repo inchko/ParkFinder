@@ -43,7 +43,6 @@ class BackgroundService : Service(), CoroutineScope {
     }
 
     private var counter = 0
-    //new comment for testing propusues
     private val time = Timer()
     override fun onCreate() {
         super.onCreate()
@@ -244,7 +243,7 @@ class BackgroundService : Service(), CoroutineScope {
                     }
                 }
             }
-            time.schedule(p, (60000 * i).toLong())
+            time.schedule(p, (10000 * i).toLong())
 
         }
 

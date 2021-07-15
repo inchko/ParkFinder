@@ -5,7 +5,8 @@
     android:id="@+id/fragmentReciclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:backgroundTint="#6E6161"
+    android:foreground="@null">
 
     <!--
     <androidx.fragment.app.FragmentContainerView
@@ -23,14 +24,27 @@
     </androidx.fragment.app.FragmentContainerView>
 !-->
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewZones"
+        android:layout_width="match_parent"
+        android:layout_height="650dp"
+        android:layout_marginTop="250dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
     <ImageButton
         android:id="@+id/RVReload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/circle"
         android:contentDescription="@string/search_zones"
-        android:src="@android:drawable/btn_radio"
+        android:src="@drawable/ic_baseline_directions_car_24"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,24 +52,12 @@
 
     <ImageButton
         android:id="@+id/rvVoice"
-        android:layout_width="51dp"
+        android:layout_width="55dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="4dp"
+        android:contentDescription="@string/Cancel"
         app:layout_constraintBottom_toBottomOf="@+id/RVReload"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.186"
         app:layout_constraintStart_toEndOf="@+id/RVReload"
         app:srcCompat="@drawable/googleg_standard_color_18" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewZones"
-        android:layout_width="411dp"
-        android:layout_height="668dp"
-        android:layout_marginTop="64dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

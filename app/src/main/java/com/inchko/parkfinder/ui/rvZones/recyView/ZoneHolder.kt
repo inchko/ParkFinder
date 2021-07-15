@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
@@ -32,6 +33,7 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
     private var zpView: TextView? = null
     private var addFZ: ImageButton? = null
     private var number: TextView? = null
+    private var image: ImageView? = null
 
 
     init {
@@ -43,6 +45,7 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
         zpView = itemView.findViewById(R.id.RVzonasPeq)
         addFZ = itemView.findViewById(R.id.RVFav)
         number = itemView.findViewById(R.id.rvNumber)
+        image = itemView.findViewById(R.id.typeCar)
         v.setOnClickListener(this)
     }
 
@@ -51,8 +54,7 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
         titleView?.text = z.id
         number?.text = num.toString()
 
-        var dis = 0.0
-        dis = truncate(z.distancia!! * 1000)
+        var dis: Double = truncate(z.distancia!! * 1000)
         var text = "$dis m"
         if (dis > 2000) {
             dis /= 1000
@@ -62,17 +64,23 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
 
         if (z.tipo == 1) {
             typeView?.text = itemView.context.getString(R.string.motocycle)
-            val zonaslibres = itemView.context.getString(R.string.motoSpots) + z.plazasMl.toString()+"/"+z.plazasTotales.toString()
+            image?.setImageResource(R.drawable.ic_baseline_two_wheeler_24)
+            val zonaslibres =
+                itemView.context.getString(R.string.motoSpots) + z.plazasMl.toString() + "/" + z.plazasTotales.toString()
             zlView?.text = zonaslibres
             zgView?.text = ""
             zpView?.text = ""
         } else {
-            val zonaslibres =  itemView.context.getString(R.string.motoSpots)+z.plazasMl.toString()+"/"+z.plazasMoto.toString()
+            val zonaslibres =
+                itemView.context.getString(R.string.motoSpots) + z.plazasMl.toString() + "/" + z.plazasMoto.toString()
             zlView?.text = zonaslibres
             typeView?.text = itemView.context.getString(R.string.automoviles)
-            val zonasGrandes = itemView.context.getString(R.string.bigSpots)+z.plazasGl.toString()+"/"+z.plazasGrandes.toString()
+            image?.setImageResource(R.drawable.ic_baseline_directions_car_24)
+            val zonasGrandes =
+                itemView.context.getString(R.string.bigSpots) + z.plazasGl.toString() + "/" + z.plazasGrandes.toString()
             zgView?.text = zonasGrandes
-            val zonasPeq = itemView.context.getString(R.string.lilSpots)+z.plazasPl.toString()+"/"+z.plazasPeq.toString()
+            val zonasPeq =
+                itemView.context.getString(R.string.lilSpots) + z.plazasPl.toString() + "/" + z.plazasPeq.toString()
             zpView?.text = zonasPeq
         }
         if (Firebase.auth.currentUser == null) {
@@ -103,15 +111,5 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
 
     override fun onClick(p0: View?) {
         Log.d("RecyclerView", "CLICK!")
-    }
-
-    //calculates distance given two coords
-    fun distance(cl: LatLng, zl: LatLng): Double {
-        val p = 0.017453292519943295;    // PI / 180
-        val a = 0.5 - cos((zl.latitude - cl.latitude) * p) / 2 +
-                cos(cl.latitude * p) * cos(zl.latitude * p) *
-                (1 - cos((zl.longitude - cl.longitude) * p)) / 2;
-
-        return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km R is radius of earth
     }
 }

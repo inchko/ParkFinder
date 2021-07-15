@@ -53,20 +53,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginBottom="2dp"
                 android:backgroundTint="#F0F2F3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 
             <ImageButton
                 android:id="@+id/poiModifiy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginBottom="2dp"
                 android:backgroundTint="#F0F2F3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/poiDelete"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
+                app:srcCompat="@drawable/ic_baseline_edit_24" />
 
             <TextView
                 android:id="@+id/poiRVloc"
@@ -84,7 +86,8 @@
                 android:id="@+id/poiFav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="2dp"
                 android:backgroundTint="#F0F2F3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/poiModifiy"

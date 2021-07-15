@@ -1,129 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <androidx.cardview.widget.CardView
-        android:layout_width="398dp"
-        android:layout_height="110dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         app:cardBackgroundColor="#F0F2F3"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="333dp">
 
-            <TextView
-                android:id="@+id/RVid"
-                android:layout_width="149dp"
-                android:layout_height="28dp"
-                android:layout_marginTop="8dp"
-                android:background="#F0F2F3"
-                android:text="@string/test_sample"
-                android:textStyle="bold"
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="391dp"
+                android:layout_height="160dp"
+                android:background="#1c313a"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.121"
-                app:layout_constraintStart_toEndOf="@+id/rvNumber"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frameLayout2"
+                android:layout_width="395dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="13dp"
+                android:background="#718792"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/RVDistance"
                 android:layout_width="120dp"
                 android:layout_height="23dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="4dp"
                 android:text="@string/test_sample"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
             <TextView
                 android:id="@+id/RVTipo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="111dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/test_sample"
+                android:textColor="#FFFFFF"
                 android:textStyle="italic"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/RVid" />
+                app:layout_constraintBottom_toBottomOf="@+id/frameLayout2"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/RVid"
+                android:layout_width="180dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/test_sample"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.108"
+                app:layout_constraintStart_toEndOf="@+id/rvNumber"
+                app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
             <TextView
                 android:id="@+id/RVzonasLibres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="47dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="64dp"
                 android:text="@string/test_sample"
-                app:layout_constraintStart_toEndOf="@+id/RVTipo"
-                app:layout_constraintTop_toBottomOf="@+id/RVid" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
             <TextView
                 android:id="@+id/RVzonasGrandes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/test_sample"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/RVzonasLibres" />
+                app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
             <TextView
                 android:id="@+id/RVzonasPeq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="47dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="30dp"
                 android:text="@string/test_sample"
-                app:layout_constraintStart_toEndOf="@+id/RVTipo"
-                app:layout_constraintTop_toTopOf="@+id/RVzonasGrandes" />
+                app:layout_constraintEnd_toStartOf="@+id/typeCar"
+                app:layout_constraintStart_toEndOf="@+id/RVzonasGrandes"
+                app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/typeCar"
                 android:layout_width="70dp"
                 android:layout_height="54dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/RVDistance"
+                app:layout_constraintTop_toBottomOf="@+id/divider8"
                 app:srcCompat="@android:drawable/ic_dialog_map" />
 
             <ImageButton
                 android:id="@+id/RVFav"
                 android:layout_width="60dp"
                 android:layout_height="29dp"
-                android:layout_marginStart="24dp"
-                android:backgroundTint="#F0F2F3"
-                android:src="@android:drawable/star_on"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="false"
+                android:backgroundTint="#F0F2F4"
+                android:src="@drawable/ic_baseline_star_24"
                 android:text="@string/test_sample"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/RVTipo"
+                app:layout_constraintVertical_bias="0.72" />
 
             <TextView
                 android:id="@+id/rvNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="number"
-                android:textSize="20sp"
+                android:layout_width="41dp"
+                android:layout_height="39dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="1"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/divider7" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="353dp"
+                android:layout_height="143dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/carmountain" />
+
+            <View
+                android:id="@+id/divider7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="11dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+            <View
+                android:id="@+id/divider8"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="60dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -131,6 +193,4 @@
     </androidx.cardview.widget.CardView>
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
