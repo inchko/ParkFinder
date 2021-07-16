@@ -3,11 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/favzone_card.xml" value="0.25" />
+        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/favzone_card.xml" value="0.33" />
         <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/fragment_map.xml" value="0.33" />
-        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/fragment_profile.xml" value="0.14" />
+        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/fragment_rv.xml" value="0.12" />
-        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/poi_card.xml" value="0.1" />
+        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/poi_card.xml" value="0.33" />
         <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/zone_card.xml" value="0.25" />
       </map>
     </option>

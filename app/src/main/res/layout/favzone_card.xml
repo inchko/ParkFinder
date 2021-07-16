@@ -12,7 +12,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
-        app:cardBackgroundColor="#F0F2F3"
+        app:cardBackgroundColor="?attr/colorPrimaryVariant"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,14 +23,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <FrameLayout
+                android:id="@+id/frameLayout2"
+                android:layout_width="399dp"
+                android:layout_height="38dp"
+                android:background="?attr/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </FrameLayout>
+
             <TextView
                 android:id="@+id/fzRVDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="8dp"
                 android:text="TextView"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/fzZonaslibres" />
 
             <TextView
@@ -38,63 +51,70 @@
                 android:layout_width="196dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:background="#F0F2F3"
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorPrimary"
                 android:text="@string/test_sample"
+                android:textColor="#F6F0F0"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
             <ImageButton
                 android:id="@+id/fzDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="4dp"
-                android:backgroundTint="#F0F2F3"
+                android:backgroundTint="?attr/colorPrimaryVariant"
                 android:minHeight="48dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/ic_baseline_delete_forever_24"
                 tools:ignore="SpeakableTextPresentCheck" />
-
 
             <TextView
                 android:id="@+id/fzRVloc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginTop="7dp"
                 android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.046"
+                android:textColor="#FAF7F7"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.373" />
+                app:layout_constraintTop_toBottomOf="@+id/divider11" />
 
             <TextView
                 android:id="@+id/fzZonaslibres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="TextView"
+                android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fzDelete" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/fzRVtipo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/fzRVname"
+                android:textColor="#F4EEEE"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/divider11"
+                android:layout_width="401dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
