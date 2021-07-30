@@ -11,10 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:backgroundTint="#FFFFFF"
+        android:background="@null"
+        android:backgroundTint="@null"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+        app:srcCompat="?attr/actionModeCloseDrawable"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ScrollView
         android:layout_width="match_parent"

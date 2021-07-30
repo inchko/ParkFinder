@@ -131,4 +131,6 @@
     <string name="motoSpots">"Moto spots: "</string>
     <string name="bigSpots">"Big car Spots: "</string>
     <string name="lilSpots">"Small car Spots: "</string>
+    <string name="añadir">Add</string>
+    <string name="zonaAñadida">Place of interest added</string>
 </resources>

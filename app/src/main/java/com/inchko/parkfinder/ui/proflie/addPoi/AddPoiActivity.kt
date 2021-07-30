@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class AddPoiActivity : AppCompatActivity() {
+class  AddPoiActivity : AppCompatActivity() {
     private lateinit var add: Button
     private lateinit var exit: Button
     private lateinit var dir: EditText

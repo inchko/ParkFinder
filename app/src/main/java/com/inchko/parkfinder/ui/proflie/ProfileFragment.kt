@@ -33,6 +33,7 @@ import com.inchko.parkfinder.domainModels.POI
 import com.inchko.parkfinder.ui.map.MapViewModel
 import com.inchko.parkfinder.ui.proflie.SingUpEmail.SignInEmail
 import com.inchko.parkfinder.ui.proflie.addPoi.AddPoiActivity
+import com.inchko.parkfinder.ui.proflie.addPoi.AddPoiDialog
 import com.inchko.parkfinder.ui.proflie.cutomizeProfile.CustomizeProfile
 import com.inchko.parkfinder.ui.proflie.rvFavZones.fzAdapter
 import com.inchko.parkfinder.ui.proflie.rvPOI.PoiAdapter
@@ -144,10 +145,17 @@ class ProfileFragment : Fragment() {
 
         addPOIButton.setOnClickListener {
             if (auth.currentUser != null) {
+                /*
                 val intent = Intent(context, AddPoiActivity::class.java)
                 intent.putExtra("user", Firebase.auth.currentUser.uid)
                 startActivity(intent)
-                profileVM.getPOI(auth.currentUser.uid)
+                profileVM.getPOI(auth.currentUser.uid)*/
+                activity?.let { it1 ->
+                    AddPoiDialog().show(
+                        it1.supportFragmentManager,
+                        "AddPoiDialog"
+                    )
+                }
             } else {
                 Toast.makeText(
                     context,
@@ -302,13 +310,14 @@ class ProfileFragment : Fragment() {
                 // RecyclerView behavior
                 layoutManager = LinearLayoutManager(activity)
                 // set the custom adapter to the RecyclerView
-                adapter = pois?.let { poi ->
+
+                adapter = pois.let { poi ->
                     Log.e("rvpoi", "pois loaded")
                     loadPOI.visibility = View.INVISIBLE
                     mapViewModel.currentLocation?.let { cl ->
                         Log.e("rvpoi", "CurrentLocation on")
                         PoiAdapter(
-                            poi, profileVM,
+                            poi.sortedBy { it.nombre }, profileVM,
                             cl,
                             context, a,
                         ) { it ->//Listener, add your actions here

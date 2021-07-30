@@ -155,6 +155,8 @@
     <string name="motoSpots">"Plazas Motos: "</string>
     <string name="bigSpots">"Plazas Grandes: "</string>
     <string name="lilSpots">"Plazas Pequeñas: "</string>
+    <string name="añadir">Añadir</string>
+    <string name="zonaAñadida">Lugar de interés añadido</string>
     <!-- VOICE COMMANDS -->
 
 

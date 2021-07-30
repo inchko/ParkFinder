@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/drawable/cardback.xml" value="0.1" />
+        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/add_poi_dialog.xml" value="0.18" />
+        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/addpoi_view.xml" value="0.12163050624589086" />
+        <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/customprofile_view.xml" value="0.23378212974296206" />
         <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/favzone_card.xml" value="0.33" />
         <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/fragment_map.xml" value="0.33" />
         <entry key="..\:/Users/Familia/StudioProjects/ParkFinder/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
