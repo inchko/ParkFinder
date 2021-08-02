@@ -18,7 +18,8 @@ class ZoneDTO2Zone : Mapper<ZoneDTO, Zone> {
             plazasPl = t.plazasPl,
             plazasMl = t.plazasMl,
             plazasMoto = t.plazasMoto,
-            tipo = t.tipo
+            tipo = t.tipo,
+            placeID = t.placeID
         )
     }
 

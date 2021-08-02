@@ -14,5 +14,6 @@ data class Zone(
     val plazasPeq: Int? = null,
     var plazasMl: Int? = null,
     val plazasMoto: Int? = null,
-    var distancia : Double? = null
+    var distancia : Double? = null,
+    val placeID: String? = null
 )

@@ -8,7 +8,11 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.inchko.parkfinder.R
@@ -34,6 +38,8 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
     private var addFZ: ImageButton? = null
     private var number: TextView? = null
     private var image: ImageView? = null
+    private var placeImage: ImageView? = null
+    private lateinit var placesClient: PlacesClient
 
 
     init {
@@ -46,7 +52,11 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
         addFZ = itemView.findViewById(R.id.RVFav)
         number = itemView.findViewById(R.id.rvNumber)
         image = itemView.findViewById(R.id.typeCar)
+        placeImage = itemView.findViewById(R.id.placeImage)
         v.setOnClickListener(this)
+        // Initialize the SDK
+        placesClient = Places.createClient(itemView.context)
+
     }
 
     fun bind(z: Zone, loc: LatLng, num: Int) {
@@ -83,6 +93,7 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
                 itemView.context.getString(R.string.lilSpots) + z.plazasPl.toString() + "/" + z.plazasPeq.toString()
             zpView?.text = zonasPeq
         }
+        getPhoto(z)
         if (Firebase.auth.currentUser == null) {
             addFZ?.visibility = View.INVISIBLE
         } else {
@@ -111,5 +122,51 @@ class ZoneHolder(inflater: LayoutInflater, parent: ViewGroup, v: View, viewModel
 
     override fun onClick(p0: View?) {
         Log.d("RecyclerView", "CLICK!")
+    }
+
+    private fun getPhoto(z: Zone) {
+        // Define a Place ID.
+        val placeId = z.placeID
+
+// Specify fields. Requests for photos must always have the PHOTO_METADATAS field.
+        val fields = listOf(Place.Field.PHOTO_METADATAS)
+
+// Get a Place object (this example uses fetchPlace(), but you can also use findCurrentPlace())
+        val placeRequest = placeId?.let { FetchPlaceRequest.newInstance(it, fields) }
+
+        if (placeRequest != null) {
+            placesClient.fetchPlace(placeRequest)
+                .addOnSuccessListener { response: FetchPlaceResponse ->
+                    val place = response.place
+
+                    // Get the photo metadata.
+                    val metada = place.photoMetadatas
+                    if (metada == null || metada.isEmpty()) {
+                        Log.e("PHOTO", "No photo metadata.")
+                        return@addOnSuccessListener
+                    }
+                    val photoMetadata = metada.first()
+
+                    // Get the attribution text.
+                    val attributions = photoMetadata?.attributions
+
+                    // Create a FetchPhotoRequest.
+                    val photoRequest = FetchPhotoRequest.builder(photoMetadata)
+                        .setMaxWidth(500) // Optional.
+                        .setMaxHeight(300) // Optional.
+                        .build()
+                    placesClient.fetchPhoto(photoRequest)
+                        .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
+                            val bitmap = fetchPhotoResponse.bitmap
+                            placeImage?.setImageBitmap(bitmap)
+                        }.addOnFailureListener { exception: Exception ->
+                            if (exception is ApiException) {
+                                Log.e("PHOTO", "Place not found: " + exception.message)
+                                val statusCode = exception.statusCode
+                                TODO("Handle error with given status code.")
+                            }
+                        }
+                }
+        }
     }
 }

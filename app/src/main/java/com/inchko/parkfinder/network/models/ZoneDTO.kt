@@ -41,5 +41,9 @@ data class ZoneDTO(
     val plazasMl: Int? = null,
 
     @SerializedName("plazasMoto")
-    val plazasMoto: Int? = null
+    val plazasMoto: Int? = null,
+
+    @SerializedName("placeID")
+    val placeID: String? = null
+
 )
