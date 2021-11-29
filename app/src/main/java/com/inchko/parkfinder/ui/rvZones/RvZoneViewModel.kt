@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
+import com.inchko.parkfinder.domainModels.FavZone
 import com.inchko.parkfinder.domainModels.Zone
+import com.inchko.parkfinder.network.RepoFavZones
 import com.inchko.parkfinder.network.Repository
 import com.inchko.parkfinder.network.RouteRepo
 import com.inchko.parkfinder.network.models.DirectionsResponse
@@ -18,22 +20,28 @@ import retrofit2.Response
 
 class RvZoneViewModel @ViewModelInject constructor(
     private val rep: Repository,
-    private val rr: RouteRepo
+    private val rr: RouteRepo,
+    private val fzRepo: RepoFavZones
 ) : ViewModel() {
 
+    private var _response = MutableLiveData<Response<DirectionsResponse>>()
 
+    var response = MutableLiveData<Response<DirectionsResponse>>().apply {
+        value = null
+    }
 
-
-    var response = MutableLiveData<Response<DirectionsResponse>>()
     fun getDirections(origin: LatLng, destination: LatLng) {
-        Log.e("what", "getDirections")
         rr.getDirections(origin, destination).enqueue(object : Callback<DirectionsResponse> {
             override fun onResponse(
                 call: Call<DirectionsResponse>,
                 res: Response<DirectionsResponse>
             ) {
-                response = MutableLiveData<Response<DirectionsResponse>>().apply { value=res }
-                Log.e("rv","getDirections response recibed")
+                _response = MutableLiveData<Response<DirectionsResponse>>().apply {
+                    value = res
+                    Log.e("rv", "getDirections response recibed value $value")
+                }
+                response.value = _response.value
+
             }
 
             override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
@@ -41,6 +49,12 @@ class RvZoneViewModel @ViewModelInject constructor(
             }
         })
 
+    }
+
+    fun addZone(favZone: FavZone) {
+        viewModelScope.launch {
+            fzRepo.addFavZone(favZone)
+        }
     }
 
 }

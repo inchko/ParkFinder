@@ -1,28 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.inchko.parkfinder">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
+        android:name=".hilt.HiltApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/parking_marker_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/parking_marker_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkFinder">
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/actions" />
 
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ParkFinder.ActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ParkFinder.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter
+                android:autoVerify="true"
+                tools:targetApi="m">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="parkfinder.inchko.com"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.proflie.addPoi.AddPoiActivity"
+            android:label="AddPOI"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".ui.proflie.modifyPOI.ModifyPOI"
+            android:label="ModPOI"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".ui.proflie.cutomizeProfile.CustomizeProfile"
+            android:label="cProfile"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".ui.proflie.cutomizeProfile.addVehicle.AddVehicle"
+            android:label="addVehicle"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".ui.proflie.cutomizeProfile.modifyVehicle.ModifyVehicle"
+            android:label="modVehicle"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".ui.proflie.SingUpEmail.SignInEmail"
+            android:label="signInEmail"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ParkFinder.NoActionBar" />
+        <activity
+            android:name=".utils.NotificationDisabeler"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_notification_disabeler" />
+
+        <service
+            android:name=".service.BackgroundService"
+            android:enabled="true" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

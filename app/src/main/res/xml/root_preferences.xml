@@ -1,0 +1,52 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/lanHeader">
+
+
+        <ListPreference
+            app:defaultValue="es"
+            app:entries="@array/reply_entries"
+            app:entryValues="@array/reply_values"
+            app:key="Languages"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/map_header">
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/range_entries"
+            android:entryValues="@array/range_values"
+            android:key="range"
+            android:title="@string/rangeHeader"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:key="orderZones"
+            app:summaryOff="@string/orderZonesOff"
+            app:summaryOn="@string/orderZonesOn"
+            app:title="@string/orderTitle" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:summary="@string/userzone_summary"
+        app:title="@string/userzone_Header">
+        <SwitchPreferenceCompat
+            app:key="searchFZ"
+            app:summaryOff="@string/serachSummaryOff"
+            app:summaryOn="@string/serachSummaryOn"
+            app:title="@string/search_fzHeader" />
+
+
+        <SwitchPreferenceCompat
+            app:key="showVehicle"
+            app:summaryOff="@string/showVehicleSummaryOff"
+            app:summaryOn="@string/showVehicleSummaryOn"
+            app:title="@string/showVehicleHeader" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -1,5 +1,7 @@
 package com.inchko.parkfinder.ui.map
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.location.Location
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
@@ -15,6 +17,7 @@ import com.inchko.parkfinder.domainModels.Zone
 import com.inchko.parkfinder.network.Repository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sqrt
@@ -34,24 +37,41 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
     val location: LiveData<LatLng> = _location
 
     var currentLocation: LatLng? = null
-    var mMap: GoogleMap?= null
+    var mMap: GoogleMap? = null
 
     private val _zones = MutableLiveData<List<Zone>>()
 
     var zones: MutableLiveData<List<Zone>> = _zones
 
-    fun updateZones() {
+    fun updateZones(rango: Int) {
         zones = MutableLiveData<List<Zone>>().apply {
             viewModelScope.launch {
                 value = currentLocation?.let {
                     rep.readZonesByLoc(
                         Ubi(
-                            1,
+                            rango,
                             it.longitude, it.latitude
                         )
                     )
                 }
-                // value = rep.readZones()
+                //    zones.value = _zones.value
+                calculateDistance()
+            }
+
+        }
+    }
+
+    fun updateZonesLoc(rango: Int, lat: Double, long: Double) {
+        zones = MutableLiveData<List<Zone>>().apply {
+            viewModelScope.launch {
+                value = rep.readZonesByLoc(
+                    Ubi(
+                        rango,
+                        long, lat
+                    )
+                )
+                Log.e("zones", "updated in loc ex: ${zones.value?.size}")
+                //    zones.value = _zones.value
                 calculateDistance()
             }
 
@@ -62,7 +82,7 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
         if (zones.value != null) {
             for (z in zones.value!!) {
                 z.distancia = currentLocation?.let { distance(it, LatLng(z.lat!!, z.long!!)) }
-                Log.e("vm","${z.distancia}")
+                Log.e("vm", "${z.distancia}")
             }
         }
     }
@@ -81,7 +101,7 @@ class MapViewModel @ViewModelInject constructor(private val rep: Repository) : V
         return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km R is radius of earth
     }
 
-    fun updateGM(g:GoogleMap){
-        mMap=g
+    fun updateGM(g: GoogleMap) {
+        mMap = g
     }
 }

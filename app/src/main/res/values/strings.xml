@@ -1,21 +1,163 @@
 <resources>
     <string name="app_name">ParkingFinder</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">ParkFinder</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Menu</string>
-    <string name="action_settings">Settings</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">ParkFinder</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc">Menú</string>
+    <string name="action_settings">Opciones</string>
 
-    <string name="menu_home">Map</string>
-    <string name="menu_gallery">Places</string>
-    <string name="menu_slideshow">Settings</string>
-    <string name="AtrasRVZ">Back</string>
-    <string name="test_sample">Test Sample</string>
-    <string name="motocycle"> Parking Motos</string>
+    <string name="menu_home">Mapa</string>
+    <string name="menu_gallery">Perfil</string>
+    <string name="menu_slideshow">Información</string>
+    <string name="AtrasRVZ">Atrás</string>
+    <string name="test_sample" translatable="false">Test Sample</string>
+    <string name="motocycle">Parking Motos</string>
+
+
     <string name="d">Motos</string>
     <string name="automoviles">Parking General</string>
     <string name="Loading_Zones">Cargando Zonas…</string>
     <string name="Reload">Recargar</string>
     <string name="search_zones">Buscar zonas</string>
+    <string name="poiTitle">Lugares de interés</string>
+    <string name="fzTitle">Zonas Favoritas</string>
+    <string name="Logged_out">Sesión cerrada</string>
+    <string name="loginOrRegister">Inicia sesión o registrate</string>
+    <string name="apply">Aplicar</string>
+    <string name="Cancel">Cancelar</string>
+    <string name="logout">Log-out</string>
+    <string name="car">Coche</string>
+    <string name="big">Grande</string>
+    <string name="little">Pequeño</string>
+    <string name="moto">Motocicleta</string>
+    <string name="notLogged">Has de iniciar sesión para poder añadir un lugar de interés a tu perfil</string>
+    <string name="name_model">Nombre del Modelo</string>
+    <string name="size_of_the_vehicle">Tamaño del vehículo</string>
+    <string name="type_vehicle">Tipo de vehículo</string>
+    <string name="add_poi_button">Añade un lugar de interés</string>
+    <string name="my_cars">Mis vehículos</string>
+    <string name="addCar">Añadir coche</string>
+    <string name="linkAccounts">vincular</string>
+    <string name="link_acc_title">Vincular Email y contraseña con Google</string>
+    <string name="sign_in_email">Inicia sesión email</string>
+    <string name="adviceLinkAcc">Añade una contraseña para poder acceder a tu cuenta con Email y contraseña. Se utilizara como email tu correo de Google.</string>
+    <string name="password">Contraseña</string>
+    <string name="changePass">Cambiar Contraseña</string>
+    <string name="confirmPass">Confirmar Contraseña</string>
+    <string name="newPass">Nueva Contraseña</string>
+    <string name="currentPass">Contraseña Actual</string>
+    <string name="samePass">La nueva contraseña no puede ser igual que la anterior</string>
+    <string name="differentPass">Las dos contraseñas no coinciden</string>
+    <string name="badCurrentPass">La contraseña actual no es correcta</string>
+    <string name="updatedPass">La contraseña se ha actualizado</string>
+    <string name="emptyPass">La contraseña no puede ser vacia</string>
+    <string name="recover_pass">Recuperar Contraseña</string>
+    <string name="sendMailTitle">Enviar Mail</string>
+    <string name="loginEmail">Iniciar sesión por email</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="login">inicar sesión</string>
+    <string name="sendMailMess2">" ¿Es este tu Email?"</string>
+    <string name="emailsignok">Sesión iniciada</string>
+    <string name="emailsignNo">La contraseña o el email son incorrectos</string>
+    <string name="title_activity_settings" translatable="false">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="sync_header" translatable="false">Test</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title" translatable="false">Your signature</string>
+    <string name="reply_title">Cambio de idioma</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" translatable="false">Sync email periodically</string>
+    <string name="attachment_title" translatable="false">Download incoming attachments</string>
+    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
+    <string name="info">Información</string>
+    <string name="sendMailMess1">Esta acción enviará un email a:</string>
+    <string name="name_poi">Nombre del lugar de interés:</string>
+    <string name="name">Nombre</string>
+    <string name="direccion">Dirección:</string>
+    <string name="send">Enviar</string>
+    <string name="fav">Favorito</string>
+    <string name="name_poin">Nombre del lugar de interés</string>
+    <string name="longitud">Longitud</string>
+    <string name="latitud">Latitud</string>
+    <string name="addres">Dirección del lugar</string>
+    <string name="modify">Modificar lugar de interés</string>
+    <string name="lanHeader">Selector de lenguajes</string>
+    <string name="rangeHeader">Distancia de búsqueda de zonas</string>
+    <string name="search_fzHeader">Buscar en el lugar de interés favorito</string>
+    <string name="map_header">Opciones de zonas</string>
+    <string name="serachSummaryOff">Se buscan zonas a tu alrededor</string>
+    <string name="serachSummaryOn">Se buscan zonas en tu lugar de interés favorito</string>
+    <string name="orderTitle">Ordenar zonas por plazas libres</string>
+    <string name="orderZonesOff">Se ordenan las zonas por distancia</string>
+    <string name="orderZonesOn">Se ordenan las zonas por n.º plazas libres</string>
+    <string name="showVehicleSummaryOn">Solo ves zonas del mismo tipo que tu vehiculo favorito</string>
+    <string name="showVehicleSummaryOff">Activa para solamente ver zonas del mismo tipo que tu vehiculo</string>
+    <string name="showVehicleHeader">Ver zonas del mismo tipo</string>
+    <string name="userzone_Header">Opciones de zona de usuario</string>
+    <string name="userzone_summary">Inicia sesión para configurar estas opciones</string>
+    <string name="parkingSpotHeader">¡Has aparcado el vehículo aqui!</string>
+    <string name="parkingSpotRemoveHeader">Eliminar Marcador</string>
+    <string name="parkingSpotRemoveMessage">¿Eliminar el marcador de dónde has aparcado tu vehículo?</string>
+    <string name="parkingSpotAddHeader">Añadir Marcador</string>
+    <string name="parkingSpotAddMessage">¿Marcar esta ubicación como sitio dónde has aparcado tu vehículo?</string>
+    <string name="channel_name" translatable="false">notifications</string>
+    <string name="channel_description" translatable="false">channel for notifications</string>
+    <string name="notificationDescription">La zona a la que te diriges esta completa, entra en la app para buscar otra</string>
+    <string name="notificationHeader">¡La zona esta llena!</string>
+    <string name="title_activity_notification_disabeler" translatable="false">NotificationDisabeler</string>
+    <string name="locBttnClick">Volviendo a tu posición…</string>
+    <string name="voiceFirst">primera</string>
+    <string name="one">uno</string>
+    <string name="voiceSecond">segunda</string>
+    <string name="two">dos</string>
+    <string name="voiceThird">tercera</string>
+    <string name="three">tres</string>
+    <string name="voiceCreateRoute">Creando ruta hacia</string>
+    <string name="voiceFourth">cuarta</string>
+    <string name="four">cuatro</string>
+    <string name="voiceFitfh">quinta</string>
+    <string name="five">cinco</string>
+    <string name="voiceSixth">sexta</string>
+    <string name="six">seis</string>
+    <string name="voiceSeventh">septima</string>
+    <string name="seven">siete</string>
+    <string name="voiceEight">octava</string>
+    <string name="eight">ocho</string>
+    <string name="voiceNineth">novena</string>
+    <string name="nine">nueve</string>
+    <string name="voiceTenth">decima</string>
+    <string name="ten">diez</string>
+    <string name="voiceIDK">"No entiendo el commando "</string>
+    <string name="voiceTellZones">dime las zonas</string>
+    <string name="wherePark">dónde puedo aparcar</string>
+    <string name="voiceNearby">que hay cerca</string>
+    <string name="voiceAt">a</string>
+    <string name="voiceMetersW">metros, con</string>
+    <string name="voiceFreeSpots">" plazas libres."</string>
+    <string name="voiceFreeSpot">una plaza libre.</string>
+    <string name="notificationHeaderFree">¡La zona observada tiene plazas libres!</string>
+    <string name="notificationDescriptionFree">La zona que estas observando tiene ahora plazas libres, puedes entrar en la aplicación para establecer una ruta hacia ella</string>
+    <string name="fullZoneHead">La zona esta llena</string>
+    <string name="fullZoneDesc">La zona que has seleccionado esta llena. ¿Quieres observarla igualmente?</string>
+    <string name="fullZoneAnnounce">La zona esta llena. ¿Quieres observarla igualmente?</string>
+    <string name="informationHead">Información</string>
+    <string name="InformationDescription">"Esto es una aplicación Android creada para el TFG \"Diseño e implementación de una aplicación Android para la búsqueda de Aparcamiento\" en la Universidad Politécnica de Cataluña.\n\nCreada por Daniel Palomo Cabrera bajo la dirección de Cristina Gómez Seoane. "</string>
+    <string name="informationPolHead">Puedes encontrar la política de privacidad de la app clicando en este link:</string>
+    <string name="PolicyLink"><a href="https://sites.google.com/view/parkfinder-privacy-policy/inicio\">Política de privacidad</a> </string>
+    <string name="pene" translatable="false"><a href="https://aaa.com">pollas de privacidad</a> </string>
+    <string name="headerDescription">Tu aplicación para buscar parking</string>
+    <string name="AddPOITitle">Añadir lugar de interés</string>
+    <string name="totalSpots">"Plazas totales: "</string>
+    <string name="motoSpots">"Plazas Motos: "</string>
+    <string name="bigSpots">"Plazas Grandes: "</string>
+    <string name="lilSpots">"Plazas Pequeñas: "</string>
+    <string name="añadir">Añadir</string>
+    <string name="zonaAñadida">Lugar de interés añadido</string>
+
 </resources>
