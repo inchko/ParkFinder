@@ -1,3 +1,4 @@
+## PARKFINDER
 ParkFinder is an App I made for my TFG. What this application does is basically communicate with a Firebase based API that informs where the user can find free parking spots. (And how many) in its nearby location.
 
 It offers: 
@@ -13,7 +14,9 @@ It offers:
 	- English
 	- Spanish
 	- More can be easily added.
-	
+	- 
+# TFG	
 The complete TFG can be found [here](http://hdl.handle.net/2117/353256)  (Spanish)
 
+# API
 The API code is stored in a separate private repository.
