@@ -17,5 +17,3 @@ It offers:
 The complete TFG can be found [here](http://hdl.handle.net/2117/353256)  (Spanish)
 
 The API code is stored in a separate private repository.
-
-Translated with www.DeepL.com/Translator (free version)
