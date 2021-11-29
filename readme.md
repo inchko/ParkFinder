@@ -11,7 +11,7 @@ It offers:
 - Save locations important to the user (Home, Work) , and search for areas near those coordinates.
 - Several languages:
 	- English
-	- English
+	- Spanish
 	- More can be easily added.
 	
 The complete TFG can be found [here](http://hdl.handle.net/2117/353256)  (Spanish)
